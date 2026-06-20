@@ -1,0 +1,54 @@
+{
+  "title": "Los 7 RIESGOS de usar IA en 2026",
+  "description": "La inteligencia artificial es increíble, pero usarla sin saber estos 7 riesgos te puede costar caro en 2026: privacidad, errores, dependencia y más. #IA #InteligenciaArtificial #Tecnologia",
+  "tags": ["inteligencia artificial", "riesgos IA", "IA 2026", "privacidad", "deepfakes", "seguridad", "tecnologia", "chatgpt", "claude", "peligros IA"],
+  "thumbnail_text": "7 RIESGOS DE LA IA",
+  "intro_card": "7 RIESGOS DE LA IA",
+  "intro_text": "La inteligencia artificial puede ahorrarte horas de trabajo, pero también puede meterte en problemas serios si no sabes lo que haces. Hay riesgos que casi nadie te cuenta y que en 2026 son más reales que nunca. Estos son los siete riesgos de usar IA que tienes que conocer antes de seguir usándola.",
+  "intro_broll": ["artificial intelligence warning danger", "futuristic technology red alert", "person worried using computer"],
+  "items": [
+    {
+      "title": "Tus Datos",
+      "tagline": "Lo que escribes puede no ser privado",
+      "text": "El primer riesgo es tu privacidad. Cada vez que escribes en una IA, esos datos pueden almacenarse, analizarse e incluso usarse para entrenar futuros modelos. Si pegas información confidencial, contraseñas o datos de clientes, podrías estar filtrándolos sin darte cuenta. La regla de oro: nunca compartas con una IA algo que no pondrías en un correo público.",
+      "broll": ["data privacy security lock", "personal data information screen", "cyber security protection digital"]
+    },
+    {
+      "title": "Alucinaciones",
+      "tagline": "La IA inventa cosas con total seguridad",
+      "text": "El segundo riesgo son las alucinaciones. La IA puede darte respuestas falsas con una confianza absoluta: cifras inventadas, citas que no existen o datos equivocados. El problema es que suenan tan convincentes que es fácil creerlas. Por eso, todo lo importante que te diga una IA debes verificarlo en una fuente real antes de usarlo.",
+      "broll": ["confused person reading screen", "fake news misinformation", "question mark doubt thinking"]
+    },
+    {
+      "title": "Dependencia",
+      "tagline": "Si dejas de pensar, pierdes el músculo",
+      "text": "El tercer riesgo es la dependencia. Cuando dejas que la IA piense por ti en todo, poco a poco pierdes habilidades propias: escribir, razonar, resolver problemas. Es como un músculo que se atrofia si no lo usas. La IA debe ser tu herramienta, no tu cerebro. Úsala para potenciarte, no para reemplazarte.",
+      "broll": ["person relaxing dependent technology", "brain thinking concept", "human and robot hand"]
+    },
+    {
+      "title": "Deepfakes",
+      "tagline": "Ya no puedes creer todo lo que ves",
+      "text": "El cuarto riesgo son los deepfakes. En 2026 es posible clonar tu voz, tu cara y tu forma de hablar con una facilidad enorme. Esto se usa para estafas, suplantación de identidad y noticias falsas. Si recibes un audio o video sospechoso, aunque parezca real, desconfía y verifica por otro canal antes de actuar.",
+      "broll": ["deepfake face technology", "digital identity hacker", "video manipulation screen glitch"]
+    },
+    {
+      "title": "Sesgos",
+      "tagline": "La IA hereda los prejuicios de sus datos",
+      "text": "El quinto riesgo son los sesgos. La IA aprende de datos creados por humanos, y con ellos hereda nuestros prejuicios. Esto puede llevar a decisiones injustas en temas como contratación, créditos o salud. Nunca tomes una decisión importante basándote solo en lo que diga un algoritmo: el criterio humano sigue siendo insustituible.",
+      "broll": ["diverse people group", "algorithm data bias concept", "balance scale justice"]
+    },
+    {
+      "title": "Seguridad",
+      "tagline": "Nuevas puertas para los ciberataques",
+      "text": "El sexto riesgo es la seguridad. Las mismas herramientas que te ayudan también ayudan a los atacantes: correos de phishing perfectos, código malicioso y estafas personalizadas creadas con IA. Mantén tus contraseñas fuertes, activa la verificación en dos pasos y desconfía de mensajes urgentes que te piden datos o dinero.",
+      "broll": ["hacker cyber attack code", "phishing email scam warning", "computer security breach"]
+    },
+    {
+      "title": "Empleos",
+      "tagline": "Adaptarse ya no es opcional",
+      "text": "Y el séptimo riesgo es el impacto en el empleo. La IA está automatizando tareas que antes hacían personas, y quien no se adapte quedará atrás. Pero aquí está la buena noticia: el riesgo no es la IA en sí, sino ignorarla. Los que aprendan a usarla tendrán una ventaja enorme. La clave es formarte hoy, no mañana.",
+      "broll": ["automation robot factory work", "person learning online skills", "future of work office technology"]
+    }
+  ],
+  "outro_text": "Esos son los siete riesgos de usar inteligencia artificial en 2026. La IA no es buena ni mala: depende de cómo la uses. Si este video te sirvió, suscríbete al canal para aprender a usarla de forma inteligente y segura. Nos vemos en el próximo."
+}

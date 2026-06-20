@@ -124,6 +124,79 @@ IMPORTANTE:
     )
 
 
+PLAN_SYSTEM_PROMPT = """Eres un guionista experto de YouTube para el canal MZSHARD (nicho: IA y tecnología).
+Creas videos tipo ranking/lista con un hook potente, narración fluida y valor real.
+Devuelves SIEMPRE JSON válido y nada más."""
+
+
+def _parse_json(raw: str) -> dict:
+    """Limpia fences de markdown y parsea JSON."""
+    raw = raw.strip()
+    if raw.startswith("```"):
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+    return json.loads(raw.strip())
+
+
+def generate_video_plan(
+    topic: str,
+    niche: str = "inteligencia artificial y tecnología",
+    language: str = "es",
+    channel: str = "MZSHARD",
+) -> dict:
+    """
+    Genera el PLAN completo de un video enriquecido a partir de un tema.
+
+    A diferencia de generate_script, este produce todo lo que necesita el
+    builder con B-roll: por cada punto da un título de tarjeta, un tagline,
+    la narración y 3 búsquedas de B-roll EN INGLÉS (Pexels funciona mejor así).
+
+    Devuelve un dict con: title, description, tags, thumbnail_text,
+    intro_text, intro_card, intro_broll, items[], outro_text.
+    """
+    prompt = f"""Crea el plan de un video de YouTube para el canal {channel} sobre: "{topic}"
+
+Nicho: {niche}. Idioma de la narración y textos en pantalla: {language}.
+
+Reglas:
+- Si el tema menciona una cantidad (p. ej. "7 riesgos", "5 herramientas"), produce EXACTAMENTE esa cantidad de items. Si no menciona número, elige entre 5 y 7 items.
+- La narración debe ser natural, con gancho y fluir entre puntos. Tono educativo y entretenido.
+- Los "broll" son términos de búsqueda de fotos de stock EN INGLÉS, concretos y visuales (NO nombres de marcas ni logos, que no existen en stock). 3 por item.
+- "title" máx 60 caracteres, optimizado para clicks.
+- "card_title"/"title" de cada item: 1 a 4 palabras (van GRANDES en pantalla).
+- "tagline": una sola línea corta (máx ~50 caracteres).
+
+Responde ÚNICAMENTE con este JSON (sin markdown):
+{{
+  "title": "Título del video (máx 60 chars)",
+  "description": "Descripción para YouTube con keywords (150-300 chars)",
+  "tags": ["tag1", "tag2", "..."],
+  "thumbnail_text": "Texto miniatura (máx 4 palabras)",
+  "intro_text": "Narración del hook/intro: 3-4 frases que enganchen y presenten el tema",
+  "intro_card": "Título corto para la tarjeta de intro (2-4 palabras)",
+  "intro_broll": ["english query 1", "english query 2", "english query 3"],
+  "items": [
+    {{
+      "title": "Título del punto (1-4 palabras)",
+      "tagline": "Subtítulo corto de una línea",
+      "text": "Narración de este punto (4-7 frases con valor real)",
+      "broll": ["english query 1", "english query 2", "english query 3"]
+    }}
+  ],
+  "outro_text": "Narración de cierre pidiendo suscribirse y anticipando el próximo video"
+}}"""
+
+    client = anthropic.Anthropic(api_key=cfg.anthropic_api_key)
+    message = client.messages.create(
+        model=cfg.claude_model,
+        max_tokens=8192,
+        messages=[{"role": "user", "content": prompt}],
+        system=PLAN_SYSTEM_PROMPT,
+    )
+    return _parse_json(message.content[0].text)
+
+
 def generate_shorts_from_long(long_script: VideoScript, num_shorts: int = 3) -> list[VideoScript]:
     """Extract viral Short ideas from a long-form video script."""
     client = anthropic.Anthropic(api_key=cfg.anthropic_api_key)
