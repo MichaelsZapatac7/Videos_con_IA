@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Secrets / entorno
+youtube_pipeline/.env
+
+# Artefactos generados por el pipeline (videos, audio, imágenes, voces)
+youtube_pipeline/output/
+youtube_pipeline/assets/
