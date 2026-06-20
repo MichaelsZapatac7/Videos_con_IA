@@ -1,9 +1,9 @@
 """
-Construye el video ENRIQUECIDO:
+Construye el video ENRIQUECIDO con B-ROLL:
   - Bienvenida hablada del canal MZSHARD (intro con branding)
-  - Imágenes de APOYO: fotos reales de Pexels mezcladas con tarjetas diseñadas en Pillow
-    (si hay PEXELS_API_KEY la foto se descarga y se mezcla como fondo detrás de la tarjeta)
-  - Animación Ken Burns en cada clip
+  - Cada IA se presenta con un MONTAJE: tarjeta de marca + varias tomas de apoyo
+    (B-roll) de fotos reales de Pexels relevantes a esa IA, alternando cortes y
+    movimiento Ken Burns para que el video NO se vea plano.
   - Outro de suscripción
   - Voz: ElevenLabs si hay red/keys; si no, Piper TTS local (fallback)
 
@@ -12,6 +12,7 @@ Ejecutar desde la raíz del repo:
 """
 
 import sys
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Optional
@@ -21,10 +22,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from youtube_pipeline.config import cfg
 from youtube_pipeline.examples.script_7_ias import SCRIPT
 from youtube_pipeline.generators.graphics import (
-    make_support_image, make_welcome_image, make_outro_image,
+    make_support_image, make_welcome_image, make_outro_image, make_broll_image,
+    PALETTES,
 )
-from youtube_pipeline.editors.video_editor import ken_burns, get_video_info
+from youtube_pipeline.editors.video_editor import ken_burns
 from youtube_pipeline.editors.assembler import assemble_video
+from youtube_pipeline.editors.video_editor import concatenate_videos
 
 # Narración de bienvenida del canal (se antepone al guión)
 WELCOME_TEXT = (
@@ -46,39 +49,59 @@ TAGLINES = {
     "SUSCRÍBETE": ("", "outro"),
 }
 
-
-def _fetch_pexels_photo(query: str, out: Path) -> Optional[Path]:
-    """
-    Download a Pexels photo for the visual cue query.
-    Uses the first 4 words of the cue for a cleaner search term.
-    Returns the saved path, or None if unavailable (no key or network error).
-    """
-    if not cfg.pexels_api_key:
-        return None
-    try:
-        from youtube_pipeline.generators.footage import search_pexels_photo, download_photo
-        short_q = " ".join(query.split()[:4])
-        info = search_pexels_photo(short_q)
-        if info and info.get("url"):
-            return download_photo(info["url"], out)
-    except Exception as e:
-        print(f"    [pexels foto] {str(e)[:70]}")
-    return None
+# Búsquedas de B-roll en Pexels por IA (varias para conseguir tomas distintas).
+# Nota: Pexels es banco de fotos libres; no tiene logos de productos, así que
+# usamos imágenes temáticas del DOMINIO de cada IA (lo más cercano y legal).
+BROLL = {
+    "WELCOME": [
+        "artificial intelligence technology abstract", "futuristic digital network glowing",
+    ],
+    "LAS 7 IA MÁS PODEROSAS": [
+        "artificial intelligence brain neural", "futuristic technology glowing blue",
+        "digital data network particles",
+    ],
+    "1. FABLE 5": [
+        "supercomputer data center servers", "glowing computer processor chip",
+        "futuristic server room technology",
+    ],
+    "2. CLAUDE OPUS 4.8": [
+        "programmer coding on screen", "software source code editor",
+        "developer working laptop dark",
+    ],
+    "3. GPT-5": [
+        "person chatting smartphone app", "chatbot conversation interface",
+        "people using ai assistant phone",
+    ],
+    "4. GEMINI": [
+        "multiple screens data analysis", "abstract data visualization colorful",
+        "researcher analyzing information",
+    ],
+    "5. VIDEO IA: VEO & SORA": [
+        "cinematic film camera production", "movie set dramatic lighting",
+        "filmmaking scene cinema",
+    ],
+    "6. HIGGSFIELD": [
+        "film director camera equipment", "professional cinema lens",
+        "movie production crew set",
+    ],
+    "7. ELEVENLABS": [
+        "microphone recording studio", "audio sound waveform glowing",
+        "podcast studio recording",
+    ],
+    "SUSCRÍBETE": [],
+}
 
 
 def _blend_photo_card(card_path: Path, photo_path: Path, out_path: Path) -> Path:
     """
-    Composite a real Pexels photo as a soft background behind the designed card.
-
-    The photo is darkened (brightness 0.45) so the branded text stays readable,
-    then blended: 38% photo + 62% card design. Result: real imagery shows through
-    the MZSHARD branding — more cinematic than a plain gradient background.
+    Composita una foto real de Pexels como fondo suave detrás de la tarjeta de marca.
+    La foto se oscurece (brillo 0.45) para que el texto siga legible y se mezcla
+    al 38% foto + 62% tarjeta: la imagen real se ve a través del branding MZSHARD.
     """
     from PIL import Image, ImageEnhance
     card = Image.open(card_path).convert("RGB")
     W, H = card.size
     photo = Image.open(photo_path).convert("RGB")
-    # Crop photo to card aspect ratio then resize (avoid distortion)
     pw, ph = photo.size
     card_ratio = W / H
     if pw / ph > card_ratio:
@@ -116,9 +139,66 @@ def _gen_voice(text: str, out: Path):
     return piper_voiceover(text, out) if _piper_available() else demo_voiceover(text, out)
 
 
+def _collect_photos(queries: list[str], n: int, out_dir: Path, prefix: str) -> list[Path]:
+    """
+    Descarga hasta `n` fotos DISTINTAS de Pexels combinando varias búsquedas
+    (round-robin) para conseguir variedad de tomas sobre la misma IA.
+    """
+    if not cfg.pexels_api_key or not queries:
+        return []
+    from youtube_pipeline.generators.footage import search_pexels_photos, download_photo
+    buckets = []
+    for q in queries:
+        try:
+            short_q = " ".join(q.split()[:5])
+            buckets.append([p["url"] for p in search_pexels_photos(short_q, count=5) if p.get("url")])
+        except Exception as e:
+            print(f"    [pexels] {str(e)[:60]}")
+            buckets.append([])
+
+    urls, seen, idx = [], set(), 0
+    while len(urls) < n and any(idx < len(b) for b in buckets):
+        for b in buckets:
+            if idx < len(b) and b[idx] not in seen:
+                seen.add(b[idx])
+                urls.append(b[idx])
+                if len(urls) >= n:
+                    break
+        idx += 1
+
+    paths = []
+    for k, u in enumerate(urls):
+        try:
+            paths.append(download_photo(u, out_dir / f"{prefix}_{k}.jpg"))
+        except Exception as e:
+            print(f"    [pexels descarga] {str(e)[:60]}")
+    return paths
+
+
+def _segment_clip(shot_imgs: list[Path], dur: float, clip_out: Path, W, H, FPS) -> Path:
+    """
+    Convierte una lista de imágenes en UN clip de segmento: cada imagen recibe
+    Ken Burns (alternando zoom in/out) y se concatenan. El montaje dura un poco
+    más que el audio para que el ensamblador pueda recortarlo limpio.
+    """
+    n = max(1, len(shot_imgs))
+    per = max(2.5, (dur + 1.0) / n)
+    subclips = []
+    for j, im in enumerate(shot_imgs):
+        sc = clip_out.parent / f"{clip_out.stem}_{j}.mp4"
+        ken_burns(im, sc, duration=per, width=W, height=H, fps=FPS,
+                  direction="in" if j % 2 == 0 else "out")
+        subclips.append(sc)
+    if len(subclips) == 1:
+        shutil.copy2(subclips[0], clip_out)
+    else:
+        concatenate_videos(subclips, clip_out)
+    return clip_out
+
+
 def main():
     print("=" * 60)
-    print("  VIDEO ENRIQUECIDO — MZSHARD")
+    print("  VIDEO ENRIQUECIDO CON B-ROLL — MZSHARD")
     print("=" * 60)
 
     job = cfg.output_dir / "rich_7_ias"
@@ -128,7 +208,6 @@ def main():
 
     W, H, FPS = cfg.video_width, cfg.video_height, cfg.video_fps
 
-    # Construir secuencia: bienvenida + segmentos del guión
     segments = [{"text": WELCOME_TEXT, "label": "WELCOME"}] + SCRIPT.segments
 
     audio_paths, footage_paths, used_segments = [], [], []
@@ -143,42 +222,51 @@ def main():
         dur = _audio_dur(audio)
         print(f"    voz {dur:.1f}s -> {audio.name}")
 
-        # 2) imagen de apoyo según tipo
-        img_path = job / "img" / f"img_{i:03d}.png"
+        # 2) tarjeta de marca del segmento
+        tagline, kind = TAGLINES.get(label, ("", "ai"))
+        card_img = job / "img" / f"card_{i:03d}.png"
         if label == "WELCOME":
-            make_welcome_image(img_path, channel="MZSHARD",
+            make_welcome_image(card_img, channel="MZSHARD",
                                tagline="Inteligencia Artificial y Tecnología")
+            disp_name = "MZSHARD"
+        elif kind == "outro":
+            make_outro_image(card_img, channel="MZSHARD")
+            disp_name = "SUSCRÍBETE"
+        elif kind == "topic":
+            make_support_image("7", "LAS 7 IA", tagline, card_img, index=i)
+            disp_name = "LAS 7 IA"
         else:
-            tagline, kind = TAGLINES.get(label, ("", "ai"))
-            if kind == "outro":
-                make_outro_image(img_path, channel="MZSHARD")
-            elif kind == "topic":
-                make_support_image("7", "LAS 7 IA", tagline, img_path, index=i)
+            num = label.split(".")[0].strip() if "." in label else str(i)
+            disp_name = label.split(".", 1)[1].strip() if "." in label else label
+            make_support_image(num.zfill(2), disp_name, tagline, card_img, index=i)
+
+        # 3) Montaje con B-roll (las pantallas de marca quedan como toma única)
+        is_branding = label in ("WELCOME", "SUSCRÍBETE")
+        shot_imgs = [card_img]
+
+        if not is_branding:
+            n_shots = max(2, min(5, round(dur / 4.0)))
+            photos = _collect_photos(BROLL.get(label, []), n_shots, job / "img", f"ph_{i:03d}")
+            if photos:
+                # Toma 0: tarjeta de marca mezclada con la primera foto
+                shot_imgs = [_blend_photo_card(card_img, photos[0],
+                                               job / "img" / f"shot_{i:03d}_0.png")]
+                # Tomas siguientes: B-roll etiquetado con el nombre de la IA
+                for j, ph in enumerate(photos[1:], start=1):
+                    shot_imgs.append(make_broll_image(
+                        ph, disp_name, job / "img" / f"shot_{i:03d}_{j}.png", index=i + j))
+                print(f"    B-roll: {len(shot_imgs)} tomas (tarjeta + {len(shot_imgs)-1} fotos)")
             else:
-                num = label.split(".")[0].strip() if "." in label else str(i)
-                name = label.split(".", 1)[1].strip() if "." in label else label
-                make_support_image(num.zfill(2), name, tagline, img_path, index=i)
+                print(f"    sin fotos Pexels -> tarjeta única")
 
-        # 3) Intentar mezclar con foto real de Pexels (si hay PEXELS_API_KEY)
-        visual_cue = seg.get("visual_cue", label)
-        photo_raw = job / "img" / f"photo_{i:03d}.jpg"
-        if label not in ("WELCOME", "SUSCRÍBETE"):
-            photo = _fetch_pexels_photo(visual_cue, photo_raw)
-            if photo:
-                blended = job / "img" / f"blended_{i:03d}.png"
-                img_path = _blend_photo_card(img_path, photo, blended)
-                print(f"    foto Pexels mezclada con tarjeta")
-
-        # 4) Ken Burns (alterna zoom in/out para variar)
+        # 4) Clip del segmento (montaje Ken Burns)
         clip = job / "clips" / f"clip_{i:03d}.mp4"
-        ken_burns(img_path, clip, duration=dur + 0.5, width=W, height=H, fps=FPS,
-                  direction="in" if i % 2 == 0 else "out")
+        _segment_clip(shot_imgs, dur, clip, W, H, FPS)
 
         audio_paths.append(audio)
         footage_paths.append(clip)
         used_segments.append({**seg, "duration_seconds": dur})
 
-    # Ensamblar con un guión que incluye la bienvenida
     rich_script = type(SCRIPT)(
         title=SCRIPT.title, description=SCRIPT.description, tags=SCRIPT.tags,
         hook=SCRIPT.hook, segments=used_segments,
@@ -191,7 +279,7 @@ def main():
     final = assemble_video(
         script=rich_script, footage_paths=footage_paths, audio_paths=audio_paths,
         output_dir=job, is_shorts=False, burn_captions=True,
-        add_title_card=False,  # la pantalla de bienvenida ya es la intro
+        add_title_card=False,
     )
     print(f"\n  LISTO -> {final}")
     return final
