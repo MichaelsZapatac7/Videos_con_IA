@@ -113,19 +113,41 @@ def _short_segments(plan: dict, topic: str) -> tuple[list[dict], dict] | None:
     return segments, meta
 
 
-def _resolve_music(job_dir: Path) -> Path | None:
-    """Usa un archivo de assets/music si existe; si no, sintetiza una cama ambiental."""
+def _resolve_music(job_dir: Path, topic: str = "") -> Path | None:
+    """
+    Resuelve la música de fondo en este orden de prioridad:
+      1) un archivo en youtube_pipeline/assets/music (lo que dejes tú manda)
+      2) Mureka.ai (si hay MUREKA_API_KEY) — instrumental generado por IA
+      3) cama ambiental sintetizada con FFmpeg (respaldo offline)
+    """
     music_dir = cfg.music_dir
     if music_dir.exists():
         for ext in ("*.mp3", "*.wav", "*.m4a", "*.ogg"):
             hits = sorted(music_dir.glob(ext))
             if hits:
-                print(f"  música: {hits[0].name}")
+                print(f"  música: archivo local {hits[0].name}")
                 return hits[0]
+
+    if cfg.mureka_api_key:
+        try:
+            from youtube_pipeline.generators.mureka_music import generate_music_mureka
+            prompt = (
+                "calm cinematic background music for a youtube video"
+                + (f" about {topic}" if topic else "")
+                + ", soft piano and warm pads, steady subtle groove, non-distracting, loopable"
+            )
+            print("  música: generando con Mureka.ai ...")
+            track = generate_music_mureka(job_dir / "mureka_music.mp3", prompt=prompt)
+            if track:
+                print("  música: Mureka.ai OK")
+                return track
+        except Exception as e:
+            print(f"  [música] Mureka falló ({str(e)[:80]}), uso cama sintetizada")
+
     try:
         bed = job_dir / "music_bed.wav"
         generate_music_bed(bed, duration=40.0)
-        print("  música: cama ambiental sintetizada")
+        print("  música: cama ambiental sintetizada (fallback)")
         return bed
     except Exception as e:
         print(f"  [música] no disponible: {str(e)[:60]}")
@@ -159,7 +181,7 @@ def crear_video(
 
     job_dir = (output_dir or cfg.output_dir) / _slug(topic)
     job_dir.mkdir(parents=True, exist_ok=True)
-    music = _resolve_music(job_dir)
+    music = _resolve_music(job_dir, topic=topic)
 
     # ── Entrega 1: video completo (16:9) ────────────────────────────────────
     segments, meta = _plan_to_segments(plan, topic, canal)

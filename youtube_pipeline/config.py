@@ -43,6 +43,7 @@ class Config:
     elevenlabs_api_key: str = field(default_factory=lambda: os.environ.get("ELEVENLABS_API_KEY", ""))
     pexels_api_key: str = field(default_factory=lambda: os.environ.get("PEXELS_API_KEY", ""))
     higgsfield_api_key: str = field(default_factory=lambda: os.environ.get("HIGGSFIELD_API_KEY", ""))
+    mureka_api_key: str = field(default_factory=lambda: os.environ.get("MUREKA_API_KEY", ""))
 
     # ElevenLabs voice settings
     elevenlabs_voice_id: str = field(default_factory=lambda: os.environ.get("ELEVENLABS_VOICE_ID", "94zOad0g7T7K4oa7zhDq"))
