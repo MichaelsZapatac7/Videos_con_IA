@@ -57,7 +57,9 @@ def _plan_to_segments(plan: dict, topic: str, channel: str) -> tuple[list[dict],
         segments.append({
             "text": item.get("text", ""), "kind": "item",
             "label": item.get("title", f"Punto {i}"),
-            "number": f"{i:02d}", "tagline": item.get("tagline", ""),
+            # Permite un badge personalizado por item (p. ej. "+" para un bonus)
+            "number": item.get("number") or f"{i:02d}",
+            "tagline": item.get("tagline", ""),
             "broll": item.get("broll") or [],
         })
 
