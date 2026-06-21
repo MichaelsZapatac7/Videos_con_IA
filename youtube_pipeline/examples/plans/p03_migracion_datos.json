@@ -1,0 +1,53 @@
+{
+  "title": "Cómo hacer una MIGRACIÓN de datos sin caos",
+  "description": "Cómo diseñar una migración de datos profesional con pipelines, CI/CD y cero caos: estrategia, validación, rollback y puesta en producción sin perder datos. #dataengineering #migracion #cicd #datos",
+  "tags": ["migracion de datos", "data migration", "cicd datos", "pipelines", "ingenieria de datos", "etl", "data engineer", "devops datos", "validacion datos", "rollback"],
+  "thumbnail_text": "MIGRACIÓN SIN CAOS",
+  "intro_card": "MIGRACIÓN DE DATOS",
+  "intro_text": "Una migración de datos mal hecha es una de las formas más rápidas de hundir un proyecto y de perder la confianza de toda la empresa. Datos perdidos, sistemas caídos, números que no cuadran. Te lo dice alguien que ha liderado migraciones grandes: el ochenta por ciento del éxito está en cómo la diseñas, no en cómo la ejecutas. Migrar no es copiar y pegar datos de un lado a otro; es una operación quirúrgica. Hoy te voy a dar los pasos para diseñar una migración profesional, con pipelines, validación, CI/CD y un plan de vuelta atrás, para que muevas datos críticos sin que te tiemble la mano. Quédate al final, porque te doy la regla de oro que separa una migración tranquila de una pesadilla.",
+  "intro_broll": ["server migration data center", "engineer monitoring screens", "data transfer network concept"],
+  "items": [
+    {
+      "title": "Entiende el Origen",
+      "tagline": "Nunca migres lo que no entiendes",
+      "text": "El primer paso, y el que más se salta la gente con prisa, es entender a fondo el origen. Antes de mover un solo dato, tienes que saber exactamente qué tienes: cuántas tablas, cuántos registros, qué calidad, qué relaciones, qué basura escondida. Te aseguro que vas a encontrar sorpresas: campos vacíos, formatos inconsistentes, duplicados, reglas de negocio que solo viven en la cabeza de una persona que ya no trabaja ahí. Haz un inventario completo y un perfilado de los datos. Documenta de dónde sale cada cosa y para qué se usa. Esta fase no es glamorosa, pero es la que evita el desastre. Migrar lo que no entiendes es como mudarte de casa metiendo todo en cajas sin etiquetar: vas a llegar al destino con un caos imposible de ordenar. Conoce tu origen primero.",
+      "broll": ["data profiling analysis screen", "person reviewing database", "inventory checklist technology"]
+    },
+    {
+      "title": "Diseña en Pipelines",
+      "tagline": "Repetible, no manual",
+      "text": "Segundo: diseña la migración como pipelines, no como scripts manuales que corres a mano una vez. Esto es clave. Un pipeline es un proceso repetible, automatizado y versionado que extrae del origen, transforma los datos y los carga en el destino. ¿Por qué importa tanto que sea repetible? Porque nunca migras bien a la primera. Vas a correr la migración decenas de veces en entornos de prueba, ajustando, hasta que salga perfecta. Si todo es manual, cada intento es un riesgo nuevo y un error humano esperando a pasar. Con pipelines, corres el mismo proceso probado una y otra vez con un clic. Divídelo en etapas claras: extracción, transformación, carga y validación. Cada etapa debe poder ejecutarse y revisarse por separado. Así conviertes una operación aterradora en un botón que ya probaste cien veces.",
+      "broll": ["data pipeline diagram code", "automation workflow screen", "etl process technology"]
+    },
+    {
+      "title": "Valida Todo",
+      "tagline": "Si los números no cuadran, paras",
+      "text": "Tercero, y esto es innegociable: valida todo, obsesivamente. Después de migrar, tienes que demostrar con datos que nada se perdió ni se corrompió. Cuenta los registros en origen y en destino: ¿cuadran? Suma los montos clave de ambos lados: ¿dan igual? Revisa muestras concretas: ese cliente, esa factura, ¿se ven idénticos en los dos sistemas? Automatiza estas comprobaciones de calidad dentro del propio pipeline, para que te avisen al instante si algo no cuadra. La regla es brutal pero salva proyectos: si los números no coinciden, la migración no terminó, sin excepciones. He visto equipos celebrar una migración y descubrir semanas después que faltaba el cinco por ciento de las ventas. Para entonces, el daño a la confianza ya es enorme. Valida antes de cantar victoria, siempre.",
+      "broll": ["data validation checkmarks screen", "quality control dashboard", "comparing numbers spreadsheet"]
+    },
+    {
+      "title": "CI/CD y Versiones",
+      "tagline": "Cambios controlados, no a lo loco",
+      "text": "Cuarto: trata tu migración como software serio, con control de versiones y CI/CD. Todo el código de tu migración vive en un repositorio como Git, donde cada cambio queda registrado y revisado por otra persona. El CI/CD automatiza las pruebas: cada vez que alguien toca el código, se ejecutan validaciones automáticas antes de permitir que llegue a producción. Esto significa que ningún cambio entra a lo loco; todo pasa por un filtro de pruebas. ¿Por qué es tan importante en una migración? Porque mueves datos críticos y un error pequeño puede ser catastrófico. Con CI/CD, despliegas en ambientes de prueba primero, validas automáticamente y solo entonces vas a producción. Es la diferencia entre un equipo profesional y uno que cruza los dedos cada vez que ejecuta. Disciplina de ingeniería sobre datos críticos: eso es lo que separa a los pros.",
+      "broll": ["git version control screen", "cicd pipeline dashboard", "code review developers"]
+    },
+    {
+      "title": "Plan de Rollback",
+      "tagline": "Siempre ten cómo volver atrás",
+      "text": "Y quinto, la red de seguridad que nunca debe faltar: el plan de rollback, el plan de vuelta atrás. Por muy bien que planees, algo puede salir mal en producción, y necesitas poder regresar al estado anterior rápido y sin pánico. Antes de migrar, haz copias de seguridad completas y verifica que de verdad funcionan, no asumas. Define con claridad qué harás si algo falla: cómo restauras, en cuánto tiempo, quién decide. Lo ideal es una estrategia donde el sistema viejo y el nuevo conviven un tiempo, para que puedas cambiar de uno a otro sin drama. Nunca, jamás, apagues el sistema viejo el mismo día que enciendes el nuevo. Esa prisa ha matado más proyectos que cualquier bug. Tener un buen rollback no es desconfianza; es lo que te deja dormir tranquilo la noche de la migración.",
+      "broll": ["backup recovery server", "safety net concept technology", "system restore screen"]
+    }
+  ],
+  "outro_text": "Recapitulando una migración profesional: entiende el origen a fondo, diséñala como pipelines repetibles, valida todo de forma obsesiva, usa CI/CD para cambios controlados y ten siempre un plan de vuelta atrás. La regla de oro: una migración no se mide por lo rápido que la haces, sino por lo poco que te tiembla la mano cuando llega el día. Si este video te sirvió, suscríbete al canal, porque comparto ingeniería de datos real, de la que se usa en proyectos serios. Déjame en los comentarios la peor migración que hayas vivido, y dale like si quieres un video sobre cómo montar el CI/CD de datos paso a paso. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "MIGRACIÓN SIN CAOS",
+    "hook_text": "Una migración de datos mal hecha hunde proyectos. Aquí van las claves para hacerla sin perder un solo dato.",
+    "hook_broll": ["server migration data center", "data transfer network"],
+    "points": [
+      {"title": "Entiende", "tagline": "El origen primero", "text": "Nunca migres lo que no entiendes. Inventaría y perfila el origen: vas a encontrar basura escondida.", "broll": ["data profiling screen", "reviewing database"]},
+      {"title": "Pipelines", "tagline": "Repetible, no manual", "text": "Diseña la migración como pipelines automatizados. Vas a correrla cien veces antes de que salga perfecta.", "broll": ["pipeline diagram code", "automation workflow"]},
+      {"title": "Valida", "tagline": "Si no cuadra, paras", "text": "Cuenta registros y suma montos en origen y destino. Si los números no coinciden, no terminaste.", "broll": ["data validation screen", "quality dashboard"]}
+    ],
+    "cta_text": "En el video completo te doy el plan completo con CI/CD y rollback para migrar sin caos. Está en el canal, ve a verlo."
+  }
+}
