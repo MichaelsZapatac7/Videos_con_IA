@@ -184,8 +184,24 @@ Responde ÚNICAMENTE con este JSON (sin markdown):
       "broll": ["english query 1", "english query 2", "english query 3"]
     }}
   ],
-  "outro_text": "Narración de cierre pidiendo suscribirse y anticipando el próximo video"
-}}"""
+  "outro_text": "Narración de cierre pidiendo suscribirse y anticipando el próximo video",
+  "short": {{
+    "hook_card": "Título corto para la portada del Short (2-3 palabras)",
+    "hook_text": "Gancho de 1-2 frases muy potente para los primeros segundos",
+    "hook_broll": ["english query 1", "english query 2"],
+    "points": [
+      {{
+        "title": "Punto clave (1-3 palabras)",
+        "tagline": "una línea",
+        "text": "1-2 frases que adelanten el valor SIN contarlo todo",
+        "broll": ["english query 1", "english query 2"]
+      }}
+    ],
+    "cta_text": "Cierre que INVITA a ver el video completo en el canal (1-2 frases)"
+  }}
+}}
+
+Para "short": elige 2 o 3 "points" (los más llamativos) y que el Short dure ~40 s en total. Debe generar curiosidad y empujar a ver el video largo, NO resolver todo."""
 
     client = anthropic.Anthropic(api_key=cfg.anthropic_api_key)
     message = client.messages.create(

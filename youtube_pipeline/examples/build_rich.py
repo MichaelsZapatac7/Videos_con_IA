@@ -87,7 +87,8 @@ def _gen_voice(text: str, out: Path):
     return piper_voiceover(text, out) if _piper_available() else demo_voiceover(text, out)
 
 
-def _collect_photos(queries: list[str], n: int, out_dir: Path, prefix: str) -> list[Path]:
+def _collect_photos(queries: list[str], n: int, out_dir: Path, prefix: str,
+                    orientation: str = "landscape") -> list[Path]:
     """Descarga hasta n fotos DISTINTAS de Pexels combinando varias búsquedas (round-robin)."""
     if not cfg.pexels_api_key or not queries:
         return []
@@ -96,7 +97,7 @@ def _collect_photos(queries: list[str], n: int, out_dir: Path, prefix: str) -> l
     for q in queries:
         try:
             short_q = " ".join(q.split()[:5])
-            buckets.append([p["url"] for p in search_pexels_photos(short_q, count=5) if p.get("url")])
+            buckets.append([p["url"] for p in search_pexels_photos(short_q, count=5, orientation=orientation) if p.get("url")])
         except Exception as e:
             print(f"    [pexels] {str(e)[:60]}")
             buckets.append([])
@@ -120,10 +121,35 @@ def _collect_photos(queries: list[str], n: int, out_dir: Path, prefix: str) -> l
     return paths
 
 
+def _xfade_concat(subclips: list[Path], per: float, out_path: Path, t: float = 0.5) -> Path:
+    """Une subclips con crossfade (transición animada). Si falla, concatena duro."""
+    n = len(subclips)
+    inputs = []
+    for sc in subclips:
+        inputs += ["-i", str(sc)]
+    # Cadena de xfade encadenada: offset_k = k*(per - t)
+    chains, prev = [], "[0:v]"
+    for k in range(1, n):
+        offset = k * (per - t)
+        out_lbl = f"[v{k}]" if k < n - 1 else "[vout]"
+        chains.append(f"{prev}[{k}:v]xfade=transition=fade:duration={t}:offset={offset:.3f}{out_lbl}")
+        prev = out_lbl
+    filt = ";".join(chains)
+    cmd = ["ffmpeg", "-y", *inputs, "-filter_complex", filt,
+           "-map", "[vout]", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(out_path)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f"    [xfade] fallo, uso concat duro: {r.stderr[-160:]}")
+        concatenate_videos(subclips, out_path)
+    return out_path
+
+
 def _segment_clip(shot_imgs: list[Path], dur: float, clip_out: Path, W, H, FPS) -> Path:
-    """Convierte una lista de imágenes en UN clip: cada imagen con Ken Burns, concatenadas."""
+    """Convierte una lista de imágenes en UN clip: cada imagen con Ken Burns + crossfades."""
     n = max(1, len(shot_imgs))
-    per = max(2.5, (dur + 1.0) / n)
+    t = 0.5  # duración del crossfade
+    # Compensa el tiempo perdido en las transiciones para cubrir el audio
+    per = max(2.5, (dur + 1.0 + (n - 1) * t) / n)
     subclips = []
     for j, im in enumerate(shot_imgs):
         sc = clip_out.parent / f"{clip_out.stem}_{j}.mp4"
@@ -133,27 +159,37 @@ def _segment_clip(shot_imgs: list[Path], dur: float, clip_out: Path, W, H, FPS) 
     if len(subclips) == 1:
         shutil.copy2(subclips[0], clip_out)
     else:
-        concatenate_videos(subclips, clip_out)
+        _xfade_concat(subclips, per, clip_out, t=t)
     return clip_out
 
 
 # ── renderizador principal ──────────────────────────────────────────────────
 
-def render_video(segments: list[dict], meta: dict, job_dir: Path, channel: str = "MZSHARD") -> Path:
+def render_video(segments: list[dict], meta: dict, job_dir: Path, channel: str = "MZSHARD",
+                 is_shorts: bool = False, music_path: Path | None = None) -> Path:
     """
     Produce el video final a partir de `segments` (ver formato en el docstring
     del módulo). `meta` aporta title/description/tags/thumbnail_text para el
-    ensamblado y los subtítulos. Devuelve la ruta del MP4 final.
+    ensamblado y los subtítulos.
+
+    is_shorts : si True, renderiza vertical 9:16 (Shorts/Reel/TikTok).
+    music_path: cama de música opcional bajo la voz. Devuelve la ruta del MP4.
     """
+    fmt = "SHORT 9:16" if is_shorts else "16:9"
     print("=" * 60)
-    print(f"  VIDEO ENRIQUECIDO CON B-ROLL — {channel}")
+    print(f"  VIDEO ENRIQUECIDO CON B-ROLL ({fmt}) — {channel}")
     print(f"  {meta.get('title', '')}")
     print("=" * 60)
 
     (job_dir / "audio").mkdir(parents=True, exist_ok=True)
     (job_dir / "img").mkdir(parents=True, exist_ok=True)
     (job_dir / "clips").mkdir(parents=True, exist_ok=True)
-    W, H, FPS = cfg.video_width, cfg.video_height, cfg.video_fps
+    if is_shorts:
+        W, H = cfg.shorts_width, cfg.shorts_height
+    else:
+        W, H = cfg.video_width, cfg.video_height
+    FPS = cfg.video_fps
+    orientation = "portrait" if is_shorts else "landscape"
 
     audio_paths, footage_paths, used_segments = [], [], []
 
@@ -175,24 +211,27 @@ def render_video(segments: list[dict], meta: dict, job_dir: Path, channel: str =
         card_img = job_dir / "img" / f"card_{i:03d}.png"
         if kind == "welcome":
             make_welcome_image(card_img, channel=channel,
-                               tagline=tagline or "Inteligencia Artificial y Tecnología")
+                               tagline=tagline or "Inteligencia Artificial y Tecnología",
+                               width=W, height=H)
         elif kind == "outro":
-            make_outro_image(card_img, channel=channel)
+            make_outro_image(card_img, channel=channel, width=W, height=H)
         else:  # topic / item
-            make_support_image(str(number), label, tagline, card_img, index=i)
+            make_support_image(str(number), label, tagline, card_img, index=i, width=W, height=H)
         disp_name = channel if kind == "welcome" else (label or channel)
 
         # 3) montaje con B-roll (welcome/outro quedan como toma única de marca)
         shot_imgs = [card_img]
         if kind in ("topic", "item") and broll:
             n_shots = max(2, min(5, round(dur / 4.0)))
-            photos = _collect_photos(broll, n_shots, job_dir / "img", f"ph_{i:03d}")
+            photos = _collect_photos(broll, n_shots, job_dir / "img", f"ph_{i:03d}",
+                                     orientation=orientation)
             if photos:
                 shot_imgs = [_blend_photo_card(card_img, photos[0],
                                                job_dir / "img" / f"shot_{i:03d}_0.png")]
                 for j, ph in enumerate(photos[1:], start=1):
                     shot_imgs.append(make_broll_image(
-                        ph, disp_name, job_dir / "img" / f"shot_{i:03d}_{j}.png", index=i + j))
+                        ph, disp_name, job_dir / "img" / f"shot_{i:03d}_{j}.png",
+                        index=i + j, width=W, height=H))
                 print(f"    B-roll: {len(shot_imgs)} tomas")
             else:
                 print(f"    sin fotos Pexels -> tarjeta única")
@@ -215,14 +254,14 @@ def render_video(segments: list[dict], meta: dict, job_dir: Path, channel: str =
         call_to_action=meta.get("call_to_action", ""),
         thumbnail_text=meta.get("thumbnail_text", ""),
         total_estimated_seconds=int(sum(s["duration_seconds"] for s in used_segments)),
-        is_shorts=False,
+        is_shorts=is_shorts,
     )
 
     print("\n[ensamblando] ...")
     final = assemble_video(
         script=script, footage_paths=footage_paths, audio_paths=audio_paths,
-        output_dir=job_dir, is_shorts=False, burn_captions=True,
-        add_title_card=False,
+        output_dir=job_dir, is_shorts=is_shorts, burn_captions=True,
+        add_title_card=False, music_path=music_path,
     )
     print(f"\n  LISTO -> {final}")
     return final

@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from youtube_pipeline.config import cfg
 from youtube_pipeline.generators.script_gen import generate_video_plan
+from youtube_pipeline.generators.music import generate_music_bed
 from youtube_pipeline.examples.build_rich import render_video, DEFAULT_WELCOME
 
 
@@ -77,6 +78,60 @@ def _plan_to_segments(plan: dict, topic: str, channel: str) -> tuple[list[dict],
     return segments, meta
 
 
+def _short_segments(plan: dict, topic: str) -> tuple[list[dict], dict] | None:
+    """
+    Construye los segmentos del SHORT (vertical) a partir de plan["short"].
+    El Short es rápido: gancho + 2-3 puntos clave + CTA "mira el video completo".
+    Devuelve None si el plan no trae sección short.
+    """
+    short = plan.get("short")
+    if not short:
+        return None
+
+    segments = [{
+        "text": short.get("hook_text", ""), "kind": "topic",
+        "label": short.get("hook_card") or plan.get("thumbnail_text", topic),
+        "number": "", "tagline": "", "broll": short.get("hook_broll") or [],
+    }]
+    for i, pt in enumerate(short.get("points", []), start=1):
+        segments.append({
+            "text": pt.get("text", ""), "kind": "item",
+            "label": pt.get("title", f"Tip {i}"), "number": f"{i:02d}",
+            "tagline": pt.get("tagline", ""), "broll": pt.get("broll") or [],
+        })
+    segments.append({
+        "text": short.get("cta_text", "Mira el video completo en el canal. Te espero."),
+        "kind": "outro", "label": "VE EL VIDEO", "broll": [],
+    })
+
+    meta = {
+        "title": (plan.get("title", topic) + " #shorts"),
+        "description": plan.get("description", ""),
+        "tags": (plan.get("tags", []) + ["shorts", "reel", "tiktok"]),
+        "thumbnail_text": plan.get("thumbnail_text", ""),
+    }
+    return segments, meta
+
+
+def _resolve_music(job_dir: Path) -> Path | None:
+    """Usa un archivo de assets/music si existe; si no, sintetiza una cama ambiental."""
+    music_dir = cfg.music_dir
+    if music_dir.exists():
+        for ext in ("*.mp3", "*.wav", "*.m4a", "*.ogg"):
+            hits = sorted(music_dir.glob(ext))
+            if hits:
+                print(f"  música: {hits[0].name}")
+                return hits[0]
+    try:
+        bed = job_dir / "music_bed.wav"
+        generate_music_bed(bed, duration=40.0)
+        print("  música: cama ambiental sintetizada")
+        return bed
+    except Exception as e:
+        print(f"  [música] no disponible: {str(e)[:60]}")
+        return None
+
+
 def crear_video(
     topic: str,
     canal: str = "MZSHARD",
@@ -95,18 +150,38 @@ def crear_video(
     if plan is None:
         if not cfg.anthropic_api_key:
             raise SystemExit("Falta ANTHROPIC_API_KEY (para generar el guion con Claude).")
-        print(f"\n[1/2] Generando guion con Claude sobre: {topic!r} ...")
+        print(f"\n[1/3] Generando guion con Claude sobre: {topic!r} ...")
         plan = generate_video_plan(topic, niche=niche, language=idioma, channel=canal)
     else:
-        print(f"\n[1/2] Usando plan provisto (sin llamar a la API) ...")
+        print(f"\n[1/3] Usando plan provisto (sin llamar a la API) ...")
     print(f"  Título: {plan.get('title')}")
     print(f"  Items : {len(plan.get('items', []))}")
 
-    segments, meta = _plan_to_segments(plan, topic, canal)
     job_dir = (output_dir or cfg.output_dir) / _slug(topic)
+    job_dir.mkdir(parents=True, exist_ok=True)
+    music = _resolve_music(job_dir)
 
-    print(f"\n[2/2] Renderizando video ({len(segments)} segmentos) ...")
-    return render_video(segments, meta, job_dir, channel=canal)
+    # ── Entrega 1: video completo (16:9) ────────────────────────────────────
+    segments, meta = _plan_to_segments(plan, topic, canal)
+    print(f"\n[2/3] Renderizando VIDEO COMPLETO ({len(segments)} segmentos) ...")
+    full = render_video(segments, meta, job_dir / "completo", channel=canal,
+                        is_shorts=False, music_path=music)
+
+    # ── Entrega 2: Short / Reel / TikTok (9:16) ─────────────────────────────
+    short_built = _short_segments(plan, topic)
+    short = None
+    if short_built:
+        s_segments, s_meta = short_built
+        print(f"\n[3/3] Renderizando SHORT vertical ({len(s_segments)} segmentos) ...")
+        short = render_video(s_segments, s_meta, job_dir / "short", channel=canal,
+                             is_shorts=True, music_path=music)
+    else:
+        print("\n[3/3] El plan no trae sección 'short' — omitido.")
+
+    print("\n== ENTREGAS ==")
+    print(f"  Completo: {full}")
+    print(f"  Short   : {short or '(no generado)'}")
+    return full, short
 
 
 def main():
@@ -123,9 +198,9 @@ def main():
     if args.plan_file:
         plan = json.loads(Path(args.plan_file).read_text(encoding="utf-8"))
 
-    final = crear_video(args.tema, canal=args.canal, idioma=args.idioma,
-                        niche=args.niche, plan=plan)
-    print(f"\n== LISTO ==\nVideo en: {final}")
+    full, short = crear_video(args.tema, canal=args.canal, idioma=args.idioma,
+                              niche=args.niche, plan=plan)
+    print(f"\n== LISTO ==\n  Completo: {full}\n  Short: {short or '(no generado)'}")
 
 
 if __name__ == "__main__":
