@@ -11,3 +11,9 @@ youtube_pipeline/.env
 # Artefactos generados por el pipeline (videos, audio, imágenes, voces)
 youtube_pipeline/output/
 youtube_pipeline/assets/
+
+# Remotion: dependencias y assets copiados / renders
+remotion/node_modules/
+remotion/public/
+remotion/out/
+remotion/.remotion/
