@@ -5,11 +5,10 @@ import {
 } from 'remotion';
 import {RGB, rgb, FONT, SQL_KEYWORDS, Segment} from './theme';
 
-// ───────────────────────── Fondo animado ─────────────────────────
+// ───────────────────────── Fondo animado (sin blur, barato) ─────────────────────────
 export const AnimatedBackground: React.FC<{accents: RGB[]}> = ({accents}) => {
   const frame = useCurrentFrame();
   const {width, height, durationInFrames} = useVideoConfig();
-  // color de acento que evoluciona a lo largo del video
   const t = (frame / Math.max(1, durationInFrames)) * (accents.length - 1);
   const i = Math.min(accents.length - 2, Math.floor(t));
   const f = t - i;
@@ -20,52 +19,53 @@ export const AnimatedBackground: React.FC<{accents: RGB[]}> = ({accents}) => {
     Math.round(a[1] + (b[1] - a[1]) * f),
     Math.round(a[2] + (b[2] - a[2]) * f),
   ];
-  const blob = (cx: number, cy: number, r: number, speed: number, ph: number, c: RGB, op: number) => {
-    const x = cx + Math.sin(frame * speed + ph) * width * 0.06;
-    const y = cy + Math.cos(frame * speed * 0.8 + ph) * height * 0.06;
+  // "Blobs" como radial-gradients (baratos), animados con translate
+  const glow = (cx: number, cy: number, r: number, speed: number, ph: number, c: RGB, op: number) => {
+    const x = Math.sin(frame * speed + ph) * width * 0.05;
+    const y = Math.cos(frame * speed * 0.8 + ph) * height * 0.05;
     return (
       <div style={{
-        position: 'absolute', left: x - r, top: y - r, width: r * 2, height: r * 2,
-        borderRadius: '50%', background: rgb(c, op), filter: `blur(${r * 0.5}px)`,
+        position: 'absolute', left: cx - r, top: cy - r, width: r * 2, height: r * 2,
+        transform: `translate(${x}px,${y}px)`,
+        background: `radial-gradient(circle at center, ${rgb(c, op)} 0%, ${rgb(c, 0)} 70%)`,
       }} />
     );
   };
   return (
     <AbsoluteFill style={{background: 'linear-gradient(135deg,#0c0d16 0%,#13142a 55%,#0a0a14 100%)'}}>
-      {blob(width * 0.22, height * 0.28, width * 0.26, 0.012, 0, accent, 0.20)}
-      {blob(width * 0.82, height * 0.7, width * 0.30, 0.009, 2, [80, 120, 255], 0.13)}
-      {blob(width * 0.6, height * 0.2, width * 0.18, 0.015, 4, accent, 0.10)}
-      {/* grilla sutil en movimiento */}
+      {glow(width * 0.24, height * 0.30, width * 0.34, 0.012, 0, accent, 0.28)}
+      {glow(width * 0.82, height * 0.70, width * 0.40, 0.009, 2, [80, 120, 255], 0.20)}
+      {glow(width * 0.62, height * 0.18, width * 0.24, 0.015, 4, accent, 0.16)}
       <AbsoluteFill style={{
         backgroundImage:
-          'linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px)',
+          'linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px)',
         backgroundSize: '90px 90px',
         transform: `translateY(${(frame * 0.4) % 90}px)`,
-        opacity: 0.5,
       }} />
-      {/* viñeta */}
-      <AbsoluteFill style={{boxShadow: 'inset 0 0 400px rgba(0,0,0,0.85)'}} />
+      {/* viñeta como gradiente radial (barato) */}
+      <AbsoluteFill style={{
+        background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,0.8) 100%)',
+      }} />
     </AbsoluteFill>
   );
 };
 
-// ───────────────────────── Partículas flotantes ─────────────────────────
-export const Particles: React.FC<{accent: RGB; count?: number}> = ({accent, count = 26}) => {
+// ───────────────────────── Partículas (ligeras) ─────────────────────────
+export const Particles: React.FC<{accent: RGB; count?: number}> = ({accent, count = 14}) => {
   const frame = useCurrentFrame();
   const {width, height} = useVideoConfig();
   const dots = new Array(count).fill(0).map((_, k) => {
     const seed = (k * 9301 + 49297) % 233280;
-    const rx = (seed / 233280);
+    const rx = seed / 233280;
     const ry = ((seed * 7) % 233280) / 233280;
-    const size = 2 + (k % 4);
-    const speed = 0.2 + (k % 5) * 0.08;
+    const size = 3 + (k % 3);
+    const speed = 0.3 + (k % 5) * 0.1;
     const y = (height * ry - frame * speed * 3) % height;
     const x = width * rx + Math.sin(frame * 0.02 + k) * 12;
     return (
       <div key={k} style={{
         position: 'absolute', left: x, top: (y + height) % height,
-        width: size, height: size, borderRadius: '50%',
-        background: rgb(accent, 0.5), boxShadow: `0 0 ${size * 3}px ${rgb(accent, 0.6)}`,
+        width: size, height: size, borderRadius: '50%', background: rgb(accent, 0.55),
       }} />
     );
   });
