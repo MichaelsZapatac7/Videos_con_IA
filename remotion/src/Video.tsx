@@ -1,10 +1,10 @@
 import React from 'react';
 import {AbsoluteFill, Series, Audio, staticFile, useVideoConfig} from 'remotion';
 import {VideoProps} from './theme';
-import {AnimatedBackground, BrandMark, ProgressBar} from './components';
+import {AnimatedBackground, BrandMark, ProgressBar, LogoWatermark} from './components';
 import {Scene} from './scenes';
 
-export const MZVideo: React.FC<VideoProps> = ({segments, channel, music}) => {
+export const MZVideo: React.FC<VideoProps> = ({segments, channel, music, logo}) => {
   const {width, height} = useVideoConfig();
   const vertical = height > width;
   const accents = segments.map((s) => s.accent);
@@ -21,8 +21,10 @@ export const MZVideo: React.FC<VideoProps> = ({segments, channel, music}) => {
         ))}
       </Series>
       <ProgressBar accent={accent} />
-      <BrandMark channel={channel} accent={accent} vertical={vertical} />
-      {music ? <Audio loop src={staticFile(music)} volume={0.1} /> : null}
+      {logo
+        ? <LogoWatermark src={logo} vertical={vertical} />
+        : <BrandMark channel={channel} accent={accent} vertical={vertical} />}
+      {music ? <Audio loop src={staticFile(music)} volume={0.2} /> : null}
     </AbsoluteFill>
   );
 };

@@ -17,6 +17,7 @@ export interface VideoProps {
   fps: number;
   channel: string;
   music?: string | null;
+  logo?: string | null;
   segments: Segment[];
 }
 

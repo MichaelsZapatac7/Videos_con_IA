@@ -29,6 +29,32 @@ from youtube_pipeline.generators.graphics import PALETTES
 REMOTION = Path(__file__).parent.parent / "remotion"
 PUBLIC = REMOTION / "public"
 MANIFESTS = REMOTION / "manifests"
+MEDIA = Path(__file__).parent.parent / "media"
+AUDIO_EXT = (".mp3", ".wav", ".m4a", ".ogg")
+IMG_EXT = (".png", ".webp", ".jpg", ".jpeg")
+
+
+def _pick_music(slug: str, fmt: str, music_name: str | None) -> Path | None:
+    """Elige una pista de media/music: por nombre, o rotando de forma estable."""
+    mdir = MEDIA / "music"
+    tracks = sorted(p for p in mdir.glob("*") if p.suffix.lower() in AUDIO_EXT) if mdir.exists() else []
+    if not tracks:
+        return None
+    if music_name:
+        for t in tracks:
+            if t.stem.lower() == music_name.lower():
+                return t
+    idx = sum(ord(c) for c in (slug + fmt)) % len(tracks)
+    return tracks[idx]
+
+
+def _pick_logo() -> Path | None:
+    ldir = MEDIA / "logo"
+    if ldir.exists():
+        for p in sorted(ldir.glob("*")):
+            if p.suffix.lower() in IMG_EXT:
+                return p
+    return None
 
 CODE_RE = re.compile(
     r"[()*=]|SELECT|FROM|GROUP|JOIN|CASE|OVER|QUALIFY|COUNT|SUM|AVG|DATE_TRUNC|ROW_NUMBER|PARTITION",
@@ -46,7 +72,8 @@ def _dur_frames(audio: Path, fps: int) -> int:
         return 6 * fps
 
 
-def export(topic: str, plan: dict, fmt: str, canal: str = "MZSHARD") -> tuple[str, Path, int]:
+def export(topic: str, plan: dict, fmt: str, canal: str = "MZSHARD",
+           music_name: str | None = None) -> tuple[str, Path, int]:
     fps = cfg.video_fps
     slug = _slug(topic)
     out_root = cfg.output_dir / slug
@@ -107,15 +134,29 @@ def export(topic: str, plan: dict, fmt: str, canal: str = "MZSHARD") -> tuple[st
             "accent": accent,
         })
 
-    # música (cama sintetizada o Mureka, si existe)
+    # música: biblioteca media/music (prioridad) -> cama sintetizada/Mureka
     music_rel = None
-    for cand in (out_root / "music_bed.wav", out_root / "mureka_music.mp3"):
-        if cand.exists():
-            shutil.copy2(cand, dest / cand.name)
-            music_rel = f"{asset_dir_name}/{cand.name}"
-            break
+    track = _pick_music(slug, fmt, music_name)
+    if track is None:
+        for cand in (out_root / "music_bed.wav", out_root / "mureka_music.mp3"):
+            if cand.exists():
+                track = cand
+                break
+    if track is not None:
+        shutil.copy2(track, dest / track.name)
+        music_rel = f"{asset_dir_name}/{track.name}"
+        print(f"  música: {track.name}")
 
-    manifest = {"fps": fps, "channel": canal, "music": music_rel, "segments": manifest_segs}
+    # logo (marca de agua) desde media/logo
+    logo_rel = None
+    logo = _pick_logo()
+    if logo is not None:
+        shutil.copy2(logo, dest / logo.name)
+        logo_rel = f"{asset_dir_name}/{logo.name}"
+        print(f"  logo: {logo.name}")
+
+    manifest = {"fps": fps, "channel": canal, "music": music_rel,
+                "logo": logo_rel, "segments": manifest_segs}
     MANIFESTS.mkdir(parents=True, exist_ok=True)
     mpath = MANIFESTS / f"{asset_dir_name}.json"
     mpath.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -128,9 +169,10 @@ def main():
     ap.add_argument("--plan-file", required=True)
     ap.add_argument("--format", choices=["full", "short"], default="full")
     ap.add_argument("--canal", default="MZSHARD")
+    ap.add_argument("--music", default=None, help="Nombre de pista en media/music (sin extensión)")
     args = ap.parse_args()
     plan = json.loads(Path(args.plan_file).read_text(encoding="utf-8"))
-    comp, mpath, fps = export(args.tema, plan, args.format, args.canal)
+    comp, mpath, fps = export(args.tema, plan, args.format, args.canal, music_name=args.music)
     total = sum(s["durationInFrames"] for s in json.loads(mpath.read_text())["segments"])
     print(f"COMPOSITION={comp}")
     print(f"MANIFEST={mpath}")

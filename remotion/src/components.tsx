@@ -143,6 +143,25 @@ export const BrandMark: React.FC<{channel: string; accent: RGB; vertical?: boole
   );
 };
 
+// ───────────────────────── Logo (marca de agua) ─────────────────────────
+export const LogoWatermark: React.FC<{src: string; vertical?: boolean}> = ({src, vertical}) => {
+  const frame = useCurrentFrame();
+  const {width} = useVideoConfig();
+  const w = width * (vertical ? 0.16 : 0.085);
+  const fade = interpolate(frame, [0, 15], [0, 0.92], {extrapolateRight: 'clamp'});
+  return (
+    <div style={{
+      position: 'absolute', top: vertical ? 60 : 40, right: vertical ? 44 : 54,
+      zIndex: 25, opacity: fade,
+    }}>
+      <Img src={staticFile(src)} style={{
+        width: w, height: 'auto',
+        filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.55))',
+      }} />
+    </div>
+  );
+};
+
 // ───────────────────────── Barra de progreso ─────────────────────────
 export const ProgressBar: React.FC<{accent: RGB}> = ({accent}) => {
   const frame = useCurrentFrame();
