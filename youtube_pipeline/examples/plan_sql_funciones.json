@@ -1,0 +1,87 @@
+{
+  "title": "7 Funciones de SQL para Analizar Datos",
+  "description": "Las 7 funciones de SQL que más vas a usar para analizar datos, explicadas con su sintaxis y para qué sirven en el mundo real. Quédate al final: una función secreta de nivel senior. #sql #datos #analisis #datascience #bigquery",
+  "tags": ["sql", "funciones sql", "analisis de datos", "data analyst", "group by", "window functions", "case when", "join sql", "qualify", "bigquery", "snowflake", "consultas sql"],
+  "thumbnail_text": "SQL PARA DATOS",
+  "intro_card": "SQL PARA DATOS",
+  "intro_text": "Si trabajas con datos y todavía exportas todo a Excel para analizarlo, este video te va a ahorrar horas. SQL es la herramienta más poderosa y subestimada para analizar datos, y la buena noticia es que con dominar unas pocas funciones ya puedes responder casi cualquier pregunta de negocio. Hoy te voy a mostrar las siete funciones de SQL que más vas a usar para analizar datos: te enseño cada una, cómo se escribe y, sobre todo, qué te permite lograr en el mundo real. Y quédate hasta el final, porque después de las siete te voy a regalar una última función, una que casi nadie enseña en los tutoriales pero que todo analista senior usa todo el tiempo. Esa sola ya vale el video entero. Vamos con ello.",
+  "intro_broll": ["sql database query screen", "data analyst working code", "database server technology blue"],
+  "items": [
+    {
+      "title": "COUNT()",
+      "tagline": "SELECT COUNT(*) FROM ventas",
+      "text": "La primera es la más básica y la que más vas a escribir en tu vida: COUNT. Sirve para contar registros, así de simple. Escribes SELECT COUNT asterisco FROM y el nombre de tu tabla, y obtienes cuántas filas hay. ¿Cuántos pedidos tenemos este mes? ¿Cuántos usuarios se registraron hoy? COUNT responde eso en una sola línea. Y tiene un truco que muchos no conocen: si pones COUNT DISTINCT de una columna, cuenta solo los valores únicos. Por ejemplo, COUNT DISTINCT cliente te dice cuántos clientes diferentes compraron, sin contar dos veces al que compró tres veces. Esa diferencia entre contar todo y contar lo único es clave para no inflar tus números sin darte cuenta. Parece sencilla, pero contar bien es el primer paso de todo análisis serio, y te aseguro que la vas a usar en prácticamente cada consulta que escribas.",
+      "broll": ["sql code screen closeup", "data table rows numbers", "spreadsheet data analysis screen"]
+    },
+    {
+      "title": "SUM() y AVG()",
+      "tagline": "SUM(monto), AVG(monto)",
+      "text": "La segunda son las agregaciones numéricas: SUM y AVG. SUM suma y AVG saca el promedio, y juntas son el corazón de cualquier reporte. ¿Cuánto facturamos en total? SUM del monto. ¿Cuál es el ticket promedio de compra? AVG del monto. Con estas dos pasas de tener una lista enorme de transacciones a tener un número que de verdad significa algo para el negocio. Y aquí está la clave: casi nunca las usas solas. Las combinas con las demás funciones para responder preguntas potentes, como cuánto vende cada región o cuál es el gasto promedio por tipo de cliente. También tienes a sus primas MAX y MIN, para el valor más alto y el más bajo. Dominar las agregaciones es lo que convierte miles de filas crudas en información que un gerente puede leer en cinco segundos y tomar una decisión con ella.",
+      "broll": ["calculator financial data screen", "sales chart numbers", "data dashboard metrics blue"]
+    },
+    {
+      "title": "GROUP BY",
+      "tagline": "... GROUP BY categoria",
+      "text": "La tercera es la que lo conecta todo: GROUP BY. Hasta ahora SUM y AVG te daban un solo número para toda la tabla. Pero el verdadero análisis empieza cuando quieres ese número desglosado. ¿Ventas totales? Útil. ¿Ventas totales por cada región? Ahí sí estamos hablando. GROUP BY agrupa tus filas por una columna y aplica la agregación a cada grupo por separado. Escribes tu SUM o tu COUNT, y al final agregas GROUP BY con la columna por la que quieres dividir, como categoría, país o mes. De repente, una sola consulta te devuelve una tabla completa: cada categoría con su total al lado. Esta es probablemente la herramienta que más vas a usar para analizar de verdad, porque casi toda pregunta interesante tiene un por cada en el medio: ventas por producto, usuarios por ciudad, errores por día. Domina GROUP BY y empiezas a pensar como un analista.",
+      "broll": ["data grouping categories chart", "bar chart analytics screen", "database table data"]
+    },
+    {
+      "title": "JOIN",
+      "tagline": "FROM a JOIN b ON a.id = b.id",
+      "text": "La cuarta es imprescindible porque los datos casi nunca viven en una sola tabla: el JOIN. En una base real, los clientes están en una tabla, los pedidos en otra y los productos en otra más. El JOIN es lo que te permite cruzarlas y verlas como una sola. Escribes FROM, tu primera tabla, JOIN, la segunda, y un ON que indica por qué columna se relacionan, normalmente un identificador en común. Así puedes responder preguntas que tocan varias tablas a la vez, como el nombre del cliente junto al total que ha gastado, aunque esos datos estén separados. El que más vas a usar es el INNER JOIN, que trae solo las coincidencias, y el LEFT JOIN, que conserva todo de la primera tabla aunque no tenga pareja en la segunda. Entender bien los JOIN es lo que te abre la puerta al análisis completo, porque el valor casi siempre está en combinar fuentes, no en mirarlas por separado.",
+      "broll": ["connecting data network nodes", "database tables diagram", "linked data connections screen"]
+    },
+    {
+      "title": "CASE WHEN",
+      "tagline": "CASE WHEN monto>1000 THEN ...",
+      "text": "La quinta es pura inteligencia: CASE WHEN. Es como un si esto, entonces aquello, pero dentro de tu consulta. Te permite crear categorías al vuelo, sin tener que modificar la tabla original. Por ejemplo, CASE WHEN monto mayor a mil entonces alto valor, si no, bajo valor; y acabas de clasificar a todos tus clientes en dos grupos en el momento. ¿Para qué sirve esto al analizar? Para muchísimo. Puedes convertir números en etiquetas legibles, agrupar edades en rangos, marcar si algo aprobó o falló, o crear banderas para casos especiales. Y se vuelve todavía más potente cuando lo combinas con SUM: puedes contar cuántas ventas fueron de alto valor en una sola línea. CASE WHEN es la función que te deja darle forma a los datos a tu manera, transformar lo crudo en categorías que cuentan una historia. Cuando la dominas, dejas de adaptarte a los datos y los datos se adaptan a tu pregunta.",
+      "broll": ["decision flowchart logic diagram", "code editor conditional screen", "programming logic screen dark"]
+    },
+    {
+      "title": "Window Functions",
+      "tagline": "SUM(x) OVER(PARTITION BY region)",
+      "text": "La sexta es la que separa a un analista intermedio de uno avanzado: las funciones de ventana, las window functions. Suenan intimidantes, pero la idea es preciosa. Una agregación normal con GROUP BY colapsa muchas filas en una sola. Una función de ventana hace el cálculo pero conserva cada fila con su detalle. Se escriben con OVER y, normalmente, un PARTITION BY. ¿Qué te permiten? Cosas que en Excel son una pesadilla. Por ejemplo, un ranking: ROW_NUMBER o RANK te numeran tus ventas de mayor a menor dentro de cada región. O un acumulado: un total que va sumando día a día. O comparar cada fila contra el promedio de su grupo, todo sin perder el detalle individual. Esta es la herramienta favorita de los analistas serios, porque resuelve en tres líneas problemas que de otra forma exigen consultas enredadas. Si quieres dar el salto a profesional, invierte tiempo en entender las window functions; valen oro puro.",
+      "broll": ["advanced data analytics dashboard", "ranking leaderboard chart", "data trends graph screen"]
+    },
+    {
+      "title": "Funciones de Fecha",
+      "tagline": "DATE_TRUNC('month', fecha)",
+      "text": "La séptima es esencial porque casi todo análisis tiene que ver con el tiempo: las funciones de fecha, como DATE_TRUNC y EXTRACT. Los datos vienen con fechas exactas, hasta el segundo, pero tú casi nunca quieres ese detalle; quieres agrupar por mes, por semana o por año. Ahí entra DATE_TRUNC, que redondea una fecha al periodo que le pidas. DATE_TRUNC de mes sobre tu columna de fecha mete todas las ventas de marzo en el mismo grupo, y combinado con GROUP BY te da tu reporte mensual al instante. EXTRACT, por su parte, te saca una parte concreta, como el año o el día de la semana, perfecto para ver, por ejemplo, qué día se vende más. El análisis temporal es donde se ven las tendencias, el crecimiento y la estacionalidad, que es justo lo que el negocio quiere saber. Dominar las fechas en SQL es lo que te permite contar la historia de cómo evolucionan las cosas con el tiempo.",
+      "broll": ["calendar time series data", "time series line chart screen", "monthly trend graph analytics"]
+    },
+    {
+      "title": "QUALIFY",
+      "tagline": "QUALIFY ROW_NUMBER() OVER(...)=1",
+      "number": "+",
+      "text": "Y como llegaste hasta el final, aquí va tu regalo: una función que casi nadie enseña en los tutoriales, pero que todo analista senior usa, QUALIFY. Te cuento el problema que resuelve. Cuando usas una función de ventana, como ROW_NUMBER para quedarte solo con la venta más reciente de cada cliente, normalmente tienes que envolver toda tu consulta en una subconsulta para poder filtrar por ese número. Es feo, es largo y se enreda. QUALIFY hace exactamente eso, pero en una sola línea, al final de tu consulta, como si fuera un WHERE pero para funciones de ventana. Escribes QUALIFY ROW_NUMBER OVER PARTITION BY cliente ORDER BY fecha descendente igual a uno, y listo: te quedas con la fila más reciente de cada cliente, sin subconsultas ni rodeos. Está en motores modernos como Snowflake y BigQuery, y la primera vez que la usas sientes que hiciste trampa. Ese es justo el tipo de truco que distingue a alguien con experiencia de verdad. Úsala y vas a parecer un mago.",
+      "broll": ["senior programmer coding dark screen", "expert developer at computer", "advanced sql code screen"]
+    }
+  ],
+  "outro_text": "Y esas fueron las siete funciones de SQL que más vas a usar para analizar datos, más la función secreta de regalo. Recapitulando: COUNT para contar, SUM y AVG para agregar, GROUP BY para desglosar, JOIN para cruzar tablas, CASE WHEN para categorizar, las window functions para los cálculos avanzados, las funciones de fecha para el tiempo, y QUALIFY como tu arma secreta. Si practicas estas, te aseguro que el noventa por ciento de tu análisis de datos lo resuelves sin salir de SQL. Si el video te sirvió, suscríbete al canal, porque cada semana subo contenido para llevarte de analista junior a senior, sin rodeos ni humo. Déjame en los comentarios cuál de estas funciones no conocías, y dale like si quieres una segunda parte con consultas todavía más avanzadas. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "SQL PARA DATOS",
+    "hook_text": "Si analizas datos y no usas estas funciones de SQL, estás trabajando de más. Aquí van las que de verdad importan.",
+    "hook_broll": ["sql database query screen", "data analyst working laptop"],
+    "points": [
+      {
+        "title": "GROUP BY",
+        "tagline": "Desglosa por categoría",
+        "text": "GROUP BY agrupa tus datos: ventas por región, usuarios por país. Es la base de todo análisis serio.",
+        "broll": ["bar chart analytics screen", "data grouping categories"]
+      },
+      {
+        "title": "CASE WHEN",
+        "tagline": "Categoriza al vuelo",
+        "text": "CASE WHEN crea categorías sobre la marcha: marca clientes como alto o bajo valor sin tocar la tabla.",
+        "broll": ["decision flowchart logic", "code editor conditional screen"]
+      },
+      {
+        "title": "Window Functions",
+        "tagline": "Rankings y acumulados",
+        "text": "Las window functions calculan rankings y totales acumulados sin perder el detalle. Nivel pro.",
+        "broll": ["advanced analytics dashboard", "ranking chart data screen"]
+      }
+    ],
+    "cta_text": "Esas son solo tres. En el video completo están las siete, y al final te dejo una función secreta que solo un senior te diría. Ve a verlo ahora."
+  }
+}

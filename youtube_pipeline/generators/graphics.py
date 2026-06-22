@@ -11,7 +11,7 @@ Las imágenes luego se animan con Ken Burns (zoom/pan) en FFmpeg para dar vida.
 import math
 import random
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 
 from ..config import cfg
 
@@ -138,6 +138,63 @@ def make_support_image(
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     img.save(out_path, quality=95)
+    return out_path
+
+
+def make_broll_image(
+    photo_path: Path,
+    name: str,
+    out_path: Path,
+    index: int = 0,
+    width: int = None,
+    height: int = None,
+) -> Path:
+    """
+    Convierte una foto real de Pexels en una toma de B-roll lista para el video:
+      - recorta a 16:9 sin deformar y escala a la resolución del video
+      - oscurece y satura ligeramente para look cinematográfico
+      - degradado inferior para legibilidad
+      - lower-third con barra de acento + nombre de la IA + marca MZSHARD
+
+    Así cada segmento alterna entre la tarjeta de marca y varias tomas de apoyo
+    claramente etiquetadas, en vez de una sola imagen plana.
+    """
+    width = width or cfg.video_width
+    height = height or cfg.video_height
+    _, accent = PALETTES[index % len(PALETTES)]
+
+    photo = Image.open(photo_path).convert("RGB")
+    pw, ph = photo.size
+    ratio = width / height
+    if pw / ph > ratio:
+        nw = int(ph * ratio)
+        photo = photo.crop(((pw - nw) // 2, 0, (pw + nw) // 2, ph))
+    else:
+        nh = int(pw / ratio)
+        photo = photo.crop((0, (ph - nh) // 2, pw, (ph + nh) // 2))
+    photo = photo.resize((width, height), Image.LANCZOS)
+    photo = ImageEnhance.Brightness(photo).enhance(0.70)
+    photo = ImageEnhance.Color(photo).enhance(1.12)
+
+    # Degradado inferior (negro) para que el texto se lea
+    grad = Image.new("L", (1, height), 0)
+    gp = grad.load()
+    start = height * 0.58
+    for y in range(height):
+        gp[0, y] = 0 if y < start else int(min(210, ((y - start) / (height - start)) * 210))
+    grad = grad.resize((width, height))
+    photo = Image.composite(Image.new("RGB", (width, height), (0, 0, 0)), photo, grad)
+
+    draw = ImageDraw.Draw(photo)
+    # lower-third: barra + nombre
+    bar_y = int(height * 0.80)
+    draw.rectangle([60, bar_y, 60 + int(width * 0.06), bar_y + 12], fill=accent)
+    f_name = _font(FONT_BOLD, int(height * 0.072))
+    draw.text((60, bar_y + 26), name, font=f_name, fill=(255, 255, 255))
+
+    _channel_mark(photo, accent)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    photo.save(out_path, quality=95)
     return out_path
 
 

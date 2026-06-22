@@ -110,6 +110,45 @@ def search_pexels_photo(
     }
 
 
+def search_pexels_photos(
+    query: str,
+    count: int = 6,
+    orientation: str = "landscape",
+) -> list[dict]:
+    """
+    Search Pexels and return up to `count` photo candidates (not just the first).
+    Each item: {'url', 'width', 'height', 'photographer'}. Used to build B-roll
+    montages where each segment needs several distinct images.
+    """
+    if not cfg.pexels_api_key:
+        return []
+    resp = requests.get(
+        PEXELS_PHOTO_URL,
+        params={
+            "query": query,
+            "per_page": max(count, 5),
+            "orientation": orientation,
+            "size": "large",
+        },
+        headers={"Authorization": cfg.pexels_api_key},
+        timeout=15,
+    )
+    resp.raise_for_status()
+    photos = resp.json().get("photos", [])
+    out = []
+    for photo in photos[:count]:
+        src = photo.get("src", {})
+        url = src.get("large2x") or src.get("large") or src.get("original")
+        if url:
+            out.append({
+                "url": url,
+                "width": photo.get("width", 1920),
+                "height": photo.get("height", 1080),
+                "photographer": photo.get("photographer", ""),
+            })
+    return out
+
+
 def download_photo(url: str, output_path: Path) -> Path:
     """Download a photo (JPEG/PNG) from a URL."""
     output_path.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,53 @@
+{
+  "title": "Databricks desde cero: Lakehouse y Delta Lake",
+  "description": "Databricks desde cero: Lakehouse, Delta Lake, Jobs, Clusters y Unity Catalog explicados y cómo forman una arquitectura de datos real. #databricks #lakehouse #deltalake #spark #dataengineering",
+  "tags": ["databricks", "lakehouse", "delta lake", "spark", "unity catalog", "clusters", "data engineering", "big data", "arquitectura de datos", "notebooks"],
+  "thumbnail_text": "DATABRICKS DESDE CERO",
+  "intro_card": "DATABRICKS",
+  "intro_text": "Databricks es probablemente la plataforma de datos más caliente del momento, y vas a verla pedida en cada vez más ofertas de trabajo. Pero cuando entras por primera vez, te encuentras con clusters, notebooks, Delta Lake, Unity Catalog, y es fácil sentirse perdido. Te lo dice alguien que la usa: por debajo es más simple de lo que parece, y cuando entiendes las piezas, te enamoras. Hoy te voy a explicar Databricks desde cero: qué es el lakehouse que propone, qué es Delta Lake, qué son los clusters, los jobs y Unity Catalog, y cómo todo se junta en una arquitectura real. En lenguaje claro, sin asumir que ya sabes. Quédate al final, porque te digo por qué tantas empresas se están mudando a Databricks y para quién vale la pena.",
+  "intro_broll": ["databricks platform dashboard screen", "data lakehouse architecture", "data engineer notebook code"],
+  "items": [
+    {
+      "title": "Qué Es Databricks",
+      "tagline": "La plataforma del lakehouse",
+      "text": "Empecemos por lo básico: qué es Databricks. Es una plataforma unificada de datos en la nube, construida por los creadores de Spark, que junta en un solo lugar todo lo que antes estaba disperso. En vez de tener una herramienta para ingeniería de datos, otra para análisis y otra para machine learning, Databricks lo reúne todo sobre una misma base. Su gran idea es el lakehouse: combinar lo barato y flexible de un data lake con la confiabilidad y velocidad de un warehouse, en una sola plataforma. Trabajas principalmente en notebooks, que son documentos interactivos donde escribes código en Python, SQL o Scala y ves los resultados al instante, ideal para explorar datos y colaborar en equipo. Funciona sobre AWS, Azure o GCP, así que no te ata a una sola nube. En resumen, es el lugar donde ingenieros, analistas y científicos de datos trabajan juntos sobre los mismos datos.",
+      "broll": ["databricks notebook interface screen", "unified data platform", "team collaboration data code"]
+    },
+    {
+      "title": "Delta Lake",
+      "tagline": "El que hace confiable al data lake",
+      "text": "El corazón técnico de Databricks es Delta Lake, y es lo que hace posible el lakehouse. Te explico el problema que resuelve. Un data lake normal es solo un montón de archivos, y eso trae líos: si dos procesos escriben a la vez, los datos se corrompen; no hay forma fácil de actualizar o borrar registros; y no tienes historial. Delta Lake le pone una capa inteligente encima de esos archivos que añade lo que tienen las bases de datos serias: transacciones confiables, para que las escrituras no se rompan; la capacidad de actualizar y borrar registros; y algo precioso llamado time travel, viaje en el tiempo, que te deja consultar cómo estaban los datos en un momento pasado o deshacer un error. De repente, tu data lake barato se comporta con la confiabilidad de un warehouse. Esa es la magia que convierte un simple lake en un lakehouse de verdad, y es la base de todo lo demás.",
+      "broll": ["delta lake architecture diagram", "data versioning time travel", "reliable data storage screen"]
+    },
+    {
+      "title": "Clusters",
+      "tagline": "El motor de cómputo que enciendes",
+      "text": "Para procesar datos en Databricks necesitas un cluster, que es simplemente el motor de cómputo. Un cluster es un grupo de máquinas que trabajan juntas ejecutando Spark para procesar tus datos en paralelo. La belleza es que tú no las administras a mano: le dices a Databricks qué tamaño quieres, y él enciende las máquinas, las configura y, cuando terminas, las apaga solo para que no pagues de más. Puedes tener clusters interactivos, para explorar y trabajar en tus notebooks en vivo, y clusters de trabajo, que se encienden solo para ejecutar un proceso automatizado y se apagan al terminar. Esto es enorme para el costo: solo pagas el cómputo cuando de verdad lo usas. Entender los clusters es clave, porque es donde se gasta el dinero en Databricks. Un buen ingeniero sabe dimensionarlos bien: ni tan pequeños que todo vaya lento, ni tan grandes que quemes presupuesto sin necesidad.",
+      "broll": ["computing cluster servers screen", "spark cluster dashboard", "scalable compute technology"]
+    },
+    {
+      "title": "Jobs",
+      "tagline": "Automatiza tus pipelines",
+      "text": "Los notebooks son geniales para explorar, pero la producción necesita automatización, y ahí entran los Jobs. Un Job en Databricks es la forma de programar y ejecutar tu trabajo automáticamente, sin que estés tú dándole al botón. Tomas un notebook o un script que ya funciona y lo conviertes en un job que corre según un horario, por ejemplo cada noche, o cuando se cumple cierta condición. El job enciende su propio cluster, ejecuta las tareas en el orden que definas, maneja las dependencias entre pasos, reintenta si algo falla y te notifica el resultado. Puedes encadenar varias tareas en un flujo, igual que un DAG. Esto es lo que convierte tu trabajo exploratorio en pipelines de producción confiables que corren solos. La transición de hacer las cosas a mano en un notebook a tenerlas como jobs automatizados es justo el salto de aficionado a profesional dentro de Databricks.",
+      "broll": ["databricks jobs scheduler screen", "automated workflow pipeline", "task orchestration dashboard"]
+    },
+    {
+      "title": "Unity Catalog",
+      "tagline": "Gobierno y permisos en un solo lugar",
+      "text": "Y la pieza que une todo con orden es Unity Catalog, la capa de gobierno de Databricks. A medida que creces, aparece el caos: muchas tablas, muchos usuarios, y la pregunta peligrosa de quién puede ver qué. Unity Catalog resuelve eso centralizando el gobierno. Desde un solo lugar defines los permisos: quién accede a cada tabla, qué puede hacer, qué datos son sensibles. Además te da un catálogo unificado de todos tus datos, para que la gente descubra qué existe, y te entrega el linaje automáticamente: ves de dónde viene cada tabla y qué depende de ella. Esto es justo el gobierno de datos del que hablábamos, pero integrado y fácil de usar dentro de la plataforma. Sin algo como Unity Catalog, una plataforma grande se vuelve un far west sin reglas. Con él, tienes seguridad, descubrimiento y trazabilidad, que son indispensables cuando los datos importan de verdad y hay muchas manos tocándolos.",
+      "broll": ["data governance catalog screen", "access permissions security", "data lineage unity catalog"]
+    }
+  ],
+  "outro_text": "En resumen, Databricks desde cero: es la plataforma del lakehouse; Delta Lake le da confiabilidad a tu data lake; los clusters son el motor de cómputo que enciendes y apagas; los jobs automatizan tus pipelines; y Unity Catalog pone el gobierno y los permisos en orden. Por eso tantas empresas se mudan: unifican ingeniería, análisis y machine learning en un solo lugar confiable. Si este video te aclaró Databricks, suscríbete al canal, porque aquí explico las plataformas de datos modernas sin humo y con sentido práctico. Cuéntame en los comentarios si ya usas Databricks, y dale like si quieres un tutorial práctico montando un lakehouse con Delta Lake. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "DATABRICKS",
+    "hook_text": "Databricks aparece en cada oferta de trabajo de datos. Te explico sus piezas clave desde cero, sin marearte.",
+    "hook_broll": ["databricks dashboard screen", "lakehouse architecture"],
+    "points": [
+      {"title": "Delta Lake", "tagline": "Lake confiable", "text": "Delta Lake le da transacciones, updates e historial a tu data lake. Convierte archivos sueltos en un lakehouse de verdad.", "broll": ["delta lake diagram", "data versioning screen"]},
+      {"title": "Clusters", "tagline": "Cómputo bajo demanda", "text": "Los clusters son el motor: se encienden para procesar y se apagan solos. Pagas solo lo que usas.", "broll": ["computing cluster screen", "spark dashboard"]},
+      {"title": "Unity Catalog", "tagline": "Gobierno integrado", "text": "Unity Catalog centraliza permisos, catálogo y linaje. Orden y seguridad cuando hay muchas manos en los datos.", "broll": ["data governance catalog", "access permissions screen"]}
+    ],
+    "cta_text": "En el video completo te explico Databricks entero, de los notebooks a Unity Catalog. Está en el canal, ve a verlo."
+  }
+}

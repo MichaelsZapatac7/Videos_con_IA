@@ -1,0 +1,80 @@
+{
+  "title": "7 Pasos para ser DATA SCIENTIST (de cero)",
+  "description": "La ruta real para convertirte en data scientist contada por un arquitecto de datos: desde abrir un Excel y revisar datos crudos hasta construir modelos predictivos. Sin humo, paso a paso. #datascience #datos #machinelearning #python #sql",
+  "tags": ["data science", "ciencia de datos", "data scientist", "machine learning", "python", "sql", "excel", "analisis de datos", "data architect", "modelos predictivos", "carrera tech", "big data"],
+  "thumbnail_text": "SÉ DATA SCIENTIST",
+  "intro_card": "DATA SCIENCE",
+  "intro_text": "Todo el mundo quiere ser data scientist, pero casi nadie te dice cómo se empieza de verdad. Y no, no necesitas un doctorado ni saber inteligencia artificial desde el día uno. Te lo dice alguien que lleva años trabajando como arquitecto de datos: el camino real es mucho más terrenal y empieza en algo tan simple como abrir un Excel. Hoy te voy a dar los siete pasos exactos para convertirte en data scientist, en orden, desde revisar datos crudos hasta construir modelos que predicen el futuro. Nada de teoría inflada ni atajos mágicos: la ruta que de verdad funciona, la misma que he visto formar a profesionales que hoy ganan muy bien. Quédate hasta el final, porque el paso siete es el que separa a quien hace análisis sueltos de quien se vuelve indispensable en cualquier empresa.",
+  "intro_broll": ["data science analytics dashboard", "person analyzing data charts", "big data visualization screen"],
+  "items": [
+    {
+      "title": "Datos Crudos",
+      "tagline": "Todo empieza abriendo un Excel",
+      "text": "Paso uno, y aquí es donde todo empieza de verdad: aprende a mirar datos crudos. Olvídate por un momento de los algoritmos y la inteligencia artificial. Todo data scientist que conozco, incluido yo, empezó abriendo un Excel y preguntándose qué significan estas columnas. Y está perfecto. Antes de modelar nada, tienes que entender qué tienes entre manos: cuántas filas hay, qué representa cada campo, de dónde salieron esos datos y en quién puedes confiar. Abre el archivo, ordena, filtra, haz una tabla dinámica. Esa curiosidad de hurgar en los datos es la habilidad número uno, y no la enseñan en ningún curso caro. Te doy un secreto de mis años como arquitecto de datos: la mayoría de los proyectos que fracasan, fracasan justo aquí, porque nadie se tomó el tiempo de entender la materia prima. Si no entiendes tu dato crudo, todo lo que construyas encima va a estar mal. Así que empieza simple, empieza en Excel, y aprende a hacerle preguntas a tus datos antes que nada.",
+      "broll": ["excel spreadsheet data screen", "raw data table numbers", "messy csv data file"]
+    },
+    {
+      "title": "Calidad de Datos",
+      "tagline": "Basura entra, basura sale",
+      "text": "Paso dos: la calidad de los datos, o como decimos en el mundo real, basura entra, basura sale. Aquí viene la verdad incómoda que ningún anuncio de cursos te cuenta: vas a pasar el ochenta por ciento de tu tiempo limpiando datos, no entrenando modelos sofisticados. Fechas escritas de cinco formas distintas, nombres con espacios de más, valores vacíos, registros duplicados, números guardados como texto. Ese es el día a día. Un modelo brillante alimentado con datos sucios te dará respuestas sucias, con total seguridad. Por eso, aprender a detectar y arreglar problemas de calidad es lo que separa a un aficionado de un profesional. Define qué es un dato válido, documenta tus reglas y nunca confíes ciegamente en una fuente. Desde mi silla de arquitecto te lo digo claro: los datos limpios y confiables valen más que el algoritmo más avanzado del mundo. Domina esto y ya estarás por delante de muchísima gente que se saltó este paso por correr directo a la parte emocionante.",
+      "broll": ["data cleaning organizing files", "quality control checklist", "database records screen"]
+    },
+    {
+      "title": "Aprende SQL",
+      "tagline": "El idioma para hablar con los datos",
+      "text": "Paso tres: aprende SQL. Si los datos son el petróleo, SQL es como aprendes a extraerlo. La gran mayoría de los datos del mundo viven en bases de datos, no en archivos de Excel sueltos, y SQL es el idioma universal para hablar con ellas. Y tranquilo, es de lo más fácil y rentable que vas a aprender en todo este camino. Con unas pocas instrucciones, como seleccionar, filtrar, agrupar y los famosos joins para cruzar tablas, ya puedes responder preguntas de negocio reales: cuántos clientes compraron este mes, qué producto vende más, qué región está cayendo. Te sorprendería cuántos problemas que la gente intenta resolver con inteligencia artificial se resuelven en realidad con una consulta SQL bien escrita. En mi experiencia montando arquitecturas de datos, el profesional que domina SQL es independiente: no espera a que alguien le pase un reporte, va y se lo saca solo. Esa autonomía es oro puro. Si tuviera que elegir una sola habilidad técnica para empezar a ganar dinero rápido en datos, sin dudarlo sería esta.",
+      "broll": ["sql database query screen", "server database code", "data warehouse servers room"]
+    },
+    {
+      "title": "Explora y Visualiza",
+      "tagline": "Haz que los datos cuenten una historia",
+      "text": "Paso cuatro: análisis exploratorio y visualización. Ya tienes datos limpios y sabes extraerlos; ahora toca escucharlos. El análisis exploratorio es ponerte a investigar como un detective: cuál es el promedio, hay valores raros que se salen de todo, suben y bajan dos cosas a la vez. Aquí entra una dosis de estadística, pero no te asustes: con entender promedios, distribuciones y correlación ya llegas lejísimos. Y luego está la visualización, que es magia pura. Un buen gráfico te muestra en dos segundos un patrón que en una tabla de diez mil filas jamás verías a simple vista. Un histograma, un gráfico de dispersión, una línea de tiempo. Aprende a elegir el gráfico correcto para cada pregunta. Y te lo digo por experiencia: muchas veces el hallazgo que cambia a una empresa no salió de un modelo complejo, salió de alguien que se sentó a graficar los datos y notó algo que nadie más había visto. Esta etapa es donde los datos por fin empiezan a contarte una historia, y tu trabajo es saber escucharla.",
+      "broll": ["data visualization charts graphs", "analyst dashboard graphs screen", "statistics chart laptop"]
+    },
+    {
+      "title": "Salta a Python",
+      "tagline": "De los clics al código",
+      "text": "Paso cinco: da el salto de Excel a Python. Llega un momento en que la hoja de cálculo se queda corta: se traba con millones de filas, no puedes repetir tu trabajo de forma automática y copiar y pegar fórmulas se vuelve una pesadilla. Ahí es cuando Python se convierte en tu mejor amigo. No necesitas ser programador de videojuegos; necesitas dos librerías que lo cambian todo: pandas, para manejar tablas de datos como si fueran un Excel con superpoderes, y numpy, para los cálculos. Con Python, lo que antes te tomaba una tarde entera haciendo clics, lo dejas escrito una sola vez y lo corres en segundos, mil veces, sin errores. Y además aquí se abre la puerta a todo lo demás: la automatización, las gráficas avanzadas y, por supuesto, el machine learning. No tienes que aprenderlo todo de golpe; empieza cargando un archivo con pandas y haciendo lo mismo que hacías en Excel, pero con código. Ese pequeño cambio de mentalidad, de hacer clics a escribir instrucciones, es exactamente el que te transforma en un verdadero data scientist.",
+      "broll": ["python programming code data", "data scientist coding laptop", "jupyter notebook code screen"]
+    },
+    {
+      "title": "Modelos Predictivos",
+      "tagline": "Enséñale a la máquina a predecir",
+      "text": "Paso seis, y aquí llega lo que todos esperaban: los modelos predictivos, el machine learning. Después de todo el camino anterior, por fin le enseñas a la máquina a aprender de los datos para anticipar el futuro. Y empieza más simple de lo que crees: una regresión lineal, que no es más que trazar la mejor línea entre tus puntos para estimar, por ejemplo, el precio de una casa según su tamaño. De ahí escalas a cosas más potentes: árboles de decisión, bosques aleatorios y modelos que predicen si un cliente va a abandonar, si una transacción es un fraude o cuánto venderás el próximo mes. El secreto que poca gente entiende es este: un modelo solo es tan bueno como los datos y el entendimiento que le pusiste en los pasos anteriores. Por eso dejé esto para el final y no para el principio. Cualquiera puede copiar y pegar hoy el código de un modelo; lo difícil, y lo realmente valioso, es saber qué problema resolver, con qué datos hacerlo y si el resultado tiene sentido en el mundo real.",
+      "broll": ["machine learning neural network", "artificial intelligence model graph", "predictive analytics dashboard"]
+    },
+    {
+      "title": "Comunica y Produce",
+      "tagline": "De analista a indispensable",
+      "text": "Y el paso siete, el que convierte a un técnico en un profesional imparable: comunica tu trabajo y llévalo a producción. Puedes tener el modelo más preciso del planeta, pero si no sabes explicarle a tu jefe, que no es técnico, por qué importa y qué decisión tomar, tu trabajo no sirve de nada. Aprende a contar historias con datos: menos jerga, más impacto, una conclusión clara y una recomendación accionable. Esa habilidad vale tanto como toda la parte técnica junta. Y la otra mitad de este paso es poner el modelo a funcionar de verdad: que no se quede en tu computadora, sino que corra de forma automática, conectado a los sistemas, generando valor todos los días. Eso es lo que en mi mundo llamamos llevar el dato a producción, y es donde un data scientist se vuelve indispensable. Domina la comunicación y la puesta en producción, y dejarás de ser alguien que hace análisis sueltos para convertirte en alguien que de verdad mueve la aguja del negocio. Ahí, amigo, ya eres un data scientist completo.",
+      "broll": ["business presentation data charts", "team meeting analytics office", "cloud computing servers deployment"]
+    }
+  ],
+  "outro_text": "Y esos son los siete pasos para convertirte en data scientist: mirar datos crudos, asegurar su calidad, dominar SQL, explorar y visualizar, dar el salto a Python, construir modelos predictivos y, por último, comunicar y poner en producción. Fíjate en algo importante: empezamos en un simple Excel y terminamos con modelos que predicen el futuro, paso a paso, sin saltarnos nada. Ese es el camino real, no el atajo que te venden por ahí. No necesitas un doctorado ni saberlo todo mañana; necesitas constancia y seguir este orden. Si este video te dio claridad sobre por dónde empezar, suscríbete al canal, porque vengo del mundo de la arquitectura de datos y aquí comparto lo que de verdad funciona, sin humo. Déjame en los comentarios en qué paso estás tú ahora mismo, y dale like si quieres que haga un video a fondo de cada uno de estos pasos. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "DATA SCIENCE",
+    "hook_text": "¿Quieres ser data scientist pero no sabes por dónde empezar? No necesitas un doctorado. Necesitas estos pasos, y empiezan en un simple Excel.",
+    "hook_broll": ["data analytics dashboard screen", "person analyzing data laptop"],
+    "points": [
+      {
+        "title": "Datos Crudos",
+        "tagline": "Empieza en Excel",
+        "text": "Todo arranca abriendo un Excel y entendiendo qué tienes. Si no entiendes el dato crudo, todo lo demás se cae.",
+        "broll": ["excel spreadsheet data", "raw data table numbers"]
+      },
+      {
+        "title": "Calidad",
+        "tagline": "Basura entra, basura sale",
+        "text": "Vas a pasar el ochenta por ciento del tiempo limpiando datos, no entrenando modelos. Esa es la verdad que nadie te cuenta.",
+        "broll": ["data cleaning files", "database records screen"]
+      },
+      {
+        "title": "Modelos",
+        "tagline": "Lo último, no lo primero",
+        "text": "Recién al final llegan los modelos predictivos, y son tan buenos como los datos que les diste. Sin base, no hay magia.",
+        "broll": ["machine learning neural network", "predictive analytics dashboard"]
+      }
+    ],
+    "cta_text": "Y esos son solo tres de los siete pasos completos, desde el Excel hasta el machine learning. El video completo está en el canal. Ve a verlo ahora."
+  }
+}

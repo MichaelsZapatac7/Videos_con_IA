@@ -1,0 +1,53 @@
+{
+  "title": "Data Governance explicado sin humo",
+  "description": "Data Governance sin humo: Data Owner, Steward, Custodian, políticas, contratos de datos y linaje, explicado con ejemplos claros y por qué importa de verdad. #datagovernance #datos #dataquality #dataengineering",
+  "tags": ["data governance", "gobierno de datos", "data owner", "data steward", "data custodian", "linaje de datos", "data contracts", "calidad de datos", "datos", "compliance"],
+  "thumbnail_text": "DATA GOVERNANCE",
+  "intro_card": "DATA GOVERNANCE",
+  "intro_text": "Data governance, gobierno de datos. Suena a reunión aburrida y a powerpoint corporativo, y por eso casi nadie lo entiende de verdad. Pero te voy a decir algo: la diferencia entre una empresa cuyos datos son confiables y una donde nadie cree en los números, es justamente el gobierno de datos. Te lo dice alguien que ha visto proyectos brillantes morir porque nadie sabía de quién eran los datos ni si se podía confiar en ellos. Hoy te lo explico sin humo y sin jerga vacía: qué es de verdad el gobierno de datos, quién es el Data Owner, el Steward y el Custodian, y qué son las políticas, los contratos de datos y el linaje. Todo con ejemplos. Quédate al final, porque te digo por dónde empezar sin montar una burocracia que nadie use.",
+  "intro_broll": ["corporate data meeting governance", "data security compliance screen", "organized data management office"],
+  "items": [
+    {
+      "title": "Qué Es de Verdad",
+      "tagline": "Reglas para confiar en tus datos",
+      "text": "Vamos a quitarle el humo. El gobierno de datos es, simplemente, el conjunto de reglas y responsabilidades para que tus datos sean confiables, seguros y útiles. Nada más, y nada menos. Piénsalo como las reglas de tránsito de una ciudad: sin ellas, hay caos y accidentes; con ellas, todo fluye y la gente confía en circular. En los datos pasa igual. Sin gobierno, cada quien guarda lo que quiere como quiere, nadie sabe qué número es el bueno, hay tres versiones de la verdad y nadie se hace responsable cuando algo falla. Con gobierno, hay claridad: se sabe qué datos existen, quién responde por ellos, quién puede verlos y si se puede confiar. No se trata de controlar por controlar, se trata de que cuando alguien tome una decisión importante con un dato, ese dato sea de fiar. Eso es todo.",
+      "broll": ["traffic rules organized city", "data trust concept screen", "clean organized database"]
+    },
+    {
+      "title": "Owner, Steward, Custodian",
+      "tagline": "Quién manda, quién cuida, quién opera",
+      "text": "Aquí viene lo que más confunde: los tres roles. Te los explico con una analogía simple. El Data Owner, el dueño, es como el dueño de un restaurante: toma las decisiones importantes y responde por ese conjunto de datos. Decide quién accede y para qué; suele ser alguien del negocio, no de tecnología. El Data Steward, el administrador, es como el chef ejecutivo: cuida la calidad y el significado de los datos en el día a día, define qué quiere decir cada campo y vigila que se cumplan las reglas. Y el Data Custodian, el custodio, es como el equipo de mantenimiento: es técnico, se encarga de la infraestructura, los respaldos, la seguridad y de que todo funcione. Owner decide, Steward cuida el significado, Custodian opera la máquina. Cuando estos tres roles están claros, sabes exactamente a quién acudir; cuando no, todo es de todos y por eso no es de nadie.",
+      "broll": ["restaurant team roles", "three people responsibility chart", "team organization diagram"]
+    },
+    {
+      "title": "Políticas",
+      "tagline": "Las reglas escritas del juego",
+      "text": "Las políticas son las reglas escritas del juego, y son el músculo del gobierno. Responden preguntas concretas: quién puede acceder a los datos sensibles de clientes, cuánto tiempo guardamos cada tipo de dato antes de borrarlo, cómo clasificamos lo confidencial frente a lo público, qué pasos hay que seguir para crear una nueva tabla. Sin políticas, cada persona improvisa y aparecen los problemas: datos personales expuestos, información que se guarda para siempre sin razón, o accesos que nadie controla. Pero ojo, y esto es clave: una política que nadie entiende ni cumple no sirve de nada, solo es papel. Las buenas políticas son claras, cortas y realistas, pensadas para que la gente las pueda seguir de verdad. Mejor tres reglas que todos respetan que treinta páginas que nadie lee. La meta no es la burocracia, es la claridad.",
+      "broll": ["policy document checklist screen", "security access control", "rules compliance technology"]
+    },
+    {
+      "title": "Contratos de Datos",
+      "tagline": "Un acuerdo entre quien produce y quien consume",
+      "text": "Los contratos de datos son una de las ideas más potentes y modernas del gobierno, y resuelven un dolor enorme. Imagina que tu pipeline depende de una tabla que produce otro equipo. Un día, sin avisar, ellos cambian el nombre de una columna o el formato de una fecha, y tu proceso se rompe en silencio. Un contrato de datos evita justo eso: es un acuerdo explícito entre quien produce los datos y quien los consume, donde se define la estructura, los tipos, las reglas de calidad y qué se promete entregar. Si el productor quiere cambiar algo que rompe el contrato, tiene que avisar y coordinar. Es como un contrato entre proveedor y cliente, pero para datos. Esto trae estabilidad y confianza entre equipos, y elimina esos errores misteriosos que aparecen porque alguien cambió algo aguas arriba sin que nadie se enterara.",
+      "broll": ["contract agreement handshake", "data schema definition screen", "api contract technology"]
+    },
+    {
+      "title": "Linaje de Datos",
+      "tagline": "De dónde viene cada número",
+      "text": "Y llegamos al linaje, que para mí es la joya del gobierno. El linaje de datos es el mapa que muestra de dónde viene cada dato y por dónde pasó: desde la fuente original, a través de cada transformación, hasta el reporte final que ve el gerente. ¿Por qué es tan valioso? Imagina que un directivo ve una cifra rara en un dashboard y pregunta de dónde sale esto. Sin linaje, empieza una investigación de horas o días rastreando a mano. Con linaje, en segundos ves toda la cadena: esta cifra viene de esta tabla, que se calculó con estos datos, que salieron de este sistema. Además, si vas a cambiar algo, el linaje te muestra qué reportes se verían afectados antes de romper nada. Es transparencia total y la base de la confianza. Cuando puedes responder de dónde viene este número al instante, ahí tienes un gobierno de datos que de verdad funciona.",
+      "broll": ["data lineage flow diagram", "connected nodes graph screen", "data tracing visualization"]
+    }
+  ],
+  "outro_text": "Sin humo: el gobierno de datos son las reglas y responsabilidades para confiar en tus datos. El Owner decide, el Steward cuida el significado, el Custodian opera; las políticas ponen las reglas, los contratos de datos dan estabilidad entre equipos y el linaje te muestra de dónde viene cada número. Y por dónde empezar sin burocracia: elige tus datos más críticos, asígnales un dueño claro y traza su linaje. Eso solo ya cambia el juego. Si este video te sirvió, suscríbete al canal, porque aquí explico gobierno y arquitectura de datos real, aplicable. Cuéntame en los comentarios si en tu empresa hay gobierno de datos o puro caos, y dale like si quieres una guía práctica para implementarlo. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "DATA GOVERNANCE",
+    "hook_text": "Gobierno de datos suena aburrido, pero es la diferencia entre confiar en tus números o no. Sin humo, en treinta segundos.",
+    "hook_broll": ["data governance meeting", "data security screen"],
+    "points": [
+      {"title": "3 Roles", "tagline": "Owner, Steward, Custodian", "text": "El Owner decide y responde, el Steward cuida el significado y la calidad, el Custodian opera la infraestructura.", "broll": ["team roles chart", "responsibility diagram"]},
+      {"title": "Contratos", "tagline": "Acuerdo productor-consumidor", "text": "Un contrato de datos evita que otro equipo cambie una columna y rompa tu pipeline en silencio.", "broll": ["data schema screen", "contract agreement"]},
+      {"title": "Linaje", "tagline": "De dónde viene cada dato", "text": "El linaje te muestra el origen de cada número en segundos. Esa transparencia es la base de la confianza.", "broll": ["data lineage diagram", "connected nodes graph"]}
+    ],
+    "cta_text": "En el video completo te explico los roles, las políticas y cómo empezar sin montar burocracia. Está en el canal, ve a verlo."
+  }
+}

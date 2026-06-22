@@ -1,0 +1,80 @@
+{
+  "title": "7 Reglas para Escribir Código LIMPIO",
+  "description": "Tu código funciona, pero ¿lo entiende alguien más? Estas son las 7 reglas que separan a un dev junior de uno senior: nombres, funciones, DRY, errores, tests y más. #programacion #codigolimpio #desarrollo",
+  "tags": ["codigo limpio", "clean code", "programacion", "desarrollo de software", "buenas practicas", "dev", "programador", "refactor", "tests", "python", "javascript", "ingenieria de software"],
+  "thumbnail_text": "CÓDIGO LIMPIO",
+  "intro_card": "CÓDIGO LIMPIO",
+  "intro_text": "Déjame adivinar. Abriste un archivo que escribiste hace seis meses y no entendiste absolutamente nada. Tranquilo, nos ha pasado a todos. La verdad incómoda es esta: que tu código funcione no significa que sea buen código. La máquina se conforma con que compile, pero las personas que lo van a leer después, incluido tú, necesitan mucho más que eso. El código limpio no es una cuestión de estética ni de presumir. Es lo que decide si un proyecto se puede mantener o si se convierte en una bomba de tiempo que nadie quiere tocar. Hoy te voy a dar siete reglas concretas que aplican los desarrolladores senior, sin importar el lenguaje que uses. Nada de teoría aburrida: ejemplos reales y cosas que puedes aplicar hoy mismo. Quédate hasta el final, porque la regla número siete es la que de verdad te convierte en un mejor programador.",
+  "intro_broll": ["programmer typing code keyboard", "messy tangled code screen", "frustrated software developer night"],
+  "items": [
+    {
+      "title": "Buenos Nombres",
+      "tagline": "Que el código se lea como una frase",
+      "text": "Regla número uno, y es la que más impacto tiene: los nombres lo son todo. Un buen nombre te ahorra un comentario, te ahorra una explicación y, sobre todo, te ahorra tener que adivinar. Si ves una variable llamada equis, data o temp, no tienes ni idea de qué guarda. Pero si la llamas usuariosActivos o precioConImpuesto, el código se lee casi como una frase en español. La prueba es sencilla: si necesitas poner un comentario al lado para explicar qué significa algo, es que el nombre está mal elegido. Con las funciones pasa igual. Una que se llama procesar no dice nada; una que se llama enviarCorreoDeBienvenida te dice exactamente qué esperar. Y no te preocupes si el nombre queda largo. Es mil veces mejor un nombre largo y claro que uno corto y misterioso. Nadie ha perdido su trabajo por escribir una variable de más. Tómate esos cinco segundos extra al nombrar las cosas, porque tu yo del futuro, peleando con un bug a medianoche, te lo va a agradecer muchísimo.",
+      "broll": ["clean code editor screen", "programmer reading code closeup", "source code variable names"]
+    },
+    {
+      "title": "Funciones Cortas",
+      "tagline": "Una función, una sola tarea",
+      "text": "Regla número dos: funciones pequeñas que hagan una sola cosa. Si tienes una función de doscientas líneas que valida datos, guarda en la base, manda un correo y de paso prepara el café, eso no es una función, son cinco funciones disfrazadas de una. El problema llega cuando algo falla: tienes que leer las doscientas líneas enteras para encontrar el error. La regla práctica es esta: si para describir qué hace tu función necesitas usar la palabra y varias veces, divídela. Una función debería caber casi entera en tu pantalla sin tener que hacer scroll. Cuando cada función hace una sola cosa, el código se vuelve como piezas de lego: las combinas, las reutilizas y las pruebas por separado sin miedo. Además, leer el código se vuelve un placer, porque los nombres de esas funciones pequeñas te cuentan la historia completa de lo que pasa, paso a paso. Menos es más. Si dudas entre dejar una función grande o partirla en dos, casi siempre la respuesta correcta es partirla.",
+      "broll": ["modular code blocks screen", "developer refactoring code", "software function code editor"]
+    },
+    {
+      "title": "No Te Repitas",
+      "tagline": "DRY: una verdad, un solo lugar",
+      "text": "Regla número tres, y seguramente la más famosa: no te repitas. En inglés la conocerás como DRY. La idea es simple: cada pieza de lógica debería vivir en un único lugar de tu proyecto. Cuando copias y pegas el mismo bloque de código en cinco sitios, estás creando cinco futuros problemas. ¿Por qué? Porque el día que cambie esa regla, vas a tener que acordarte de modificarla en los cinco lugares, y te aseguro que uno se te va a escapar. Ese olvido es el origen de un montón de bugs misteriosos. La solución es sacar esa lógica a una función o a un módulo y llamarla desde donde la necesites. Así, cuando algo cambie, lo cambias una vez y listo. Ahora, cuidado, no te obsesiones: a veces dos trozos de código se parecen por pura casualidad y no representan la misma idea. Forzar que todo sea genérico también hace daño. La clave no es eliminar texto repetido, sino eliminar conocimiento repetido. Si es la misma regla de negocio, únela; si solo se parecen, déjalas en paz.",
+      "broll": ["copy paste duplicate code", "repeated geometric pattern abstract", "developer thinking at computer"]
+    },
+    {
+      "title": "Comenta el Porqué",
+      "tagline": "El código dice qué; tú explica por qué",
+      "text": "Regla número cuatro: comenta el porqué, no el qué. Mucha gente cree que tener más comentarios es tener mejor código, y no es así. Un comentario que dice sumar uno al contador justo encima de una línea que suma uno al contador no aporta nada; solo es ruido que algún día quedará desactualizado. El buen código se explica solo con buenos nombres y funciones claras; eso ya cuenta el qué. Para lo que sí sirven los comentarios es para explicar el porqué: esa decisión rara que tomaste, ese caso especial de un cliente concreto, o por qué elegiste una solución que parece extraña pero tiene una razón de fondo. Ese contexto no se puede leer en el código, vive solo en tu cabeza, y un comentario es la forma de dejarlo por escrito. Una buena pregunta antes de comentar es: ¿esto se entiende solo? Si la respuesta es sí, borra el comentario. Si la respuesta es no, primero intenta mejorar el código, y solo si sigue sin quedar claro, entonces escribe el comentario que explique el motivo.",
+      "broll": ["code comments documentation screen", "developer writing notes", "team reviewing code together"]
+    },
+    {
+      "title": "Maneja Errores",
+      "tagline": "No escondas los problemas: gestiónalos",
+      "text": "Regla número cinco: maneja los errores de verdad, no los escondas debajo de la alfombra. Todos hemos visto ese bloque try catch vacío que atrapa el error y no hace absolutamente nada con él. Eso es como apagar la alarma de incendios para no escuchar el ruido: el fuego sigue ahí, solo que ahora no te enteras. Cuando algo pueda fallar, decide conscientemente qué hacer: avísale al usuario con un mensaje claro, registra el error en un log para poder investigarlo después, o vuelve a intentarlo si tiene sentido. Lo que nunca debes hacer es tragarte el error en silencio, porque esos son los bugs más caros y más difíciles de encontrar. Y por favor, los mensajes de error tienen que ser útiles. Algo salió mal no le sirve a nadie. En cambio, no se pudo conectar con la base de datos en el puerto cinco mil cuatrocientos treinta y dos te ahorra horas de investigación. Tratar bien los errores es lo que separa una app que se cae sin explicación de una que falla con elegancia y te dice exactamente qué pasó.",
+      "broll": ["error message red screen", "developer debugging code", "software bug warning screen"]
+    },
+    {
+      "title": "Escribe Tests",
+      "tagline": "Tu red de seguridad para cambiar sin miedo",
+      "text": "Regla número seis: escribe pruebas, los famosos tests. Sé lo que estás pensando: que no hay tiempo, que el proyecto va con prisa, que los tests son para después. Y casi siempre ese después no llega nunca. Pero piénsalo al revés. Sin pruebas, cada vez que cambias algo estás rezando para no haber roto otra cosa en otra parte del sistema. Con pruebas, cambias con tranquilidad, porque si algo se rompe, el test te avisa al instante, no tu usuario enojado tres días más tarde. No necesitas probar absolutamente todo desde el primer día. Empieza por lo más importante: la lógica de negocio crítica, esa parte que si falla te cuesta dinero o usuarios. Un buen test es como una pequeña red de seguridad debajo del trapecista: te permite arriesgarte, refactorizar y mejorar el código sin pánico. Y un detalle que poca gente menciona: los tests también son documentación. Cuando alguien quiere entender cómo se usa una función, leer su prueba le muestra ejemplos reales de cómo se comporta. Invertir en tests no es perder tiempo, es comprar tranquilidad.",
+      "broll": ["software testing green checkmark", "automated test dashboard", "developer running tests laptop"]
+    },
+    {
+      "title": "Déjalo Mejor",
+      "tagline": "La regla del boy scout del código",
+      "text": "Y llegamos a la regla número siete, mi favorita, la que de verdad te transforma como programador: deja el código siempre un poco mejor de como lo encontraste. Los programadores la llamamos la regla del boy scout, porque ellos dejan el campamento más limpio de como llegaron. No se trata de parar todo para hacer una reforma gigante; eso casi nunca se aprueba. Se trata de pequeñas mejoras constantes. Estás arreglando un bug y de paso ves una variable con mal nombre, la renombras. Encuentras una función enorme, separas un trozo. Ves un comentario viejo que ya no aplica, lo borras. Cada cambio es minúsculo, pero sumados a lo largo de meses, evitan que el proyecto se pudra. Porque el código no se vuelve un desastre de un día para otro; se pudre poco a poco, con cada atajo que nadie corrige. Esta regla es la diferencia entre un proyecto que da gusto abrir y uno que todo el equipo teme tocar. Y lo mejor es que no depende de tu jefe ni de tener tiempo extra: depende solo de ti, en cada commit que haces.",
+      "broll": ["clean organized developer workspace", "team code review meeting", "developer collaboration whiteboard"]
+    }
+  ],
+  "outro_text": "Y esas son las siete reglas para escribir código limpio: buenos nombres, funciones cortas, no repetirte, comentar el porqué, manejar bien los errores, escribir pruebas y dejar todo siempre mejor de como lo encontraste. Ninguna es complicada; lo difícil es ser constante. Pero si las aplicas todos los días, en unos meses la diferencia en tu código va a ser brutal, y tus compañeros lo van a notar. Si este video te sirvió, suscríbete al canal, porque cada semana subo contenido para ayudarte a crecer como desarrollador. Déjame en los comentarios cuál de estas reglas te cuesta más, y dale like si quieres una segunda parte con principios más avanzados. Nos vemos en el próximo video.",
+  "short": {
+    "hook_card": "CÓDIGO LIMPIO",
+    "hook_text": "Tu código funciona, pero si nadie lo entiende, incluido tú en tres meses, tienes un problema serio. Aquí van tres reglas de oro para escribir código limpio.",
+    "hook_broll": ["messy code screen closeup", "frustrated programmer night"],
+    "points": [
+      {
+        "title": "Buenos Nombres",
+        "tagline": "Que se expliquen solos",
+        "text": "Si necesitas un comentario para explicar qué hace una variable, el nombre está mal. Un buen nombre se entiende solo.",
+        "broll": ["clean code editor screen", "source code closeup"]
+      },
+      {
+        "title": "Funciones Cortas",
+        "tagline": "Una función, una tarea",
+        "text": "Si tu función hace cinco cosas, en realidad son cinco funciones disfrazadas de una. Divídela.",
+        "broll": ["modular code blocks", "developer refactoring code"]
+      },
+      {
+        "title": "Déjalo Mejor",
+        "tagline": "La regla del boy scout",
+        "text": "Cada vez que tocas un archivo, déjalo un poquito más limpio de como lo encontraste. Pequeños cambios, gran diferencia.",
+        "broll": ["clean organized workspace", "team code review"]
+      }
+    ],
+    "cta_text": "Y esas son solo tres. Las siete reglas completas, con ejemplos reales, están en el video del canal. Ve a verlo ahora, te va a servir muchísimo."
+  }
+}
