@@ -24,7 +24,7 @@ export const MZVideo: React.FC<VideoProps> = ({segments, channel, music, logo}) 
       {logo
         ? <LogoWatermark src={logo} vertical={vertical} />
         : <BrandMark channel={channel} accent={accent} vertical={vertical} />}
-      {music ? <Audio loop src={staticFile(music)} volume={0.2} /> : null}
+      {music ? <Audio loop src={staticFile(music)} volume={0.1} /> : null}
     </AbsoluteFill>
   );
 };

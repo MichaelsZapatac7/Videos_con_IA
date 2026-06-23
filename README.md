@@ -44,15 +44,22 @@ Cómo diseñar un Lakehouse desde cero | para alguien que viene de Excel
 
 ---
 
-## 🎙️ Las dos voces
+## 🎙️ Las voces (default: `fish`)
 
 | Voz | Cómo | Cuándo usarla |
 |-----|------|---------------|
-| **`f5`** | Tu voz clonada local (F5-TTS), **gratis** | Contenido general. Ver [PENDIENTES_VOZ_F5.md](PENDIENTES_VOZ_F5.md) |
-| **`elevenlabs`** | Tu voz en ElevenLabs (API de pago) | **Términos técnicos en inglés** (más clara) hasta pulir F5 |
+| **`fish`** ⭐ | Tu voz clonada local con **OpenAudio S2-pro** (Fish Speech), gratis | **Recomendada.** Mejor naturalidad, acento latino y términos en inglés. Corre en `.venv-fish` |
+| **`f5`** | Tu voz clonada local (F5-TTS), gratis | Alternativa rápida (más ligera). Ver [PENDIENTES_VOZ_F5.md](PENDIENTES_VOZ_F5.md) |
+| **`elevenlabs`** | Tu voz en ElevenLabs (API de pago) | Respaldo en la nube |
 
-> Por ahora, para videos muy técnicos conviene `elevenlabs`; F5 tiene 2 ajustes
-> pendientes (velocidad y una muletilla). Detalle en `PENDIENTES_VOZ_F5.md`.
+Config de `fish` (en `producir.py`): referencia neutral `mi_voz_ref_calm.wav`,
+temperatura 0.9, marcadores de emoción (`[super happy]` en intro/cierre), ritmo
+~1.07x y recorte de silencios. El modelo de 9 GB se carga **una vez por video**.
+
+> **Entorno Fish** (primera vez): `py -3.11 -m venv .venv-fish`, instalar torch
+> cu128 + `pip install -e ./fish-speech-src`, descargar `fishaudio/s2-pro`
+> (gated: requiere `HF_TOKEN`) a `fish-speech-src/checkpoints/s2-pro`. El detalle
+> exacto quedó en el historial; `fish_synth.py` espera esa ruta.
 
 ---
 

@@ -86,6 +86,27 @@ def load_env() -> dict:
 ENV = load_env()
 CLAUDE_MODEL = ENV.get("CLAUDE_MODEL", "claude-sonnet-4-6")
 
+# ── Voz Fish / OpenAudio S2-pro (la mejor; corre en .venv-fish) ──────────────
+VENV_FISH = REPO / ".venv-fish"
+FISH_CKPT = str(REPO / "fish-speech-src" / "checkpoints" / "s2-pro")
+FISH_REF = str(PKG / "assets" / "voces" / "mi_voz_ref_calm.wav")
+FISH_REF_TEXT = ("Pasaron la prueba de calidad. ¿Y sabes cuál quedó en primer lugar? Tranquilo, "
+                 "no te voy a adelantar nada todavía. Ahora presta mucha atención a este detalle, "
+                 "porque casi nadie lo menciona. La calidad de tu voz depende, sobre todo, de la "
+                 "muestra que le das al modelo. Si grabas con ruido, sonará con ruido.")
+FISH_TEMP = 0.9
+FISH_ATEMPO = 1.07   # ritmo aprobado (ni perezoso ni apresurado)
+FISH_SEED = 1
+
+
+def _fish_text(seg: dict) -> str:
+    """Aplica marcadores de emoción ligeros según el tipo de segmento (S2 los entiende)."""
+    text = (seg.get("text") or "").strip()
+    kind = seg.get("kind")
+    if kind in ("welcome", "topic", "outro"):
+        return "[super happy] " + text   # apertura/cierre con energía de YouTube
+    return text                          # bloques técnicos: limpios (claridad)
+
 
 # ── Generación del plan con Claude (HTTP, con reintentos por DNS) ─────────────
 PLAN_SYSTEM = ("Eres un guionista experto de YouTube para el canal MZSHARD "
@@ -322,20 +343,48 @@ def _seg_audio(audio_dir, i):
     return None
 
 
+def _fish_generate(segments, audio_dir):
+    """Genera por LOTE los audios faltantes con S2-pro (un subproceso, una carga del modelo)."""
+    items = [{"path": str(audio_dir / f"seg_{i:03d}.wav"), "text": _fish_text(seg)}
+             for i, seg in enumerate(segments) if _seg_audio(audio_dir, i) is None]
+    if not items:
+        return
+    cfg = {"ckpt": FISH_CKPT, "ref_wav": FISH_REF, "ref_text": FISH_REF_TEXT,
+           "temperature": FISH_TEMP, "top_p": 0.8, "repetition_penalty": 1.1,
+           "seed": FISH_SEED, "atempo": FISH_ATEMPO, "items": items}
+    cfgf = audio_dir / "_fish_cfg.json"
+    cfgf.write_text(json.dumps(cfg, ensure_ascii=False), encoding="utf-8")
+    py = VENV_FISH / "Scripts" / "python.exe"
+    if not py.exists():
+        raise SystemExit(f"No existe {py} (entorno .venv-fish). Ver README.")
+    env = dict(os.environ, PYTHONUTF8="1", HF_HUB_DISABLE_XET="1")
+    if ENV.get("HF_TOKEN"):
+        env["HF_TOKEN"] = ENV["HF_TOKEN"]
+    print(f"  [fish] generando {len(items)} segmento(s) con S2-pro (carga única)...", flush=True)
+    r = subprocess.run([str(py), "-m", "youtube_pipeline.fish_synth", str(cfgf)],
+                       cwd=str(REPO), env=env)
+    if r.returncode != 0:
+        raise RuntimeError("fish_synth falló (voz Fish)")
+
+
 def prepare(segments, job_dir, is_short, voice, speed):
     (job_dir / "audio").mkdir(parents=True, exist_ok=True)
     (job_dir / "img").mkdir(parents=True, exist_ok=True)
     orient = "portrait" if is_short else "landscape"
     max_shots = 3 if is_short else 5
     vid = ENV.get("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")
+    if voice == "fish":
+        _fish_generate(segments, job_dir / "audio")   # lote: una sola carga del modelo
     for i, seg in enumerate(segments):
         text = (seg.get("text") or "").strip()
         audio = _seg_audio(job_dir / "audio", i)
         if audio is None:                                  # reanudable: si ya existe, no regenera
             if voice == "f5":
                 audio = f5_tts(text, job_dir / "audio" / f"seg_{i:03d}.wav", speed=speed)
-            else:
+            elif voice == "elevenlabs":
                 audio = el_tts(text, job_dir / "audio" / f"seg_{i:03d}.mp3", vid)
+            else:
+                raise RuntimeError(f"Falta el audio del segmento {i} (voz {voice})")
         dur = _audio_dur(audio)
         print(f"    [{i+1}/{len(segments)}] {seg.get('kind')} voz {dur:.0f}s", flush=True)
         if seg.get("kind") in ("topic", "item") and seg.get("broll"):
@@ -465,8 +514,8 @@ def produce_one(topic, detalles, voice, canal, do_short, plan_file, music_name, 
 def main():
     ap = argparse.ArgumentParser(description="Pipeline unificado MZSHARD (voz F5/ElevenLabs + Remotion).")
     ap.add_argument("tema", nargs="?", help="Nombre/tema del video")
-    ap.add_argument("--voz", choices=["f5", "elevenlabs"], default="elevenlabs",
-                    help="Voz de la narración (default: elevenlabs)")
+    ap.add_argument("--voz", choices=["fish", "f5", "elevenlabs"], default="fish",
+                    help="Voz: fish (S2-pro, la mejor) | f5 | elevenlabs (default: fish)")
     ap.add_argument("--detalles", default="", help="Indicaciones extra para el guion")
     ap.add_argument("--plan-file", default=None, help="Usar un plan .json ya escrito (no llama a Claude)")
     ap.add_argument("--canal", default="MZSHARD")

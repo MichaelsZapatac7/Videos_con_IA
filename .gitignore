@@ -5,11 +5,14 @@ __pycache__/
 .env
 youtube_pipeline/.env
 
-# Entorno de voz local (pesado, se reinstala con SETUP_VOZ_LOCAL.md)
+# Entornos de voz local (pesados, se reinstalan)
 .venv-voz/
+.venv-fish/
+fish-speech-src/
 
 # Salidas de prueba de voz (desechables)
 prueba*.wav
+fish_*.wav
 
 # Muestras de voz (binarios locales; se regeneran desde tu grabación)
 youtube_pipeline/assets/voces/*.wav
