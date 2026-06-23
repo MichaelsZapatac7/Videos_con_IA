@@ -1,2 +1,15 @@
 __pycache__/
 *.pyc
+
+# Secretos: nunca subir claves
+.env
+youtube_pipeline/.env
+
+# Entorno de voz local (pesado, se reinstala con SETUP_VOZ_LOCAL.md)
+.venv-voz/
+
+# Salidas de prueba de voz (desechables)
+prueba*.wav
+
+# Muestras de voz (binarios locales; se regeneran desde tu grabación)
+youtube_pipeline/assets/voces/*.wav

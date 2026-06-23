@@ -10,3 +10,9 @@
 # Guía completa: SETUP_VOZ_LOCAL.md
 
 coqui-tts>=0.25.0
+
+# Compatibilidad con torch 2.9+ (probado en torch 2.11 / RTX 5090):
+# - transformers 5.x rompe XTTS (quita isin_mps_friendly) -> fijar a la rama 4.x.
+# - torch 2.9+ exige torchcodec para IO de audio.
+transformers>=4.57,<5
+torchcodec

@@ -12,6 +12,7 @@ La misma interfaz que voiceover_elevenlabs.py para que el resto del pipeline
 """
 
 import os
+import glob
 from pathlib import Path
 from typing import Optional
 
@@ -19,6 +20,37 @@ from ..config import cfg
 
 # Aceptar la licencia de Coqui sin prompt interactivo (Coqui Public Model License).
 os.environ.setdefault("COQUI_TOS_AGREED", "1")
+
+# Evitar el almacenamiento "Xet" de Hugging Face (host xethub que algunos DNS no
+# resuelven). Fuerza la descarga por el CDN clásico de HF.
+os.environ.setdefault("HF_HUB_DISABLE_XET", "1")
+
+
+def _register_ffmpeg_dlls() -> None:
+    """
+    torch >= 2.9 usa `torchcodec` para IO de audio, y en Windows este necesita
+    las DLLs *compartidas* de FFmpeg 4–7 (la 8 aún no está soportada). Como el
+    FFmpeg del sistema suele ser estático o v8, incluimos un FFmpeg 7 "shared"
+    propio dentro de .venv-voz y registramos su carpeta `bin` para que Windows
+    encuentre las DLLs ANTES de importar TTS. Sin esto, el pipeline en modo
+    `local` falla con "Could not load libtorchcodec_core*.dll".
+    """
+    if os.name != "nt":
+        return
+    # 1) Override manual por si la ruta cambia.
+    override = os.environ.get("LOCAL_FFMPEG_DLL_DIR")
+    candidates = [override] if override else []
+    # 2) Búsqueda automática dentro del venv de voz.
+    venv = Path(__file__).resolve().parents[2] / ".venv-voz" / "ffmpeg7-shared"
+    candidates += glob.glob(str(venv / "*" / "bin"))
+    for c in candidates:
+        if c and Path(c, "avcodec-61.dll").exists():
+            try:
+                os.add_dll_directory(c)
+            except (OSError, AttributeError):
+                pass
+            return
+
 
 # El modelo es pesado: se carga UNA sola vez y se reutiliza (singleton).
 _tts_model = None
@@ -29,6 +61,10 @@ def _get_model():
     global _tts_model
     if _tts_model is not None:
         return _tts_model
+
+    # Registrar las DLLs de FFmpeg 7 ANTES de importar TTS (torchcodec las carga
+    # al importar). Imprescindible en Windows con torch >= 2.9.
+    _register_ffmpeg_dlls()
 
     import torch
     from TTS.api import TTS
