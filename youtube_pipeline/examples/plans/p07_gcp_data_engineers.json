@@ -1,0 +1,53 @@
+{
+  "title": "GCP para Data Engineers: cómo encaja todo",
+  "description": "GCP para ingenieros de datos: Buckets, BigQuery, Composer, DAGs y Jobs explicados y cómo se conectan en una arquitectura real de datos. #gcp #dataengineering #bigquery #composer #cloud",
+  "tags": ["gcp", "google cloud", "data engineer", "bigquery", "cloud composer", "airflow", "dags", "cloud storage", "ingenieria de datos", "arquitectura cloud"],
+  "thumbnail_text": "GCP PARA DATA",
+  "intro_card": "GCP PARA DATA ENGINEERS",
+  "intro_text": "Google Cloud tiene tantos servicios que es fácil perderse y sentir que nunca vas a entender cómo encaja todo. Pero aquí está la buena noticia: para datos, en realidad solo necesitas dominar un puñado de piezas, y cuando entiendes cómo se conectan, todo cobra sentido. Te lo dice alguien que ha montado arquitecturas de datos en GCP: no se trata de memorizar cien servicios, sino de entender los cinco que importan y cómo trabajan juntos. Hoy te voy a explicar los bloques esenciales de GCP para un data engineer: los Buckets, BigQuery, Composer, los DAGs y los Jobs, y cómo se conectan en una arquitectura real, de principio a fin. Quédate al final, porque te ato todo con el ejemplo de un pipeline completo funcionando.",
+  "intro_broll": ["google cloud platform dashboard", "cloud data architecture screen", "data engineer cloud console"],
+  "items": [
+    {
+      "title": "Cloud Storage (Buckets)",
+      "tagline": "El almacén barato de todo",
+      "text": "Empecemos por la base de todo: Cloud Storage, donde guardas tus datos en lo que se llaman buckets, o cubetas. Un bucket es simplemente un contenedor donde tiras archivos de cualquier tipo: CSVs, JSONs, Parquet, imágenes, lo que sea. Es almacenamiento de objetos: barato, prácticamente infinito y súper confiable. En una arquitectura de datos, el bucket es donde aterrizan los datos crudos cuando llegan, tu capa raw vive aquí. Piensa en él como un disco duro gigante en la nube al que todos los demás servicios pueden acceder. Es el punto de partida del flujo: los datos caen en un bucket, y desde ahí los demás servicios los toman para procesarlos. Lo bonito es que separas el almacenamiento, que es barato y permanente, del procesamiento, que solo pagas cuando lo usas. Dominar buckets es lo primero, porque todo lo demás se conecta a ellos.",
+      "broll": ["cloud storage buckets icon screen", "file storage cloud data", "data lake storage technology"]
+    },
+    {
+      "title": "BigQuery",
+      "tagline": "El warehouse que consulta millones en segundos",
+      "text": "La joya de la corona de GCP para datos es BigQuery, su data warehouse. Y es impresionante. Es un almacén donde guardas datos estructurados en tablas y los consultas con SQL normal, pero a una escala brutal: puede analizar terabytes de datos en segundos, porque distribuye el trabajo entre miles de máquinas por debajo sin que tú lo notes. No administras servidores, solo escribes tu consulta y pagas por lo que procesas. En la arquitectura, BigQuery suele ser tu capa curada y de consumo: aquí viven las tablas limpias y modeladas que alimentan los reportes y dashboards. Los analistas viven en BigQuery escribiendo SQL para responder preguntas de negocio. Conecta directamente con herramientas de visualización como Looker. Si los buckets son tu almacén crudo, BigQuery es tu cocina donde los datos se sirven listos para consumir. Dominar BigQuery es, para muchos, el corazón de ser data engineer en GCP.",
+      "broll": ["bigquery sql console screen", "data warehouse query results", "fast analytics dashboard"]
+    },
+    {
+      "title": "DAGs",
+      "tagline": "El mapa de pasos y dependencias",
+      "text": "Antes de hablar de la herramienta que orquesta, tienes que entender el concepto de DAG, que verás por todos lados. DAG significa grafo acíclico dirigido, pero olvídate del nombre técnico. En la práctica, un DAG es simplemente el mapa de tu pipeline: define qué pasos hay que ejecutar y en qué orden, respetando las dependencias. Por ejemplo: primero trae los datos del bucket, después límpialos, luego cárgalos en BigQuery, y al final corre los controles de calidad. Cada paso es una tarea, y las flechas indican qué debe terminar antes de que empiece lo siguiente. Lo de acíclico significa que no hay vueltas infinitas: el flujo siempre avanza hacia adelante. Visualizar tu pipeline como un DAG es poderoso porque ves de un vistazo todo el proceso, qué depende de qué, y dónde falló si algo se rompe. Es el plano de ejecución de tu pipeline.",
+      "broll": ["dag workflow diagram nodes", "pipeline dependency graph screen", "workflow steps visualization"]
+    },
+    {
+      "title": "Cloud Composer",
+      "tagline": "El director de orquesta (Airflow)",
+      "text": "Ahora sí, quién ejecuta esos DAGs: Cloud Composer, que es la versión gestionada de Airflow dentro de GCP. Composer es el director de orquesta de tu pipeline. Tú le entregas tus DAGs, escritos en Python, y él se encarga de todo lo demás: ejecuta cada tarea en el orden correcto, respeta las dependencias, programa cuándo corre cada pipeline, reintenta automáticamente si algo falla y te avisa cuando hay problemas. En vez de tener a alguien ejecutando scripts a mano cada mañana, Composer hace que todo corra solo, fiable y a tiempo. Y te da una interfaz visual donde ves el estado de cada pipeline, qué tareas pasaron, cuáles fallaron y por qué. Esto es lo que convierte un montón de scripts sueltos en un sistema de datos profesional y automatizado. Composer es el cerebro que mantiene todo funcionando sin que tengas que estar encima.",
+      "broll": ["airflow composer dashboard screen", "orchestration workflow monitoring", "conductor orchestra concept"]
+    },
+    {
+      "title": "Jobs y Cómo Conecta Todo",
+      "tagline": "El flujo completo de principio a fin",
+      "text": "Cerremos con los Jobs y atemos todo. Un job es, simplemente, una unidad de trabajo que se ejecuta: puede ser un script de Python que transforma datos, un trabajo de Spark que procesa a gran escala, o una consulta que carga una tabla. Ahora veamos el flujo completo conectado. Llegan datos nuevos y aterrizan en un bucket de Cloud Storage, tu capa cruda. Cloud Composer, siguiendo tu DAG, despierta y ejecuta los jobs en orden: un job lee del bucket y limpia los datos, otro los carga en BigQuery, otro corre los controles de calidad. Si todo pasa, las tablas limpias quedan en BigQuery, listas para que Looker arme los dashboards que ve el negocio. Y si algo falla, Composer reintenta y te avisa. Ese es el ciclo completo: bucket, orquestación con DAGs, jobs de transformación, BigQuery y consumo. Cinco piezas que, juntas, son una arquitectura de datos real en GCP.",
+      "broll": ["end to end data architecture gcp", "connected cloud services diagram", "data flow pipeline complete"]
+    }
+  ],
+  "outro_text": "Resumiendo GCP para data engineers: los buckets de Cloud Storage son tu almacén crudo; BigQuery es el warehouse que consulta a escala con SQL; los DAGs son el mapa de pasos; Cloud Composer es el director que los ejecuta; y los jobs son el trabajo que transforma los datos. Cuando entiendes cómo se conectan, GCP deja de ser intimidante y se vuelve un set de piezas con sentido. Si este video te aclaró el panorama, suscríbete al canal, porque aquí explico cloud y arquitectura de datos real, sin rodeos. Cuéntame en los comentarios si usas GCP o AWS, y dale like si quieres un tutorial montando un pipeline completo en GCP. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "GCP PARA DATA",
+    "hook_text": "Google Cloud tiene cien servicios, pero para datos solo necesitas dominar unos pocos. Aquí están los que importan.",
+    "hook_broll": ["google cloud dashboard", "cloud data console screen"],
+    "points": [
+      {"title": "Buckets", "tagline": "El almacén crudo", "text": "Cloud Storage guarda tus datos crudos, barato e infinito. Es el punto de partida del flujo.", "broll": ["cloud storage buckets", "file storage cloud"]},
+      {"title": "BigQuery", "tagline": "Warehouse a escala", "text": "BigQuery consulta terabytes en segundos con SQL normal. Aquí viven las tablas limpias para reportes.", "broll": ["bigquery console screen", "fast analytics results"]},
+      {"title": "Composer", "tagline": "El director de orquesta", "text": "Composer ejecuta tus DAGs: corre cada paso en orden, reintenta y avisa. Todo automático.", "broll": ["airflow dashboard screen", "workflow orchestration"]}
+    ],
+    "cta_text": "En el video completo conecto todo en una arquitectura real, de principio a fin. Está en el canal, ve a verlo."
+  }
+}

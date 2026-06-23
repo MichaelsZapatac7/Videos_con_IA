@@ -1,0 +1,53 @@
+{
+  "title": "AWS para Data Engineers: S3, Glue, Athena y más",
+  "description": "AWS para ingenieros de datos: S3, Lambda, EC2, Glue, Athena y CloudWatch explicados con ejemplos y cómo se conectan en una arquitectura de datos real. #aws #dataengineering #s3 #glue #athena",
+  "tags": ["aws", "amazon web services", "data engineer", "s3", "aws glue", "athena", "lambda", "ec2", "cloudwatch", "ingenieria de datos"],
+  "thumbnail_text": "AWS PARA DATA",
+  "intro_card": "AWS PARA DATA ENGINEERS",
+  "intro_text": "AWS tiene más de doscientos servicios y sus nombres no ayudan en nada: S3, EC2, Glue, Athena, Lambda. Parece un alfabeto secreto diseñado para confundirte. Pero te tranquilizo: para datos, solo necesitas entender un puñado de ellos y cómo encajan. Te lo dice alguien que ha construido pipelines en AWS: cuando le pones nombre y función a cada pieza, el rompecabezas se arma solo. Hoy te voy a explicar los servicios clave de AWS para un data engineer, con ejemplos sencillos: S3, Lambda, EC2, Glue, Athena y CloudWatch, y cómo se conectan en una arquitectura real. Sin diccionario técnico, en lenguaje humano. Quédate al final, porque te muestro el flujo completo de un pipeline en AWS funcionando de principio a fin.",
+  "intro_broll": ["aws console dashboard screen", "cloud data architecture aws", "data engineer cloud computing"],
+  "items": [
+    {
+      "title": "S3",
+      "tagline": "El almacén infinito de la nube",
+      "text": "El cimiento de todo en AWS para datos es S3, el servicio de almacenamiento. S3 guarda archivos en contenedores llamados buckets: subes CSVs, JSONs, Parquet, imágenes, lo que quieras, sin límite práctico de tamaño. Es barato, durísimo de confiable y accesible desde todos los demás servicios. En una arquitectura de datos, S3 es tu data lake: aquí aterrizan los datos crudos cuando llegan, y aquí guardas todas tus capas, desde la raw hasta la curada. Es, sin exagerar, el corazón del que todo lo demás bebe. La belleza es que separas el almacenamiento, que es permanente y barato, del cómputo, que solo pagas cuando procesas. Casi cualquier pipeline de datos en AWS empieza y termina tocando S3. Si solo pudieras aprender un servicio de AWS para datos, sería este. Domínalo primero, porque es el suelo sobre el que construyes todo lo demás.",
+      "broll": ["aws s3 buckets console screen", "cloud object storage data", "data lake storage aws"]
+    },
+    {
+      "title": "EC2 y Lambda",
+      "tagline": "El cómputo: servidor o sin servidor",
+      "text": "Para procesar datos necesitas poder de cómputo, y AWS te da dos sabores principales. EC2 son servidores virtuales: máquinas en la nube que enciendes, configuras a tu gusto y donde corres lo que quieras. Te dan control total, ideal para trabajos pesados y continuos, pero tú las administras y pagas mientras estén encendidas. El otro sabor es Lambda, que es serverless, sin servidor. Con Lambda subes una función de código y AWS la ejecuta solo cuando se necesita, sin que administres ninguna máquina, y pagas únicamente por los milisegundos que corre. Lambda es perfecto para tareas pequeñas y reactivas, como por ejemplo: en cuanto llega un archivo nuevo a S3, una Lambda se dispara automáticamente y lo procesa. La regla simple: Lambda para tareas cortas y por eventos; EC2 cuando necesitas una máquina potente corriendo trabajos grandes. Saber cuándo usar cada una te ahorra dinero y dolores de cabeza.",
+      "broll": ["aws ec2 servers screen", "serverless lambda function code", "cloud compute technology"]
+    },
+    {
+      "title": "AWS Glue",
+      "tagline": "El ETL gestionado con Spark",
+      "text": "Aquí viene el caballo de batalla del data engineer en AWS: Glue. Glue es el servicio de ETL gestionado, es decir, la herramienta para extraer, transformar y cargar datos a escala. Por debajo corre Spark, así que puede procesar volúmenes enormes en paralelo, pero sin que tú tengas que montar ni administrar el clúster: AWS se encarga de eso. Tú escribes la lógica de transformación, normalmente en Python, y Glue la ejecuta. Además trae el Glue Data Catalog, que es como un índice de todos tus datos: registra qué tablas existen, sus columnas y tipos, para que otros servicios sepan qué hay en tu S3. En la arquitectura, Glue es quien toma los datos crudos del S3, los limpia y transforma, y los deja curados de vuelta en S3 o listos para consultar. Es la pieza que convierte el caos crudo en datos confiables, a escala y sin que administres servidores.",
+      "broll": ["aws glue etl console screen", "data transformation spark", "data catalog tables screen"]
+    },
+    {
+      "title": "Athena",
+      "tagline": "SQL directo sobre S3, sin mover nada",
+      "text": "Athena es uno de esos servicios que cuando lo entiendes, dices wow. Athena te deja hacer consultas SQL directamente sobre los archivos que tienes en S3, sin tener que cargarlos en ninguna base de datos primero. Apuntas Athena a tus datos en S3, escribes SQL normal, y obtienes resultados. No administras nada, no mueves datos, y pagas solo por lo que consultas. Esto es genial para explorar y analizar datos que viven en tu data lake de forma rápida y barata. Usa el Glue Data Catalog para saber qué estructura tienen tus archivos. En la práctica, un analista puede responder preguntas sobre terabytes en S3 sin esperar a que un ingeniero le monte un warehouse completo. Athena es la forma ágil de consultar tu lake directamente. Es la pareja perfecta de S3: uno guarda, el otro consulta, sin fricción y sin infraestructura que mantener.",
+      "broll": ["aws athena query sql screen", "querying data lake results", "serverless analytics technology"]
+    },
+    {
+      "title": "CloudWatch y el Flujo",
+      "tagline": "Vigila todo y conecta las piezas",
+      "text": "Cerramos con CloudWatch y atamos todo. CloudWatch es los ojos de tu arquitectura: recoge logs, métricas y alarmas de todos tus servicios. Si una Lambda falla, si un job de Glue se demora demasiado o si algo se rompe, CloudWatch lo registra y te avisa. Es lo que te permite dormir tranquilo sabiendo que si algo va mal, te enteras. Ahora el flujo completo: llega un archivo a S3, eso dispara una Lambda que orquesta el proceso; un job de Glue toma los datos crudos, los transforma con Spark y deja las tablas limpias de vuelta en S3, registradas en el catálogo; los analistas consultan esos datos con Athena usando SQL; y todo el tiempo CloudWatch vigila, registra y alerta si algo falla. Esas seis piezas, conectadas, son una arquitectura de datos real en AWS, escalable y casi sin servidores que mantener. Ese es el poder de la nube bien usada.",
+      "broll": ["aws cloudwatch monitoring dashboard", "connected aws services diagram", "data pipeline architecture aws"]
+    }
+  ],
+  "outro_text": "Recapitulando AWS para data engineers: S3 es tu almacén infinito y data lake; EC2 y Lambda son el cómputo, con servidor o sin servidor; Glue es el ETL gestionado con Spark; Athena consulta tu S3 directamente con SQL; y CloudWatch vigila que todo funcione. Seis piezas que, conectadas, forman una arquitectura completa. Cuando les pones nombre y función, AWS deja de dar miedo. Si este video te aclaró el panorama, suscríbete al canal, porque aquí explico cloud y datos de forma aplicable y sin humo. Cuéntame en los comentarios si prefieres AWS o GCP, y dale like si quieres un tutorial montando un pipeline completo en AWS. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "AWS PARA DATA",
+    "hook_text": "AWS tiene doscientos servicios con nombres imposibles. Para datos solo necesitas estos. Te los explico ya.",
+    "hook_broll": ["aws console dashboard", "cloud architecture aws screen"],
+    "points": [
+      {"title": "S3", "tagline": "El almacén infinito", "text": "S3 guarda todos tus datos crudos, barato e infinito. Es tu data lake y el corazón de todo en AWS.", "broll": ["aws s3 buckets screen", "cloud object storage"]},
+      {"title": "Glue", "tagline": "ETL con Spark gestionado", "text": "Glue transforma tus datos a escala con Spark, sin que administres servidores. Convierte lo crudo en confiable.", "broll": ["aws glue etl screen", "data transformation spark"]},
+      {"title": "Athena", "tagline": "SQL directo sobre S3", "text": "Athena consulta tus archivos en S3 con SQL, sin mover ni cargar nada. Ágil y barato.", "broll": ["aws athena query screen", "data lake analytics"]}
+    ],
+    "cta_text": "En el video completo conecto S3, Lambda, Glue, Athena y CloudWatch en una arquitectura real. Está en el canal."
+  }
+}

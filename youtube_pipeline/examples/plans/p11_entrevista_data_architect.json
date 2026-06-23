@@ -1,0 +1,58 @@
+{
+  "title": "La Entrevista de Data Architect que Reprueba al 90% de los Candidatos",
+  "description": "23 preguntas reales de una entrevista de Data Architect que tumba a 9 de cada 10 candidatos: MDM, Data Modeling, SQL avanzado, Lakehouse, Open Table Formats y Spark. Esto me pasó de verdad. ¿Cuántas puedes responder? #dataarchitect #dataengineer #sql #spark #lakehouse",
+  "tags": ["data architect", "entrevista data architect", "data engineer", "mdm", "golden record", "star schema", "snowflake schema", "sql avanzado", "qualify", "row_number", "delta lake", "iceberg", "apache spark", "broadcast join", "data skew", "lakehouse", "bigquery", "parquet"],
+  "thumbnail_text": "REPRUEBA AL 90%",
+  "intro_card": "ENTREVISTA DATA ARCHITECT",
+  "intro_text": "Esta es la entrevista de Data Architect que reprueba al noventa por ciento de los candidatos, y lo sé porque me pasó a mí. Veintitrés preguntas, cinco bloques, sin piedad: Master Data Management, modelado de datos, SQL avanzado, Lakehouse y Spark. No son preguntas de teoría para impresionar; son exactamente las que separan a un ingeniero senior de alguien que solo repite tutoriales. Te propongo un juego: por cada pregunta, pausa un segundo y respóndela en tu cabeza antes que yo. Lleva la cuenta. Al final te digo cuántas necesitas dominar para estar por encima del promedio de candidatos. Si fallas en los conceptos base, en una entrevista real ya estás fuera. Así que respira, concéntrate, y vamos a ver de verdad qué tan cerca estás de un rol de Architect.",
+  "intro_broll": ["data architect interview office", "data architecture diagram screen", "senior engineer thinking whiteboard"],
+  "items": [
+    {
+      "title": "Bloque 1: MDM",
+      "tagline": "Master Data Management",
+      "number": "01",
+      "text": "Arrancamos con Master Data Management, y aquí ya cae el primer grupo de candidatos. Primera pregunta: ¿qué es MDM? Master Data Management es la disciplina que busca mantener una única fuente de verdad para las entidades críticas del negocio, como clientes, productos o proveedores. Segunda: ¿qué es un Golden Record? Es la mejor versión posible de una entidad, construida a partir de múltiples sistemas fuente aplicando reglas de calidad, matching y survivorship. Y entonces te aprietan con un caso real: ¿cómo resolverías información conflictiva entre sistemas? La respuesta correcta es metódica: primero identifico el sistema de registro, luego aplico reglas de matching y survivorship para determinar qué valor debe prevalecer y construir el Golden Record. La última de este bloque es la que más gente improvisa: ¿qué es una regla de survivorship? Son las reglas que determinan qué dato debe sobrevivir cuando múltiples sistemas tienen valores distintos para el mismo atributo. Si no supiste explicar survivorship con tus propias palabras, en una entrevista real aquí ya empezaste a perder.",
+      "broll": ["master data management database", "single source of truth data", "customer data records screen"]
+    },
+    {
+      "title": "Bloque 2: Data Modeling",
+      "tagline": "El plano de los datos",
+      "number": "02",
+      "text": "Segundo bloque: modelado de datos, donde se nota quién ha diseñado de verdad. Pregunta cinco: diferencia entre Star Schema y Snowflake Schema. Star Schema utiliza dimensiones desnormalizadas y menos joins; Snowflake normaliza las dimensiones, reduciendo redundancia pero aumentando la complejidad. Pregunta seis, y esta es trampa para los dogmáticos: ¿Wide Table o Star Schema en BigQuery? La respuesta de un arquitecto es con criterio: en BigQuery muchas veces prefiero Wide Tables en la capa Gold por performance, pero mantengo modelos más limpios en Silver para gobernanza y mantenibilidad. Pregunta siete, un clásico: ¿cómo modelarías una relación muchos a muchos? Con una tabla puente que contenga las claves foráneas de ambas entidades. Y para cerrar el bloque, una que delata experiencia: ¿qué es una Temporal Table? Una tabla que almacena el historial de cambios, permitiendo consultar el estado de los datos en cualquier punto del tiempo. Si dudaste en esta, ojo, porque el historico es donde mueren los proyectos mal diseñados.",
+      "broll": ["star schema data model diagram", "database schema design screen", "data warehouse architecture"]
+    },
+    {
+      "title": "Bloque 3: SQL Avanzado",
+      "tagline": "Aquí se cae la mitad",
+      "number": "03",
+      "text": "Tercer bloque: SQL avanzado, y te lo advierto, aquí se cae la mitad de la sala. Pregunta nueve: diferencia entre WHERE y QUALIFY. WHERE filtra antes de las funciones ventana; QUALIFY filtra después de ejecutar las funciones ventana. Si no conocías QUALIFY, ya sabes qué estudiar esta noche. Pregunta diez, la favorita de los entrevistadores: diferencia entre ROW_NUMBER, RANK y DENSE_RANK. ROW_NUMBER siempre genera valores únicos; RANK deja huecos cuando hay empates; DENSE_RANK elimina esos huecos. Pregunta once: UNION contra UNION ALL. UNION elimina duplicados; UNION ALL conserva todas las filas y es significativamente más eficiente. Pregunta doce: GROUP BY contra Window Functions. GROUP BY reduce filas mediante agregación; las Window Functions conservan las filas originales y agregan cálculos analíticos. Y el remate del bloque, dos preguntas encadenadas: ¿qué es una Correlated Subquery? Es una subconsulta que depende de columnas de la consulta externa y normalmente se ejecuta una vez por fila. ¿Y por qué evitarlas? Porque pueden generar múltiples ejecuciones innecesarias y afectar seriamente el rendimiento. Si llegaste hasta aquí respondiendo, ya estás por encima de la mayoría.",
+      "broll": ["sql query code screen", "window functions sql code", "database query performance"]
+    },
+    {
+      "title": "Bloque 4: Lakehouse",
+      "tagline": "Open Table Formats",
+      "number": "04",
+      "text": "Cuarto bloque: Lakehouse y Open Table Formats, el terreno donde se separan los arquitectos modernos. Pregunta quince: diferencia entre Delta Lake e Iceberg. Delta utiliza un transaction log llamado Delta Log; Iceberg utiliza snapshots y archivos de metadata para administrar el estado de la tabla. Pregunta dieciséis: diferencia entre Iceberg y Hive. Hive depende de estructuras físicas de carpetas; Iceberg utiliza metadata avanzada y snapshots independientes del filesystem. Pregunta diecisiete, una que suena a magia pero es pura ingeniería: ¿qué es Z-Ordering? Una técnica que reorganiza físicamente los datos para optimizar filtros sobre múltiples columnas y mejorar el data skipping. Y para cerrar, la base de todo el almacenamiento analítico moderno: ¿cómo optimiza Parquet las consultas? Gracias a su almacenamiento columnar, su metadata estadística y su capacidad de leer únicamente las columnas necesarias. Si no manejas Open Table Formats en dos mil veintiséis, te estás quedando atrás, y los entrevistadores lo saben.",
+      "broll": ["data lakehouse architecture diagram", "apache iceberg delta lake", "parquet columnar storage data"]
+    },
+    {
+      "title": "Bloque 5: Spark",
+      "tagline": "El examen final",
+      "number": "05",
+      "text": "Último bloque, el examen final: Apache Spark. Pregunta diecinueve: diferencia entre Transformation y Action. Las Transformations son operaciones lazy que construyen el DAG; las Actions disparan la ejecución real. Pregunta veinte: ¿qué es un Shuffle? Es la redistribución de datos entre particiones o nodos para realizar operaciones como joins o agregaciones, y es donde se va casi todo el tiempo de cómputo. Pregunta veintiuno: ¿qué es Data Skew? Ocurre cuando algunas particiones contienen mucha más información que otras, generando cuellos de botella. Pregunta veintidós: Repartition contra Coalesce. Repartition realiza un shuffle completo para redistribuir datos; Coalesce reduce particiones de manera más eficiente, sin un shuffle completo. Y la pregunta veintitrés, la que corona la entrevista: ¿qué es un Broadcast Join? Una optimización donde una tabla pequeña se replica en todos los nodos para evitar un shuffle costoso. Si respondiste esta sin dudar, enhorabuena, porque acabas de pasar el filtro que tumba al noventa por ciento.",
+      "broll": ["apache spark cluster computing", "distributed data processing nodes", "spark dag execution screen"]
+    }
+  ],
+  "outro_text": "Y esa es la entrevista completa. Hagamos cuentas: un Data Architect moderno ya no solamente diseña modelos de datos. Necesita entender MDM, Data Governance, SQL avanzado, Spark, Open Table Formats, Lakehouse y, sobre todo, optimización de costos y rendimiento. Si dominaste la mayoría de estas veintitrés preguntas, estás muy por encima del promedio de candidatos que se presentan a posiciones Senior o Architect. Si fallaste varias, no te preocupes: ya tienes el mapa exacto de lo que debes estudiar, y eso vale oro. Cuéntame en los comentarios cuántas respondiste bien, con honestidad. Y si quieres que prepare un video profundo de cualquiera de estos cinco bloques, suscríbete y dímelo, porque aquí comparto lo que de verdad preguntan en entrevistas reales de datos. Nos vemos en la próxima.",
+  "short": {
+    "hook_card": "REPRUEBA AL 90%",
+    "hook_text": "Tres preguntas de una entrevista real de Data Architect que tumban a casi todos. ¿Cuántas respondes en treinta segundos?",
+    "hook_broll": ["data architect interview office", "sql code screen dark"],
+    "points": [
+      {"title": "WHERE vs QUALIFY", "tagline": "SQL avanzado", "text": "WHERE filtra antes de las funciones ventana. QUALIFY filtra después de ejecutarlas. Si no conocías QUALIFY, ya sabes qué estudiar.", "broll": ["sql query code screen", "window functions code"]},
+      {"title": "ROW_NUMBER, RANK, DENSE_RANK", "tagline": "La favorita del entrevistador", "text": "ROW_NUMBER siempre da valores únicos. RANK deja huecos en los empates. DENSE_RANK elimina esos huecos. Tres líneas que delatan tu nivel.", "broll": ["database ranking query", "sql results table screen"]},
+      {"title": "Broadcast Join", "tagline": "El remate en Spark", "text": "Una tabla pequeña se replica en todos los nodos para evitar un shuffle costoso. Si la respondiste sin dudar, pasas el filtro del noventa por ciento.", "broll": ["apache spark cluster", "distributed computing nodes"]}
+    ],
+    "cta_text": "En el video completo están las veintitrés preguntas, con MDM, modelado, Lakehouse y Spark. Ve a verlo en el canal y cuéntame cuántas respondiste."
+  }
+}

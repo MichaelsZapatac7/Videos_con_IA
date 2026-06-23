@@ -1,0 +1,53 @@
+{
+  "title": "Power BI vs Tableau vs Looker: el ganador",
+  "description": "Puse a competir Power BI, Tableau y Looker con el mismo dataset. Fortalezas, debilidades, precio y cuál deberías elegir según tu caso. Este fue el resultado. #powerbi #tableau #looker #datos #bi",
+  "tags": ["power bi", "tableau", "looker", "business intelligence", "visualizacion de datos", "dashboards", "bi tools", "datos", "analytics", "comparativa"],
+  "thumbnail_text": "BI: EL GANADOR",
+  "intro_card": "POWER BI · TABLEAU · LOOKER",
+  "intro_text": "Power BI, Tableau y Looker son las tres herramientas de visualización de datos más usadas del mundo, y la pregunta eterna es cuál es la mejor. Así que hice algo: las puse a competir con el mismo dataset, las mismas preguntas de negocio, y comparé el resultado. Te lo dice alguien que ha trabajado con las tres: no hay una ganadora absoluta, hay una ganadora para ti según tu situación, y elegir mal cuesta tiempo y dinero. Hoy te voy a mostrar las fortalezas y debilidades reales de cada una, su precio, su curva de aprendizaje, y cuál deberías elegir según tu caso. Sin fanatismos ni publicidad pagada. Quédate al final, porque te doy mi veredicto claro y a quién le conviene cada una.",
+  "intro_broll": ["business intelligence dashboards comparison", "data visualization charts screen", "analytics tools competition"],
+  "items": [
+    {
+      "title": "Power BI",
+      "tagline": "El práctico del mundo Microsoft",
+      "text": "Empecemos con Power BI, de Microsoft, que probablemente es el más popular hoy por una razón muy concreta: la relación precio-valor. Es relativamente barato, especialmente si tu empresa ya usa el ecosistema de Microsoft, Office y Azure, porque se integra de maravilla con Excel y todo lo demás. Su curva de aprendizaje es amable: alguien que viene de Excel se siente en casa rápido. Hace dashboards potentes y tiene un lenguaje propio, DAX, para cálculos avanzados, que es a la vez su fuerza y su parte más frustrante de aprender. ¿Sus límites? Con conjuntos de datos gigantescos puede sufrir, y en diseño visual no es tan elegante ni flexible como Tableau. Pero para la gran mayoría de las empresas, sobre todo medianas y las que ya viven en Microsoft, Power BI ofrece el mejor equilibrio entre costo, facilidad y potencia. Es la opción segura y práctica que difícilmente te decepciona.",
+      "broll": ["power bi dashboard screen", "microsoft data visualization", "business report charts"]
+    },
+    {
+      "title": "Tableau",
+      "tagline": "El rey de la visualización bonita",
+      "text": "Tableau es, para muchos, el rey cuando hablamos de visualización pura. Si lo que quieres es crear gráficos hermosos, interactivos y explorar datos visualmente de forma casi artística, Tableau brilla como ninguno. Su capacidad para que arrastres, sueltes y descubras patrones de forma visual es espectacular, y por eso lo aman los analistas que viven explorando datos a fondo. Produce los dashboards más pulidos y flexibles del mercado. ¿El costo de toda esa belleza? El precio: Tableau es notablemente más caro que Power BI, y eso pesa mucho en la decisión. Además, su curva de aprendizaje para dominarlo de verdad es más empinada. Tableau es la elección cuando la visualización y la exploración profunda son el corazón de tu trabajo, y tienes el presupuesto para pagarlo. Si los datos son tu arte, Tableau es tu pincel; pero prepárate para invertir más dinero y más tiempo en dominarlo.",
+      "broll": ["tableau visualization dashboard screen", "interactive data charts beautiful", "analyst exploring data visual"]
+    },
+    {
+      "title": "Looker",
+      "tagline": "El gobernado, nacido en la nube",
+      "text": "Looker, ahora parte de Google Cloud, juega en una liga un poco distinta y por eso a veces se malentiende. Su gran diferencia es un enfoque centrado en el gobierno y la consistencia. Looker usa una capa de modelado llamada LookML, donde defines una sola vez las métricas y reglas de negocio, y entonces todos en la empresa usan exactamente las mismas definiciones. Esto resuelve un problema enorme: que cada quien calcule las ventas a su manera y nadie cuadre. Con Looker, hay una única verdad. Es muy fuerte para empresas grandes que viven en la nube, especialmente en Google Cloud y BigQuery, donde se integra de forma natural. ¿Sus contras? Requiere más conocimiento técnico para montarlo, ese LookML tiene su curva, y suele ser una inversión orientada a organizaciones de buen tamaño. Looker no es para hacer un gráfico rápido; es para que toda una empresa hable el mismo idioma de datos, con consistencia y control.",
+      "broll": ["looker bi platform screen", "data modeling layer code", "cloud analytics google"]
+    },
+    {
+      "title": "El Experimento",
+      "tagline": "Mismo dataset, tres resultados",
+      "text": "Ahora el experimento: les di a las tres el mismo dataset de ventas y las mismas preguntas. ¿El resultado? Revelador. Para armar un dashboard rápido y útil, Power BI fue el más veloz en llegar a algo presentable, sobre todo viniendo de Excel. Para la exploración visual y los gráficos más impactantes y flexibles, Tableau ganó sin discusión; sus visualizaciones se veían simplemente mejores. Y para garantizar que las métricas fueran idénticas y consistentes sin importar quién preguntara, Looker brilló gracias a su capa de modelado. La conclusión clave es que no compiten exactamente en lo mismo: cada una ganó en su terreno. Power BI en practicidad y costo, Tableau en belleza y exploración, Looker en consistencia y gobierno. El mismo dato, tres filosofías distintas. Y eso es justo lo que tienes que entender para elegir bien: no preguntes cuál es mejor, pregunta mejor para qué.",
+      "broll": ["three dashboards comparison screen", "data analysis results charts", "side by side comparison data"]
+    },
+    {
+      "title": "Cuál Elegir",
+      "tagline": "El veredicto según tu caso",
+      "text": "Vamos al veredicto. Si tu empresa es mediana, ya usa Microsoft y quieres el mejor equilibrio entre costo y potencia, elige Power BI; es la respuesta correcta para la mayoría. Si la visualización profunda y los dashboards más bellos e interactivos son el centro de tu trabajo, y tienes presupuesto, ve por Tableau. Y si eres una organización grande, vives en la nube de Google y tu prioridad es que todos usen las mismas métricas con gobierno y consistencia, Looker es tu herramienta. Mi consejo final de arquitecto: no elijas por moda ni por lo que usa el influencer de turno. Elige por tu contexto real: tu presupuesto, tu equipo, tu ecosistema y qué problema duele más. Las tres son excelentes; la mejor es la que encaja con tu situación. Y honestamente, dominar bien cualquiera de ellas te abre muchísimas puertas en el mundo de los datos.",
+      "broll": ["decision making business tools", "person choosing software", "data strategy meeting"]
+    }
+  ],
+  "outro_text": "El veredicto del duelo: Power BI gana en practicidad, costo y facilidad, ideal para la mayoría y para el mundo Microsoft; Tableau gana en visualización bella e interactiva, si tienes presupuesto; y Looker gana en gobierno y consistencia para grandes organizaciones en la nube. No hay una mejor absoluta, hay una mejor para ti. Elige por tu contexto, no por moda. Si este video te ayudó a decidir, suscríbete al canal, porque aquí comparo herramientas de datos sin fanatismos y con criterio real. Cuéntame en los comentarios cuál usas tú y por qué, y dale like si quieres un tutorial a fondo de tu favorita. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "BI: EL DUELO",
+    "hook_text": "Puse a competir Power BI, Tableau y Looker con el mismo dataset. Esto fue lo que pasó.",
+    "hook_broll": ["bi dashboards comparison screen", "data visualization charts"],
+    "points": [
+      {"title": "Power BI", "tagline": "Práctico y económico", "text": "Power BI gana en costo y facilidad, sobre todo si ya usas Microsoft. La opción segura para la mayoría.", "broll": ["power bi dashboard screen", "microsoft data charts"]},
+      {"title": "Tableau", "tagline": "Visualización bella", "text": "Tableau hace los gráficos más bellos e interactivos. El rey de la exploración visual, si tienes presupuesto.", "broll": ["tableau dashboard beautiful", "interactive charts data"]},
+      {"title": "Looker", "tagline": "Gobierno y consistencia", "text": "Looker garantiza que todos usen las mismas métricas. Ideal para grandes empresas en la nube.", "broll": ["looker platform screen", "data modeling cloud"]}
+    ],
+    "cta_text": "En el video completo te doy el experimento y el veredicto de cuál elegir según tu caso. Está en el canal, ve a verlo."
+  }
+}

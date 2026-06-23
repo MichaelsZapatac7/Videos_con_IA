@@ -1,0 +1,53 @@
+{
+  "title": "De Excel al Lakehouse: arquitectura moderna",
+  "description": "El salto de Excel a una arquitectura de datos moderna con GCP, AWS, Spark y buenas prácticas reales. Capas, herramientas y cómo encaja todo. #dataengineering #lakehouse #spark #gcp #aws",
+  "tags": ["excel", "lakehouse", "spark", "gcp", "aws", "arquitectura de datos", "data engineering", "big data", "cloud", "buenas practicas datos"],
+  "thumbnail_text": "DE EXCEL AL LAKEHOUSE",
+  "intro_card": "DE EXCEL AL LAKEHOUSE",
+  "intro_text": "Casi todos empezamos igual: con un Excel gigante que un día se vuelve imposible de manejar. Se traba, se rompe, lo edita media empresa y nadie sabe cuál es la versión buena. Ese Excel fue suficiente para empezar, pero no escala. Te lo dice alguien que ha acompañado este salto muchas veces: pasar de Excel a una arquitectura de datos moderna no es comprar herramientas caras, es cambiar la forma de pensar. Hoy te voy a mostrar ese camino completo, desde la hoja de cálculo hasta un lakehouse moderno en la nube con GCP, AWS y Spark, explicado de forma que lo entiendas aunque hoy vivas en Excel. Quédate al final, porque te digo el error número uno que comete la gente al dar este salto.",
+  "intro_broll": ["excel spreadsheet messy data", "modern cloud data center", "data architecture diagram screen"],
+  "items": [
+    {
+      "title": "Por Qué Excel No Escala",
+      "tagline": "Genial para empezar, fatal para crecer",
+      "text": "Empecemos por entender el problema, porque Excel no es el enemigo. Es una herramienta maravillosa para empezar, explorar y hacer cálculos rápidos. El problema aparece cuando creces. Se traba con cientos de miles de filas, varias personas lo editan a la vez y se pisan, no hay forma de saber quién cambió qué, y los procesos son manuales, así que cada mes repites los mismos clics rezando para no equivocarte. No hay historial confiable, no hay automatización, no hay control de calidad real. Lo que era ágil se vuelve frágil. El punto de quiebre llega cuando tu negocio depende de esos números y un error de copiar y pegar puede costar caro. Ahí es cuando necesitas dar el salto, no porque Excel sea malo, sino porque tu operación ya superó lo que una hoja de cálculo puede sostener con seguridad.",
+      "broll": ["frustrated person excel screen", "broken spreadsheet error", "manual data entry office"]
+    },
+    {
+      "title": "Piensa en Capas",
+      "tagline": "Raw, curated y consumo",
+      "text": "El primer cambio de mentalidad es dejar de pensar en un solo archivo y empezar a pensar en capas. La arquitectura moderna organiza los datos en niveles, y esto lo cambia todo. La capa raw, o cruda, guarda los datos tal cual llegan de la fuente, sin tocar, como respaldo fiel de la verdad. La capa curated, o curada, contiene esos datos ya limpios, validados y estructurados, listos para confiar en ellos. Y la capa de consumo entrega tablas y vistas pensadas para reportes y análisis. ¿Por qué tantas capas? Porque cada una tiene un propósito y te da trazabilidad: si un número se ve raro en el reporte, puedes seguir el rastro hacia atrás hasta el dato crudo y entender qué pasó. Esto es algo imposible en un Excel, donde todo se mezcla. Pensar en capas es el corazón de una arquitectura limpia.",
+      "broll": ["layered architecture diagram", "data flow stages screen", "organized data pipeline"]
+    },
+    {
+      "title": "La Nube: GCP y AWS",
+      "tagline": "Almacenamiento y cómputo separados",
+      "text": "El siguiente paso es mudarte a la nube, y aquí GCP y AWS son los grandes jugadores. La idea genial de la nube es separar el almacenamiento del cómputo. Guardas todos tus datos baratos en almacenamiento de objetos, que en AWS es S3 y en GCP es Cloud Storage, y solo pagas por el poder de cálculo cuando de verdad lo usas. Esto es radicalmente más barato y flexible que tener un servidor encendido siempre. Encima de ese almacenamiento conectas las herramientas: para consultas tipo warehouse tienes BigQuery en GCP o Athena y Redshift en AWS. Lo bonito es que no estás atado: eliges la pieza adecuada para cada necesidad. Mi consejo de arquitecto: no te cases con una sola nube por moda; entiende los bloques básicos, almacenamiento, cómputo y orquestación, porque esos conceptos son los mismos sin importar el proveedor.",
+      "broll": ["cloud computing aws gcp", "cloud storage servers data", "cloud console dashboard screen"]
+    },
+    {
+      "title": "Spark: el Motor",
+      "tagline": "Procesa millones de filas en paralelo",
+      "text": "Cuando tus datos son enormes, necesitas un motor que los procese en serio, y ese motor es Spark. Aquí está su magia: en vez de procesar los datos en una sola máquina, Spark reparte el trabajo entre muchas máquinas a la vez, en paralelo. Lo que en Excel o en un script normal tardaría horas o simplemente reventaría, Spark lo hace en minutos distribuyendo la carga. Es el caballo de batalla para transformar millones o miles de millones de filas, limpiar datos masivos y alimentar modelos. Y lo mejor es que escribes en lenguajes que ya conoces, como Python o SQL, mientras Spark se encarga de la complejidad de distribuir el trabajo por debajo. Plataformas como Databricks lo hacen muy fácil de usar. Si Excel es una calculadora de bolsillo, Spark es una fábrica industrial procesando datos a escala.",
+      "broll": ["distributed computing cluster", "big data processing screen", "parallel servers data center"]
+    },
+    {
+      "title": "Buenas Prácticas",
+      "tagline": "Versiona, valida, documenta",
+      "text": "Tener herramientas modernas no sirve de nada sin buenas prácticas; si no, solo creas un caos más caro. Tres son innegociables. Primero, versiona todo: tu código vive en Git, donde cada cambio queda registrado y revisado, nada de scripts sueltos en el escritorio de alguien. Segundo, valida la calidad de forma automática: pon controles en tus pipelines que verifiquen que los datos llegan completos y correctos, y que te avisen al instante si algo se rompe. Tercero, documenta y define la propiedad: que se sepa de dónde viene cada dato, qué significa y quién es responsable de él. Estas prácticas son justo lo que diferencia una arquitectura profesional de un Excel disfrazado de moderno. La tecnología es la parte fácil; la disciplina es lo que de verdad hace que tu plataforma de datos sea confiable y dure en el tiempo.",
+      "broll": ["git code version control", "data quality checks dashboard", "documentation technical screen"]
+    }
+  ],
+  "outro_text": "Ese es el camino de Excel al lakehouse: entiende por qué Excel no escala, piensa en capas raw, curada y consumo, múdate a la nube separando almacenamiento y cómputo con GCP o AWS, usa Spark para procesar a escala y aplica buenas prácticas de versionado, validación y documentación. Y el error número uno: querer copiar la arquitectura de una empresa gigante cuando apenas estás empezando. Da el salto por etapas, según lo que necesites. Si este video te sirvió, suscríbete al canal, donde explico arquitectura de datos real, sin humo. Cuéntame en los comentarios en qué etapa estás tú, y dale like si quieres un tutorial práctico montando un lakehouse. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "DE EXCEL AL LAKEHOUSE",
+    "hook_text": "Tu Excel se volvió imposible de manejar. Así es el salto a una arquitectura de datos moderna en la nube.",
+    "hook_broll": ["excel messy data screen", "modern cloud data center"],
+    "points": [
+      {"title": "Capas", "tagline": "Raw, curada, consumo", "text": "Deja de pensar en un archivo. Organiza en capas: cruda, curada y consumo. Eso te da trazabilidad real.", "broll": ["layered architecture diagram", "data pipeline stages"]},
+      {"title": "Nube", "tagline": "GCP y AWS", "text": "Separa almacenamiento y cómputo: guardas barato en S3 o Cloud Storage y pagas cálculo solo cuando lo usas.", "broll": ["cloud storage servers", "cloud console dashboard"]},
+      {"title": "Spark", "tagline": "Procesa a escala", "text": "Spark reparte el trabajo entre muchas máquinas. Lo que reventaba en Excel, lo hace en minutos.", "broll": ["distributed cluster computing", "big data processing"]}
+    ],
+    "cta_text": "En el video completo te muestro el camino completo y las buenas prácticas para no crear un caos caro. Está en el canal."
+  }
+}

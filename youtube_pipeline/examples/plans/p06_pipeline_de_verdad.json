@@ -1,0 +1,53 @@
+{
+  "title": "Monta un PIPELINE de datos de verdad",
+  "description": "Montando un pipeline de datos profesional: ingestion, raw, curated, quality checks y deployment automático. Las capas y prácticas que usan los equipos serios. #dataengineering #pipeline #etl #dataquality",
+  "tags": ["pipeline de datos", "data pipeline", "ingestion", "etl", "elt", "data quality", "ingenieria de datos", "deployment", "medallion architecture", "data engineer"],
+  "thumbnail_text": "PIPELINE DE VERDAD",
+  "intro_card": "PIPELINE DE DATOS",
+  "intro_text": "Cualquiera puede escribir un script que mueva datos de A a B. Pero eso no es un pipeline de datos profesional, es una bomba de tiempo esperando a fallar. Un pipeline de verdad es robusto, se recupera de errores, valida la calidad y se despliega solo. Te lo dice alguien que ha construido y reparado muchos: la diferencia está en las capas y en la disciplina. Hoy vamos a montar, conceptualmente, un pipeline de datos como lo hacen los equipos serios: desde la ingesta hasta el despliegue automático, pasando por las capas raw y curated y los controles de calidad. Lo vas a entender aunque empieces desde cero. Quédate al final, porque te digo la parte que casi todos ignoran y que es justo la que evita que tu pipeline te despierte a las tres de la mañana.",
+  "intro_broll": ["data pipeline flow screen", "data engineer working code", "automated workflow technology"],
+  "items": [
+    {
+      "title": "Ingestion",
+      "tagline": "Trae los datos, sin transformarlos aún",
+      "text": "Todo pipeline empieza por la ingesta: traer los datos desde sus fuentes hacia tu plataforma. Las fuentes pueden ser de todo: bases de datos, APIs, archivos que alguien sube, eventos en tiempo real. La regla de oro de esta etapa es una sola: trae los datos tal cual están, sin transformarlos todavía. Suena raro, pero es clave. Tu único trabajo aquí es mover el dato de forma confiable y completa. ¿Por qué no transformar ya? Porque si mezclas traer y transformar, cuando algo falle no sabrás si el problema fue de la fuente o de tu lógica. Separar responsabilidades te da claridad. Además, decides la frecuencia: por lotes cada cierto tiempo, o en streaming continuo. La ingesta tiene que ser robusta: si la fuente no responde, debe reintentar; si trae datos a medias, debe avisar. Una ingesta confiable es el cimiento de todo lo demás.",
+      "broll": ["data sources connection diagram", "api data flow screen", "data ingestion technology"]
+    },
+    {
+      "title": "Capa Raw",
+      "tagline": "La verdad cruda, intocable",
+      "text": "Los datos recién ingeridos aterrizan en la capa raw, la capa cruda, y esta capa es sagrada. Aquí guardas los datos exactamente como llegaron de la fuente, sin limpiar, sin cambiar nada. Es tu copia fiel de la verdad original. ¿Por qué es tan importante no tocarla? Por dos razones. Primero, si más adelante descubres un error en tu lógica de transformación, siempre puedes volver a procesar desde el dato crudo original, porque lo conservaste intacto. Segundo, es tu evidencia: si alguien duda de un número, puedes mostrar exactamente qué entregó la fuente ese día. Piensa en la capa raw como las cajas negras de un avión: no las usas todos los días, pero el día que algo sale mal, son las que te salvan. Nunca, jamás, sobrescribas o limpies tu capa raw. Guárdala, féchala y trátala como intocable.",
+      "broll": ["raw data storage server", "data backup archive screen", "immutable data concept"]
+    },
+    {
+      "title": "Capa Curated",
+      "tagline": "Limpio, validado y con sentido de negocio",
+      "text": "Sobre los datos crudos construyes la capa curated, la capa curada, y aquí es donde ocurre la magia. Tomas los datos crudos y los conviertes en algo limpio, confiable y con sentido de negocio. Aquí limpias los valores nulos, unificas formatos de fechas y monedas, eliminas duplicados, aplicas las reglas de negocio y unes distintas fuentes en tablas coherentes. El resultado es un conjunto de datos en el que la gente puede confiar para tomar decisiones. Mucha gente organiza esto en niveles: una primera limpieza técnica y luego una capa final ya modelada para el negocio, lista para reportes. La clave es que cada transformación esté en código versionado y sea repetible, no clics manuales. La capa curated es el producto que de verdad consume tu empresa; todo el trabajo anterior existe para que esta capa sea sólida como una roca.",
+      "broll": ["data cleaning transformation screen", "clean structured tables", "data modeling diagram"]
+    },
+    {
+      "title": "Quality Checks",
+      "tagline": "El pipeline se vigila a sí mismo",
+      "text": "Y aquí está la parte que casi todos ignoran y que separa a los amateurs de los profesionales: los controles de calidad automáticos. Un pipeline profesional se vigila a sí mismo en cada ejecución. Después de cada etapa, corres pruebas automáticas: ¿llegaron todos los registros esperados o faltan? ¿Hay valores nulos donde no debería? ¿Los totales están dentro de un rango razonable? ¿Las claves son únicas? Si algo falla una de estas pruebas, el pipeline se detiene y avisa, en lugar de seguir adelante envenenando los reportes con datos malos. Esta es la diferencia clave: sin controles, los datos malos llegan en silencio hasta el dashboard del gerente, y te enteras cuando ya es tarde y la confianza está rota. Con controles, te enteras al instante, antes de que nadie vea un número equivocado. Datos malos detectados a tiempo cuestan poco; datos malos en una decisión cuestan carísimo.",
+      "broll": ["data quality dashboard alerts", "automated testing checkmarks", "monitoring alert screen red"]
+    },
+    {
+      "title": "Deployment Automático",
+      "tagline": "CI/CD: nada entra a mano",
+      "text": "Por último, el deployment automático, que es lo que hace que todo esto sea sostenible. Tu pipeline es código, y como todo código serio, debe vivir en un repositorio con control de versiones y desplegarse mediante CI/CD. ¿Qué significa esto en la práctica? Que cuando alguien mejora el pipeline, sus cambios pasan automáticamente por pruebas antes de llegar a producción. Si las pruebas fallan, el cambio no entra, punto. Nada se sube a mano cruzando los dedos. Además, la orquestación, con herramientas como Airflow o Composer, se encarga de ejecutar las etapas en el orden correcto, manejar las dependencias y reintentar si algo falla. Esto convierte tu pipeline en algo confiable que corre solo, día tras día, y que cualquiera del equipo puede mejorar con seguridad. La automatización no es lujo; es lo que te deja escalar de un pipeline a cien sin volverte loco ni vivir apagando incendios.",
+      "broll": ["cicd deployment pipeline screen", "airflow orchestration dag", "automated deployment technology"]
+    }
+  ],
+  "outro_text": "Así se monta un pipeline de verdad: ingesta confiable, una capa raw intocable, una capa curated limpia y con sentido de negocio, controles de calidad automáticos en cada paso y un deployment automático con CI/CD y orquestación. Y la parte que casi todos ignoran, los quality checks, es justo la que evita que los datos malos lleguen al reporte y rompan la confianza. Si este video te sirvió, suscríbete al canal, porque aquí construimos ingeniería de datos real, de la que se usa en producción. Cuéntame en los comentarios qué herramienta de orquestación usas, y dale like si quieres que montemos uno de estos paso a paso con código. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "PIPELINE DE DATOS",
+    "hook_text": "Un script que mueve datos no es un pipeline profesional, es una bomba de tiempo. Así se hace de verdad.",
+    "hook_broll": ["data pipeline flow screen", "data engineer code"],
+    "points": [
+      {"title": "Raw", "tagline": "La verdad cruda intocable", "text": "Guarda los datos tal cual llegan, sin tocar. Es tu caja negra: el día que algo falle, te salva.", "broll": ["raw data storage", "data archive screen"]},
+      {"title": "Curated", "tagline": "Limpio y confiable", "text": "Sobre lo crudo construyes la capa limpia, validada y con sentido de negocio. Lo que de verdad consume la empresa.", "broll": ["data cleaning screen", "structured tables"]},
+      {"title": "Quality", "tagline": "Se vigila a sí mismo", "text": "Controles automáticos en cada paso: si los datos vienen mal, el pipeline para y avisa antes del reporte.", "broll": ["quality dashboard alerts", "monitoring alert red"]}
+    ],
+    "cta_text": "En el video completo montamos el pipeline entero, de la ingesta al deployment automático. Está en el canal, ve a verlo."
+  }
+}

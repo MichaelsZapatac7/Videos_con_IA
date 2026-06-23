@@ -13,3 +13,17 @@ prueba*.wav
 
 # Muestras de voz (binarios locales; se regeneran desde tu grabación)
 youtube_pipeline/assets/voces/*.wav
+
+# Node / Remotion (se reinstala con: cd remotion && npm install)
+remotion/node_modules/
+
+# Assets y manifests que genera el pipeline (se regeneran en cada render)
+remotion/public/
+remotion/manifests/
+
+# Salidas del pipeline y entregas finales (videos pesados; quedan locales)
+youtube_pipeline/output/
+entregas/
+
+# Artefacto suelto de npm en la raíz (no lo usamos)
+/package-lock.json

@@ -1,0 +1,53 @@
+{
+  "title": "Data Architect vs Data Engineer: quién hace qué",
+  "description": "Arquitecto vs Ingeniero de datos: quién diseña, quién construye y quién salva el proyecto. Roles, responsabilidades y cómo trabajan juntos en un equipo de datos real. #dataengineer #dataarchitect #datos",
+  "tags": ["data architect", "data engineer", "ingenieria de datos", "arquitectura de datos", "roles data", "equipo de datos", "carrera datos", "etl", "pipelines", "data team"],
+  "thumbnail_text": "ARCHITECT VS ENGINEER",
+  "intro_card": "ARCHITECT vs ENGINEER",
+  "intro_text": "Si entras al mundo de los datos vas a escuchar dos títulos todo el tiempo: data architect y data engineer. Mucha gente cree que son lo mismo, y por eso los proyectos se rompen. No es lo mismo el que dibuja los planos de un edificio que el que pone los ladrillos, aunque ambos son imprescindibles. Te lo dice alguien que ha trabajado como arquitecto de datos: cuando estos dos roles no se entienden, el proyecto se cae. Hoy te voy a explicar quién diseña, quién construye y quién termina salvando el proyecto cuando todo arde. Si estás decidiendo cuál ser, o quieres armar bien tu equipo, este video te va a ahorrar muchos dolores de cabeza. Quédate al final, porque te digo cuál de los dos conviene más según dónde estés en tu carrera.",
+  "intro_broll": ["data team meeting whiteboard", "architecture blueprint technology", "engineers working servers"],
+  "items": [
+    {
+      "title": "El Arquitecto Diseña",
+      "tagline": "Dibuja el plano, no pone ladrillos",
+      "text": "El data architect es el que diseña el plano. Su trabajo es decidir cómo van a fluir los datos en toda la empresa: qué fuentes se conectan, dónde se guardan, qué tecnologías se usan y cómo se relacionan los sistemas entre sí. Piensa a largo plazo y en grande. No se pregunta cómo cargo esta tabla hoy, sino cómo va a escalar esto cuando tengamos diez veces más datos en dos años. Define estándares, elige entre un data warehouse o un lakehouse, fija las reglas de seguridad y gobierno. Es una visión estratégica. Un buen arquitecto evita que dentro de un año tengas un monstruo imposible de mantener. No suele escribir el código del día a día, pero cada decisión suya marca el trabajo de todo el equipo. Si el plano está mal, no importa lo bueno que sea el constructor: el edificio se cae.",
+      "broll": ["architecture diagram screen", "person planning blueprint", "data flow diagram technology"]
+    },
+    {
+      "title": "El Ingeniero Construye",
+      "tagline": "Convierte el plano en realidad",
+      "text": "El data engineer es el que construye. Toma el plano del arquitecto y lo convierte en algo que funciona de verdad. Escribe los pipelines que mueven los datos, los limpia, los transforma y los deja listos para que analistas y científicos los usen. Vive en el código, en Python, en SQL, en Spark, en las herramientas de la nube. Si el arquitecto dice usaremos un lakehouse con estas capas, el ingeniero es quien construye la ingestión, las transformaciones y los controles de calidad para que eso exista. Es un rol profundamente técnico y práctico: cuando un pipeline falla a las tres de la mañana, es el ingeniero quien lo arregla. Sin él, los planos del arquitecto se quedan en bonitos diagramas que nunca mueven un solo dato. Es el que hace que la teoría se convierta en valor real.",
+      "broll": ["programmer writing code data", "data pipeline code screen", "developer cloud computing"]
+    },
+    {
+      "title": "Dónde Chocan",
+      "tagline": "El plano perfecto que nadie puede construir",
+      "text": "Aquí está el conflicto clásico, y lo he visto mil veces. El arquitecto diseña algo elegante en el papel, pero poco realista: tecnologías que el equipo no domina, costos que nadie aprobó o un nivel de complejidad imposible de mantener. Y el ingeniero, por su parte, a veces toma atajos para entregar rápido que rompen la visión a largo plazo. Cuando estos dos roles no se hablan, aparece el caos: pipelines que no siguen ningún estándar, costos disparados y un sistema que nadie entiende completo. La clave es que el arquitecto baje a tierra y escuche qué es construible, y que el ingeniero entienda el porqué de cada decisión de diseño. Los mejores equipos que he visto no tienen al arquitecto en una torre de marfil; lo tienen sentado al lado del ingeniero, ajustando el plano con los pies en la realidad.",
+      "broll": ["team discussion tension office", "two people debating screen", "messy tangled cables server"]
+    },
+    {
+      "title": "Quién Salva el Proyecto",
+      "tagline": "La respuesta incómoda: los dos",
+      "text": "Entonces, quién salva el proyecto cuando todo se complica. La respuesta honesta es que ninguno solo. El proyecto se salva cuando el arquitecto diseñó pensando en lo que de verdad se podía construir, y cuando el ingeniero construyó respetando esa visión. En las crisis, el ingeniero apaga el incendio inmediato porque conoce las tripas del sistema, pero es la buena arquitectura la que evita que el incendio sea catastrófico. Un sistema bien diseñado falla de forma controlada y se recupera; uno mal diseñado se cae entero. Por eso, más que preguntarte quién manda, piensa en cómo colaboran. El proyecto se salva en el día a día, con decisiones pequeñas y bien comunicadas entre quien diseña y quien construye. El héroe no es una persona, es un equipo que se entiende.",
+      "broll": ["team celebrating success office", "data dashboard working green", "collaboration teamwork technology"]
+    },
+    {
+      "title": "Cuál Ser Tú",
+      "tagline": "Depende de dónde estás en tu carrera",
+      "text": "Si estás empezando, casi siempre el camino es ser data engineer primero. Necesitas ensuciarte las manos: construir pipelines, romper cosas, aprender las herramientas y entender cómo se comportan los datos en la práctica. Esa experiencia es justamente la que después te convierte en un buen arquitecto, porque sabrás qué se puede construir de verdad y qué es solo un diagrama bonito. El rol de arquitecto suele llegar con los años, cuando ya viste suficientes proyectos para anticipar dónde van a doler. Si te gusta el código, resolver problemas concretos y ver resultados rápidos, disfrutarás de ingeniería. Si te atrae la estrategia, el panorama completo y diseñar para el futuro, la arquitectura es tu destino. Pero recuerda: no hay buen arquitecto que no haya sido antes un buen ingeniero.",
+      "broll": ["person studying laptop career", "career growth ladder concept", "developer learning code night"]
+    }
+  ],
+  "outro_text": "Resumiendo: el data architect diseña el plano y piensa a largo plazo; el data engineer lo construye y lo mantiene vivo; y el proyecto se salva cuando ambos colaboran de verdad. No compiten, se complementan. Si estás empezando, sé ingeniero, aprende construyendo, y la arquitectura llegará con la experiencia. Si este video te aclaró el panorama, suscríbete al canal, porque vengo del mundo de la arquitectura de datos y aquí comparto lo que de verdad funciona en proyectos reales, sin humo. Déjame en los comentarios cuál rol te llama más, y dale like si quieres que haga un video del roadmap completo para llegar a arquitecto. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "ARCHITECT vs ENGINEER",
+    "hook_text": "Data architect y data engineer no son lo mismo, y confundirlos rompe proyectos. Te lo explico en treinta segundos.",
+    "hook_broll": ["data team whiteboard", "architecture blueprint tech"],
+    "points": [
+      {"title": "Diseña", "tagline": "El arquitecto", "text": "El arquitecto dibuja el plano: cómo fluyen y se guardan los datos en toda la empresa. Visión a largo plazo.", "broll": ["architecture diagram screen", "planning blueprint"]},
+      {"title": "Construye", "tagline": "El ingeniero", "text": "El ingeniero convierte ese plano en pipelines reales que mueven y limpian los datos. Vive en el código.", "broll": ["programmer code data", "data pipeline screen"]},
+      {"title": "Colaboran", "tagline": "Salvan el proyecto juntos", "text": "El proyecto se salva cuando el plano es construible y el código respeta la visión. No compiten, se complementan.", "broll": ["team success office", "collaboration technology"]}
+    ],
+    "cta_text": "En el video completo te explico dónde chocan estos roles y cuál te conviene ser según tu carrera. Ve a verlo en el canal."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "title": "Data Lake vs Warehouse vs Lakehouse",
+  "description": "Data Lake, Data Warehouse y Lakehouse explicados con un caso real: qué son, en qué se diferencian y cuál deberías usar según tu necesidad. #datalake #datawarehouse #lakehouse #dataengineering",
+  "tags": ["data lake", "data warehouse", "lakehouse", "delta lake", "arquitectura de datos", "big data", "bigquery", "snowflake", "databricks", "ingenieria de datos"],
+  "thumbnail_text": "LAKE vs WAREHOUSE",
+  "intro_card": "LAKE · WAREHOUSE · LAKEHOUSE",
+  "intro_text": "Data lake, data warehouse, lakehouse. Si trabajas con datos te bombardean con estas tres palabras y casi nadie te las explica de forma clara. Y elegir mal entre ellas te puede costar muchísimo dinero y meses de trabajo. Te lo dice alguien que ha diseñado estas arquitecturas: la diferencia no es marketing, es real y afecta directamente tu proyecto. Hoy te voy a explicar las tres con un caso concreto, una tienda online, para que veas exactamente qué hace cada una, en qué se diferencian y cuál deberías usar según tu situación. Nada de definiciones de manual; ejemplos que vas a entender aunque empieces desde cero. Quédate al final, porque te doy la regla simple para decidir cuál te conviene sin marearte.",
+  "intro_broll": ["data lake water servers concept", "data warehouse storage technology", "cloud data architecture diagram"],
+  "items": [
+    {
+      "title": "Data Warehouse",
+      "tagline": "Datos ordenados, listos para reportes",
+      "text": "Empecemos por el más antiguo: el data warehouse, el almacén de datos. Imagina una biblioteca perfectamente organizada: todo está limpio, estructurado y catalogado. Aquí los datos llegan ya ordenados en tablas con columnas bien definidas, listos para hacer reportes y análisis de negocio rápidos. En nuestra tienda online, el warehouse guardaría las ventas, clientes y productos en tablas limpias, perfectas para responder cuánto vendimos por región el mes pasado en segundos. Su fortaleza es la velocidad y la confiabilidad para análisis estructurado; herramientas como BigQuery o Snowflake brillan aquí. Su debilidad es la rigidez: todo tiene que encajar en un formato definido de antemano, y guardar datos crudos o no estructurados, como imágenes o logs, es caro e incómodo. Es la opción clásica para business intelligence y reportes financieros.",
+      "broll": ["organized library shelves", "structured data tables screen", "business intelligence dashboard"]
+    },
+    {
+      "title": "Data Lake",
+      "tagline": "Guarda todo, ordena después",
+      "text": "El data lake, el lago de datos, es lo opuesto. Imagina un enorme almacén donde tiras absolutamente todo tal cual llega: tablas, archivos de texto, imágenes, videos, logs, lo que sea, sin ordenarlo primero. Es barato y flexible: guardas montañas de datos crudos sin preocuparte por el formato. En nuestra tienda, el lake guardaría desde las ventas hasta las grabaciones del servicio al cliente, los clics en la web y las fotos de los productos, todo junto. Es ideal para ciencia de datos y machine learning, porque los modelos necesitan datos crudos y variados. ¿El problema? Que sin disciplina, ese lago se convierte en un pantano: un montón de datos que nadie sabe usar, sin orden ni calidad. Guardar es fácil; encontrar y confiar en lo que guardaste, ahí está el reto.",
+      "broll": ["large warehouse storage boxes", "raw data files chaos screen", "unstructured data concept"]
+    },
+    {
+      "title": "El Lakehouse",
+      "tagline": "Lo mejor de los dos mundos",
+      "text": "Y aquí llega lo moderno: el lakehouse, que como su nombre dice, combina lo mejor del lake y del warehouse. La idea es brillante: guardas todos tus datos crudos en almacenamiento barato como un lake, pero le pones encima una capa que les da estructura, calidad y velocidad como un warehouse. Tecnologías como Delta Lake lo hacen posible, añadiendo transacciones y confiabilidad sobre archivos baratos. En nuestra tienda, tendrías un solo lugar donde conviven los datos crudos para los modelos de machine learning y las tablas limpias para los reportes de negocio, sin tener que copiar todo dos veces. Esto elimina la duplicación, reduce costos y simplifica la arquitectura. Es por esto que el lakehouse se ha vuelto el estándar de facto en proyectos modernos, y plataformas como Databricks se construyeron alrededor de esta idea.",
+      "broll": ["modern data platform diagram", "delta lake architecture screen", "cloud lakehouse concept"]
+    },
+    {
+      "title": "El Caso Real",
+      "tagline": "La tienda online que creció",
+      "text": "Veámoslo con la historia completa de la tienda. Al principio, con pocas ventas, un simple warehouse bastaba para los reportes y todos felices. Pero la tienda creció: empezaron a querer recomendar productos con inteligencia artificial, analizar las fotos, estudiar el comportamiento de navegación. El warehouse se quedó corto, no podía con esos datos crudos y variados. Entonces sumaron un data lake para guardarlo todo, pero al poco tiempo nadie sabía qué había ahí dentro ni en qué confiar: el lago se volvió pantano. La solución fue migrar a un lakehouse: un único lugar, con datos crudos para los modelos y tablas curadas y confiables para el negocio. Reportes rápidos y machine learning, sin duplicar datos ni multiplicar costos. Ese es el viaje que viven la mayoría de las empresas a medida que maduran.",
+      "broll": ["online store growth chart", "ecommerce data analytics", "business scaling technology"]
+    },
+    {
+      "title": "Cuál Usar Tú",
+      "tagline": "La regla simple para decidir",
+      "text": "Vamos a la pregunta que te trajo aquí: cuál usar. La regla es simple. Si solo necesitas reportes de negocio sobre datos estructurados y nada más, un data warehouse te sobra y es lo más sencillo. Si manejas muchísimos datos crudos y variados, y tu foco es ciencia de datos o machine learning, necesitas un data lake como base. Pero si quieres las dos cosas a la vez, reportes rápidos y machine learning sobre los mismos datos, sin duplicar ni complicarte, entonces el lakehouse es tu respuesta, y por eso es la apuesta moderna. Mi consejo de arquitecto: no elijas por moda. Empieza por lo que tu caso necesita hoy, pero diseña pensando hacia dónde vas. Casi todas las empresas terminan en el lakehouse; la pregunta es cuándo dar el salto.",
+      "broll": ["decision making flowchart", "person choosing technology", "data strategy planning"]
+    }
+  ],
+  "outro_text": "En resumen: el data warehouse es tu biblioteca ordenada para reportes; el data lake es tu almacén barato para guardarlo todo crudo; y el lakehouse une ambos mundos, por eso se volvió el estándar moderno. Elige según lo que necesitas hoy, pero diseña pensando en tu crecimiento. Si este video te aclaró estos conceptos, suscríbete al canal, porque aquí te explico arquitectura de datos real, sin humo y con casos concretos. Déjame en los comentarios qué arquitectura usas tú, y dale like si quieres un video a fondo de cómo montar un lakehouse paso a paso. Nos vemos en el próximo.",
+  "short": {
+    "hook_card": "LAKE vs WAREHOUSE",
+    "hook_text": "Data lake, warehouse y lakehouse no son lo mismo, y elegir mal te cuesta dinero. Diferencias en treinta segundos.",
+    "hook_broll": ["cloud data architecture", "data storage servers"],
+    "points": [
+      {"title": "Warehouse", "tagline": "Ordenado para reportes", "text": "El warehouse es tu biblioteca: datos limpios y estructurados, perfectos para reportes rápidos de negocio.", "broll": ["structured data tables", "bi dashboard screen"]},
+      {"title": "Data Lake", "tagline": "Guarda todo crudo", "text": "El lake guarda todo tal cual llega, barato y flexible. Ideal para machine learning, pero ojo: puede volverse pantano.", "broll": ["raw data files", "warehouse storage boxes"]},
+      {"title": "Lakehouse", "tagline": "Lo mejor de ambos", "text": "El lakehouse une los dos: datos crudos y tablas limpias en un solo lugar. Por eso es el estándar moderno.", "broll": ["modern data platform", "lakehouse diagram screen"]}
+    ],
+    "cta_text": "En el video completo te lo explico con un caso real y te doy la regla para elegir cuál usar. Está en el canal, ve a verlo."
+  }
+}
