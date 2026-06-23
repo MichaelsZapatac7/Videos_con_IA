@@ -18,7 +18,14 @@ from .voiceover_elevenlabs import list_voices  # noqa: F401
 
 _provider = (cfg.tts_provider or "elevenlabs").strip().lower()
 
-if _provider == "local":
+if _provider == "f5":
+    # Import perezoso: solo aquí se cargan torch / f5_tts (pesados).
+    from .voiceover_f5 import (  # noqa: F401
+        text_to_speech,
+        generate_segment_voiceovers,
+        generate_full_voiceover,
+    )
+elif _provider == "local":
     # Import perezoso: solo aquí se cargan torch / TTS (pesados).
     from .voiceover_local import (  # noqa: F401
         text_to_speech,
@@ -35,4 +42,7 @@ else:
 
 def active_provider() -> str:
     """Nombre legible del proveedor de voz activo."""
-    return "tu voz local (XTTS)" if _provider == "local" else "ElevenLabs"
+    return {
+        "f5": "tu voz local (F5-TTS español)",
+        "local": "tu voz local (XTTS)",
+    }.get(_provider, "ElevenLabs")

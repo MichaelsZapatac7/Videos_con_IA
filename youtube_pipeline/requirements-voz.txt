@@ -16,3 +16,7 @@ coqui-tts>=0.25.0
 # - torch 2.9+ exige torchcodec para IO de audio.
 transformers>=4.57,<5
 torchcodec
+
+# F5-TTS (español): motor recomendado (mejor acento latino + naturalidad).
+# Modelo: jpgallegoar/F5-Spanish (se descarga aparte a .venv-voz/f5-spanish).
+f5-tts

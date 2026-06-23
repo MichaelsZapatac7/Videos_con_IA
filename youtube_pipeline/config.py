@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
+REPO_ROOT = BASE_DIR.parent          # carpeta del proyecto (donde vive .venv-voz)
 OUTPUT_DIR = BASE_DIR / "output"
 ASSETS_DIR = BASE_DIR / "assets"
 MUSIC_DIR = ASSETS_DIR / "music"
@@ -51,7 +52,7 @@ class Config:
     elevenlabs_similarity: float = 0.75
 
     # ── Proveedor de voz ─────────────────────────────────────────────────────
-    # "elevenlabs" (API de pago, por defecto) o "local" (tu voz clonada, gratis)
+    # "elevenlabs" (API de pago, por defecto) | "local" (XTTS) | "f5" (F5-TTS, mejor acento latino)
     tts_provider: str = field(default_factory=lambda: os.environ.get("TTS_PROVIDER", "elevenlabs"))
 
     # Voz local (XTTS-v2 / Coqui TTS) — solo se usa si tts_provider == "local"
@@ -61,6 +62,23 @@ class Config:
         "LOCAL_TTS_MODEL", "tts_models/multilingual/multi-dataset/xtts_v2"))
     local_tts_language: str = field(default_factory=lambda: os.environ.get("LOCAL_TTS_LANGUAGE", "es"))
     local_tts_device: str = field(default_factory=lambda: os.environ.get("LOCAL_TTS_DEVICE", "cuda"))
+
+    # F5-TTS español — solo se usa si tts_provider == "f5".
+    # Necesita: checkpoint + vocab (modelo jpgallegoar/F5-Spanish, descargado en
+    # .venv-voz/f5-spanish) y una muestra de voz CON su transcripción exacta.
+    f5_ckpt: str = field(default_factory=lambda: os.environ.get(
+        "F5_CKPT", str(REPO_ROOT / ".venv-voz" / "f5-spanish" / "model_1200000.safetensors")))
+    f5_vocab: str = field(default_factory=lambda: os.environ.get(
+        "F5_VOCAB", str(REPO_ROOT / ".venv-voz" / "f5-spanish" / "vocab.txt")))
+    f5_model_arch: str = field(default_factory=lambda: os.environ.get("F5_MODEL_ARCH", "F5TTS_Base"))
+    f5_ref_sample: str = field(default_factory=lambda: os.environ.get(
+        "F5_REF_SAMPLE", str(ASSETS_DIR / "voces" / "mi_voz_intro.wav")))
+    # Transcripción EXACTA de f5_ref_sample (los primeros ~12 s de tu grabación).
+    f5_ref_text: str = field(default_factory=lambda: os.environ.get(
+        "F5_REF_TEXT",
+        "Hola, ¿qué tal? Bienvenido una vez más a mi canal. Soy yo, y hoy te "
+        "traigo algo que de verdad va a cambiar tu forma de ver la inteligencia artificial."))
+    f5_device: str = field(default_factory=lambda: os.environ.get("F5_DEVICE", "cuda"))
 
     # Claude model for script generation
     claude_model: str = "claude-sonnet-4-6"

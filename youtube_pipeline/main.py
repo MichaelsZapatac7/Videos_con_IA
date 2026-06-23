@@ -30,7 +30,20 @@ def check_env():
     if not cfg.pexels_api_key:
         missing.append("PEXELS_API_KEY")
 
-    if cfg.tts_provider.lower() == "local":
+    provider = cfg.tts_provider.lower()
+    if provider == "f5":
+        # Voz propia clonada con F5: necesitamos la muestra y el checkpoint.
+        if not Path(cfg.f5_ref_sample).exists():
+            print("[error] TTS_PROVIDER=f5 pero no existe tu muestra de voz:")
+            print(f"        {cfg.f5_ref_sample}")
+            print("        Graba tu voz y colócala ahí (ver SETUP_VOZ_LOCAL.md).")
+            sys.exit(1)
+        if not Path(cfg.f5_ckpt).exists():
+            print("[error] TTS_PROVIDER=f5 pero no existe el modelo F5:")
+            print(f"        {cfg.f5_ckpt}")
+            print("        Descarga jpgallegoar/F5-Spanish (ver SETUP_VOZ_LOCAL.md).")
+            sys.exit(1)
+    elif provider == "local":
         # Voz propia clonada: en vez de API key, necesitamos la muestra de voz.
         if not Path(cfg.local_voice_sample).exists():
             print(f"[error] TTS_PROVIDER=local pero no existe tu muestra de voz:")
