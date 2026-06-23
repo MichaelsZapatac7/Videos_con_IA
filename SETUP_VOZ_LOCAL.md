@@ -60,8 +60,27 @@ pip install coqui-tts
 ```
 
 > `coqui-tts` es el fork mantenido de Coqui (la empresa cerró, el modelo sigue
-> libre). Trae XTTS-v2. Si intenta bajar otra versión de torch, no pasa:
-> la del Paso 2 manda mientras no la desinstale.
+> libre). Trae XTTS-v2.
+
+### ⚠️ Paso 3.1 — RE-VERIFICAR la GPU (importante)
+
+Al instalar `coqui-tts`, pip **puede haber reemplazado tu PyTorch cu128 por una
+versión de CPU** para satisfacer dependencias. Comprueba SIEMPRE:
+
+```powershell
+python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
+```
+
+- ✅ Si dice `...+cu128 True` → perfecto, sigue al Paso 4.
+- ❌ Si dice `True` pero SIN `+cu128`, o dice `False`, o ves `+cpu` →
+  pip pisó tu torch. Reinstálalo forzado:
+
+```powershell
+pip install --force-reinstall torch torchaudio --index-url https://download.pytorch.org/whl/cu128
+```
+
+Vuelve a verificar hasta ver `+cu128 True`. (Este es el error #1 en GPUs nuevas;
+generar en CPU sería 50-100x más lento sin avisar.)
 
 ---
 
@@ -129,7 +148,16 @@ Para volver a ElevenLabs en cualquier momento: `TTS_PROVIDER=elevenlabs`.
   reusando el mismo "enchufe" (`voiceover_local.py`). Pídeselo a Claude.
 
 ## Problemas comunes
-- `torch.cuda.is_available()` = False → instalaste torch sin cu128 (Paso 2).
-- Error al cargar XTTS con torch 2.6+ → ya está resuelto en `voiceover_local.py`
-  (registra los *safe globals*). Si aún falla, comparte el traceback.
+- `torch.cuda.is_available()` = False → instalaste/pisaste torch sin cu128
+  (Pasos 2 y 3.1).
+- Error al CARGAR XTTS con torch 2.6+ (`weights_only` / `UnpicklingError`) → ya
+  está resuelto en `voiceover_local.py` (registra los *safe globals*). Si aún
+  falla, comparte el traceback.
+- Error al GENERAR con mención a `transformers`, `GenerationMixin`, `GPT2` o
+  `generate()` → es un choque de versión de `transformers` con XTTS (conocido en
+  stacks nuevos). Compárteme el traceback completo y lo arreglamos pinneando la
+  versión exacta compatible. Plan B: migrar a **F5-TTS** (mismo enchufe).
 - Voz en inglés con acento → revisa `LOCAL_TTS_LANGUAGE=es`.
+- Frase muy larga cortada / aviso de límite de caracteres → XTTS parte por
+  frases (`split_sentences=True`); si un segmento trae una frase larguísima sin
+  puntuación, divídela con comas/puntos en el guion.
