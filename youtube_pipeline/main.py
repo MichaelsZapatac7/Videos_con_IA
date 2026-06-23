@@ -27,10 +27,20 @@ def check_env():
     missing = []
     if not cfg.anthropic_api_key:
         missing.append("ANTHROPIC_API_KEY")
-    if not cfg.elevenlabs_api_key:
-        missing.append("ELEVENLABS_API_KEY")
     if not cfg.pexels_api_key:
         missing.append("PEXELS_API_KEY")
+
+    if cfg.tts_provider.lower() == "local":
+        # Voz propia clonada: en vez de API key, necesitamos la muestra de voz.
+        if not Path(cfg.local_voice_sample).exists():
+            print(f"[error] TTS_PROVIDER=local pero no existe tu muestra de voz:")
+            print(f"        {cfg.local_voice_sample}")
+            print("        Graba tu voz y colócala ahí (ver SETUP_VOZ_LOCAL.md).")
+            sys.exit(1)
+    else:
+        if not cfg.elevenlabs_api_key:
+            missing.append("ELEVENLABS_API_KEY")
+
     if missing:
         print(f"[error] Missing environment variables: {', '.join(missing)}")
         print("  Copy .env.example to .env and fill in your keys.")
@@ -73,7 +83,8 @@ def run_pipeline(
     job_dir.mkdir(parents=True, exist_ok=True)
 
     # ── 2. Generate voiceovers ──────────────────────────────────────────────
-    print("\n[2/4] Generating voiceovers with ElevenLabs...")
+    from youtube_pipeline.generators.voiceover import active_provider
+    print(f"\n[2/4] Generating voiceovers with {active_provider()}...")
     audio_dir = job_dir / "audio"
     audio_dir.mkdir(exist_ok=True)
     audio_paths = generate_segment_voiceovers(script.segments, audio_dir)

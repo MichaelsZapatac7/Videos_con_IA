@@ -50,6 +50,18 @@ class Config:
     elevenlabs_stability: float = 0.5
     elevenlabs_similarity: float = 0.75
 
+    # ── Proveedor de voz ─────────────────────────────────────────────────────
+    # "elevenlabs" (API de pago, por defecto) o "local" (tu voz clonada, gratis)
+    tts_provider: str = field(default_factory=lambda: os.environ.get("TTS_PROVIDER", "elevenlabs"))
+
+    # Voz local (XTTS-v2 / Coqui TTS) — solo se usa si tts_provider == "local"
+    local_voice_sample: str = field(default_factory=lambda: os.environ.get(
+        "LOCAL_VOICE_SAMPLE", str(ASSETS_DIR / "voces" / "mi_voz.wav")))
+    local_tts_model: str = field(default_factory=lambda: os.environ.get(
+        "LOCAL_TTS_MODEL", "tts_models/multilingual/multi-dataset/xtts_v2"))
+    local_tts_language: str = field(default_factory=lambda: os.environ.get("LOCAL_TTS_LANGUAGE", "es"))
+    local_tts_device: str = field(default_factory=lambda: os.environ.get("LOCAL_TTS_DEVICE", "cuda"))
+
     # Claude model for script generation
     claude_model: str = "claude-sonnet-4-6"
 

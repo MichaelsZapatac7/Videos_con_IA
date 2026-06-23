@@ -1,0 +1,12 @@
+# Dependencias de la VOZ LOCAL (clonación con XTTS-v2 / Coqui TTS).
+# Instalar DENTRO del entorno .venv-voz (Python 3.11), NO en el principal.
+#
+# IMPORTANTE: PyTorch se instala APARTE, con el índice CUDA 12.8 (Blackwell/RTX 50):
+#   pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu128
+#
+# Luego:
+#   pip install -r youtube_pipeline/requirements-voz.txt
+#
+# Guía completa: SETUP_VOZ_LOCAL.md
+
+coqui-tts>=0.25.0

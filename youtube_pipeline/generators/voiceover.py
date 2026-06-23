@@ -1,113 +1,38 @@
 """
-Voiceover generation using ElevenLabs API.
-Converts script text to high-quality speech per segment.
-"""
+Selector de proveedor de voz (voiceover).
 
-import os
-import time
-from pathlib import Path
-from typing import Optional
-import requests
+Según la variable de entorno TTS_PROVIDER decide qué motor usar:
+  - "elevenlabs" (por defecto) → voiceover_elevenlabs.py  (API de pago)
+  - "local"                    → voiceover_local.py        (tu voz clonada, gratis)
+
+El resto del pipeline (main.py, assembler) sigue importando desde aquí:
+    from .voiceover import generate_segment_voiceovers, text_to_speech
+…sin enterarse de cuál motor está activo.
+"""
 
 from ..config import cfg
 
+# list_voices es específico de ElevenLabs y es liviano (solo requests),
+# así que siempre lo exponemos desde ese módulo.
+from .voiceover_elevenlabs import list_voices  # noqa: F401
 
-ELEVENLABS_TTS_URL = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
-ELEVENLABS_VOICES_URL = "https://api.elevenlabs.io/v1/voices"
+_provider = (cfg.tts_provider or "elevenlabs").strip().lower()
 
-
-def list_voices() -> list[dict]:
-    """List available ElevenLabs voices."""
-    resp = requests.get(
-        ELEVENLABS_VOICES_URL,
-        headers={"xi-api-key": cfg.elevenlabs_api_key},
-        timeout=10,
+if _provider == "local":
+    # Import perezoso: solo aquí se cargan torch / TTS (pesados).
+    from .voiceover_local import (  # noqa: F401
+        text_to_speech,
+        generate_segment_voiceovers,
+        generate_full_voiceover,
     )
-    resp.raise_for_status()
-    return resp.json()["voices"]
-
-
-def text_to_speech(
-    text: str,
-    output_path: Path,
-    voice_id: Optional[str] = None,
-    model: Optional[str] = None,
-    stability: Optional[float] = None,
-    similarity: Optional[float] = None,
-) -> Path:
-    """
-    Generate speech audio from text using ElevenLabs.
-    Returns the path to the generated audio file.
-    """
-    voice_id = voice_id or cfg.elevenlabs_voice_id
-    model = model or cfg.elevenlabs_model
-    stability = stability if stability is not None else cfg.elevenlabs_stability
-    similarity = similarity if similarity is not None else cfg.elevenlabs_similarity
-
-    url = ELEVENLABS_TTS_URL.format(voice_id=voice_id)
-    payload = {
-        "text": text,
-        "model_id": model,
-        "voice_settings": {
-            "stability": stability,
-            "similarity_boost": similarity,
-            "style": 0.3,
-            "use_speaker_boost": True,
-        },
-    }
-
-    resp = requests.post(
-        url,
-        json=payload,
-        headers={
-            "xi-api-key": cfg.elevenlabs_api_key,
-            "Content-Type": "application/json",
-            "Accept": "audio/mpeg",
-        },
-        timeout=60,
+else:
+    from .voiceover_elevenlabs import (  # noqa: F401
+        text_to_speech,
+        generate_segment_voiceovers,
+        generate_full_voiceover,
     )
-    resp.raise_for_status()
-
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_bytes(resp.content)
-    return output_path
 
 
-def generate_segment_voiceovers(
-    segments: list[dict],
-    output_dir: Path,
-    voice_id: Optional[str] = None,
-    delay_between_requests: float = 0.5,
-) -> list[Path]:
-    """
-    Generate a voiceover audio file for each script segment.
-    Returns list of audio file paths in segment order.
-    """
-    audio_paths = []
-    for i, segment in enumerate(segments):
-        text = segment.get("text", "")
-        if not text.strip():
-            continue
-
-        out_path = output_dir / f"segment_{i:03d}.mp3"
-        print(f"  [voiceover] Segment {i+1}/{len(segments)}: {text[:60]}...")
-        text_to_speech(text, out_path, voice_id=voice_id)
-        audio_paths.append(out_path)
-
-        if i < len(segments) - 1:
-            time.sleep(delay_between_requests)
-
-    return audio_paths
-
-
-def generate_full_voiceover(
-    segments: list[dict],
-    output_path: Path,
-    voice_id: Optional[str] = None,
-) -> Path:
-    """
-    Generate the complete voiceover as a single audio file.
-    Concatenates all segment texts and generates one request.
-    """
-    full_text = " ".join(s.get("text", "") for s in segments)
-    return text_to_speech(full_text, output_path, voice_id=voice_id)
+def active_provider() -> str:
+    """Nombre legible del proveedor de voz activo."""
+    return "tu voz local (XTTS)" if _provider == "local" else "ElevenLabs"
